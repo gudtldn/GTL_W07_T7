@@ -63,6 +63,7 @@ public:
         requires std::derived_from<T, UObject>
     T* GetDefaultObject() const;
 
+    /** Class의 Property를 가져옵니다. */
     const TArray<FProperty>& GetProperties() const { return Properties; }
 
     /**
@@ -76,7 +77,6 @@ public:
 
 protected:
     virtual UObject* CreateDefaultObject();
-
 
 public:
     ClassConstructorType ClassCTOR;

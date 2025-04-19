@@ -59,7 +59,8 @@ public: \
     }
 
 
-#define FIRST_ARG(Arg1, ...) Arg1
+#define GET_FIRST_ARG(First, ...) First
+#define FIRST_ARG(...) GET_FIRST_ARG(__VA_ARGS__, )
 
 /**
  * UClass에 Property를 등록합니다.
