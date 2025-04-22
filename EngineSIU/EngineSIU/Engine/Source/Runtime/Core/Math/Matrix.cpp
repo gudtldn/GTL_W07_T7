@@ -335,3 +335,15 @@ FQuat FMatrix::ToQuat(const FMatrix& M) const
 {
     return FQuat(M);
 }
+
+/// Begin Test
+
+FVector4 FMatrix::TransformVector(const FVector& InVector) const
+{
+    return FVector4(
+        M[0][0] * InVector.X + M[0][1] * InVector.Y + M[0][2] * InVector.Z,
+        M[1][0] * InVector.X + M[1][1] * InVector.Y + M[1][2] * InVector.Z,
+        M[2][0] * InVector.X + M[2][1] * InVector.Y + M[2][2] * InVector.Z,
+        0.0f
+    );
+}

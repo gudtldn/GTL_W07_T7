@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Serialization/Archive.h"
 
 struct FVector;
@@ -38,6 +38,7 @@ public:
     static FMatrix CreateTranslationMatrix(const FVector& position);
 
     FVector4 TransformFVector4(const FVector4& vector) const;
+    FVector4 TransformVector(const FVector& InVector) const;
     FVector TransformPosition(const FVector& vector) const;
 
     static FMatrix GetScaleMatrix(const FVector& InScale);

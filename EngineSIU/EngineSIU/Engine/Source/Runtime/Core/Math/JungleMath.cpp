@@ -96,6 +96,57 @@ FMatrix JungleMath::CreateOrthoOffCenterProjectionMatrix( float left, float righ
     Projection.M[3][3] = 1.0f;
     return Projection;
 }
+
+//FMatrix JungleMath::CreatePerspectiveOffCenterProjectionMatrix(
+//    float left, float right, float bottom, float top,
+//    float nearPlane, float farPlane)
+//{
+//    FMatrix Projection = {};
+//
+//    Projection.M[0][0] = (2.0f * nearPlane) / (right - left);
+//    Projection.M[1][1] = (2.0f * nearPlane) / (top - bottom);
+//
+//    // 중심점 계산
+//    Projection.M[2][0] = (right + left) / (right - left);
+//    Projection.M[2][1] = (top + bottom) / (top - bottom);
+//
+//    // 깊이 매핑
+//    Projection.M[2][2] = -(farPlane + nearPlane) / (farPlane - nearPlane);
+//    Projection.M[2][3] = -1.0f;
+//
+//    // 깊이 스케일링
+//    Projection.M[3][2] = -(2.0f * farPlane * nearPlane) / (farPlane - nearPlane);
+//
+//    // w 보존
+//    Projection.M[3][3] = 0.0f;
+//
+//    return Projection;
+//}
+
+FMatrix JungleMath::CreatePerspectiveOffCenterProjectionMatrix(
+    float left, float right, float bottom, float top,
+    float nearPlane, float farPlane)
+{
+    FMatrix Projection = {};
+
+    Projection.M[0][0] = (2.0f * nearPlane) / (right - left);
+
+    Projection.M[1][1] = (2.0f * nearPlane) / (top - bottom);
+
+    Projection.M[0][2] = (right + left) / (right - left);
+    Projection.M[1][2] = (top + bottom) / (top - bottom);
+
+    float depth = farPlane - nearPlane;
+    Projection.M[2][2] = farPlane / depth;
+
+    Projection.M[2][3] = 1.0f;
+
+    Projection.M[3][2] = -(nearPlane * farPlane) / depth;
+
+    Projection.M[3][3] = 0.0f;
+
+    return Projection;
+}
 FVector JungleMath::FVectorRotate(FVector& origin, const FVector& InRotation)
 {
     FQuat quaternion = JungleMath::EulerToQuaternion(InRotation);

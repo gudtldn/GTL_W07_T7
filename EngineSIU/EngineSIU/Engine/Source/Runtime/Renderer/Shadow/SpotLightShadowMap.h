@@ -12,8 +12,14 @@ class FSpotLightShadowMap
 {
 public:
     void Initialize(FDXDBufferManager* InBufferManager, FGraphicsDevice* InGraphic, FDXDShaderManager* InShaderManager);
+    void CalculateSpotLightPSMMatrix(const FSpotLightInfo& Info);
+    FVector CalculateUpVector(const FVector& dir);
+
+    void CalculateBoundingBox(const TArray<FVector>& Points, FVector& OutMin, FVector& OutMax);
+
     void UpdateSpotLightViewProjMatrices(const FSpotLightInfo& Info);
     void PrepareRender();
+    TArray<FVector> CalculateFrustumCorners(const FMatrix& ViewMatrix, const FMatrix& ProjMatrix);
     void RenderShadowMap();
     void UpdateConstantBuffer();
     void ClearRenderArr();
@@ -41,6 +47,7 @@ private:
     ID3D11SamplerState* ShadowSampler = nullptr;
     uint32 ShadowMapSize = 1024;
     FMatrix SpotLightViewProjMatrix = {};
+    FMatrix SpotLightPSMMatrix = {};
 
     // Begin ImGui Debug
     ID3D11Texture2D* DepthLinearBuffer = { nullptr };
