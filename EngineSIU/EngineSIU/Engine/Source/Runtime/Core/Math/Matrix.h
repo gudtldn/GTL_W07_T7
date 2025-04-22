@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Serialization/Archive.h"
 
 struct FVector;
@@ -46,6 +46,7 @@ public:
     static FMatrix GetRotationMatrix(const FQuat& InRotation);
 
     FQuat ToQuat(const FMatrix& M) const;
+    FVector GetOrigin() const;
 };
 
 inline FArchive& operator<<(FArchive& Ar, FMatrix& M)
@@ -55,4 +56,13 @@ inline FArchive& operator<<(FArchive& Ar, FMatrix& M)
     Ar << M.M[2][0] << M.M[2][1] << M.M[2][2] << M.M[2][3];
     Ar << M.M[3][0] << M.M[3][1] << M.M[3][2] << M.M[3][3];
     return Ar;
+}
+
+inline FVector FMatrix::GetOrigin() const
+{
+    return FVector(
+        M[3][0],
+        M[3][1],
+        M[3][2]
+    );
 }

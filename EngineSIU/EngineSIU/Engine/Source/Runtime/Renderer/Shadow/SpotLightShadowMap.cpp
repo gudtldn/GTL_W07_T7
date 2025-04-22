@@ -7,7 +7,7 @@
 #include "Engine/EditorEngine.h"
 #include "Engine/Classes/Components/StaticMeshComponent.h"
 #include "Engine/Source/Runtime/Core/Math/JungleMath.h"
-
+#include "LevelEditor/SLevelEditor.h"
 void FSpotLightShadowMap::Initialize(FDXDBufferManager* InBufferManager, FGraphicsDevice* InGraphic, FDXDShaderManager* InShaderManager)
 {
     BufferManager = InBufferManager;
@@ -153,43 +153,184 @@ void FSpotLightShadowMap::PrepareRender()
     // End Test
 }
 
+
+FVector ComputeFrustumCenter(const TArray<FVector>& FrustumCorners)
+{
+    FVector center = FVector::ZeroVector;
+    for (const FVector& corner : FrustumCorners)
+    {
+        center += corner;
+    }
+    return center / FrustumCorners.Num();
+}
+
+//void FSpotLightShadowMap::UpdateSpotLightViewProjMatrices(const FSpotLightInfo& Info)
+//{
+//    FEditorViewportClient* ViewCamera = GEngineLoop.GetLevelEditor()->GetActiveViewportClient().get();
+//
+//    auto corners = ViewCamera->GetFrustumCorners();
+//    FVector frustumCenter = ComputeFrustumCenter(corners);
+//
+//    // (2) 스포트라이트의 방향과 위치로 View 매트릭스 생성
+//    FVector lightDir = Info.Direction.GetSafeNormal();
+//    float dist = ViewCamera->FarClip;
+//
+//    // 프러스텀 중심을 기준으로 Spot 방향의 반대 방향으로 떨어져 위치 설정
+//    FVector eye = frustumCenter - lightDir * 100;
+//    FVector target = frustumCenter;
+//    FVector up(0.0f, 0.0f, 1.0f);
+//
+//    FMatrix spotView = JungleMath::CreateLookToMatrix(eye, lightDir, up);
+//
+//    // (3) 라이트 공간에서 정확한 프러스텀 영역 찾기 (Directional과 동일)
+//    FBoundingBox lightSpaceBounds(FVector(FLT_MAX, FLT_MAX, FLT_MAX), FVector(-FLT_MAX, -FLT_MAX, -FLT_MAX));
+//
+//    for (const FVector& corner : corners)
+//    {
+//        FVector lspCorner = spotView.TransformPosition(corner);
+//        lightSpaceBounds.Expand(lspCorner);
+//    }
+//
+//    // (4) 계산된 Bounds를 기준으로 Orthographic Projection 생성
+//    const float nearZ = FMath::Max(0.1f, lightSpaceBounds.min.Z);
+//    float farZ = lightSpaceBounds.max.Z;
+//
+//    FMatrix spotProjection = JungleMath::CreateOrthoOffCenterProjectionMatrix(
+//        lightSpaceBounds.min.X, lightSpaceBounds.max.X,
+//        lightSpaceBounds.min.Y, lightSpaceBounds.max.Y,
+//        nearZ, farZ
+//    );
+//
+//    // (5) 최종 PSM Shadow 행렬
+//    SpotLightViewProjMatrix = spotView * spotProjection;
+//}
+
 void FSpotLightShadowMap::UpdateSpotLightViewProjMatrices(const FSpotLightInfo& Info)
 {
-    //float fovY = Info.OuterRad; // 외부 원뿔 각도
-    float fovY = Info.OuterRad * 2.0f; // 외부 원뿔 각도
-    float aspectRatio = 1.0f; // 정방형 섀도우 맵
-    float nearZ = 0.1f;
-    float farZ = Info.Radius;
-    // testtest
-    FMatrix Projection = JungleMath::CreateProjectionMatrix(FMath::DegreesToRadians(90), aspectRatio, nearZ, farZ);
+    // --- Step 1: Standard Spotlight View & Projection ---
 
-    FVector dir = Info.Direction;
+    FVector lightPos = Info.Position;
+    FVector lightDir = Info.Direction.GetSafeNormal();
+    float outerConeAngleRad = FMath::DegreesToRadians(Info.OuterRad);
+    float lightRange = Info.Radius; // Far Plane
+    float nearPlane = 0.1f; // Near Plane
 
-    // 더 안정적인 up 벡터 계산 방법
-    FVector up;
-    // dir과 월드 up(0,0,1) 벡터가 거의 평행한 경우를 처리
-    if (FMath::Abs(dir.Z) > 0.99f)
+    // Robust Up Vector
+    FVector up = FVector(0.0f, 0.0f, 1.0f);
+    if (FMath::Abs(lightDir.Z) > 0.999f)
     {
-        // dir이 거의 수직이면 월드 X축(1,0,0)을 사용
         up = FVector(1.0f, 0.0f, 0.0f);
+    }
+
+    FMatrix spotView = JungleMath::CreateLookToMatrix(lightPos, lightDir, up);
+    FMatrix spotProjection = JungleMath::CreateProjectionMatrix(
+        Info.OuterRad,
+        1.0f,
+        nearPlane,
+        lightRange
+    );
+
+    // Base transformation: World -> Light Clip Space
+    FMatrix lightViewProj = spotView * spotProjection;
+
+    // --- Step 2: Project Camera Frustum into Light Clip Space ---
+
+    FEditorViewportClient* viewCamera = GEngineLoop.GetLevelEditor()->GetActiveViewportClient().get();
+    if (!viewCamera) return; // Safety check
+
+    auto cameraFrustumCorners = viewCamera->GetFrustumCorners(); // Get world space corners
+
+    FBoundingBox lightClipSpaceBounds(FVector(FLT_MAX, FLT_MAX, FLT_MAX), FVector(-FLT_MAX, -FLT_MAX, -FLT_MAX));
+    bool boundsValid = false;
+
+    for (const FVector& worldCorner : cameraFrustumCorners)
+    {
+        // Transform world corner to light clip space
+        FVector4 clipCorner = lightViewProj.TransformFVector4(FVector4(worldCorner, 1.0f));
+
+        // Perspective Divide (W must be positive for points in front of light's near plane)
+        if (clipCorner.W > KINDA_SMALL_NUMBER) // Avoid division by zero/negative W
+        {
+            FVector ndcCorner; // Normalized Device Coordinates [-1, 1] range (approx)
+            ndcCorner.X = clipCorner.X / clipCorner.W;
+            ndcCorner.Y = clipCorner.Y / clipCorner.W;
+            ndcCorner.Z = clipCorner.Z / clipCorner.W; // Z is [0, 1] or [-1, 1] depending on projection matrix
+
+            // Important: Only consider points actually inside the light's frustum volume
+            // (Check against NDC bounds, Z needs careful check based on projection matrix range)
+            // For simplicity here, we check X and Y, assuming Z check might be complex
+            // A more robust check would involve clipping the frustum against the light cone first.
+            if (ndcCorner.X >= -1.0f && ndcCorner.X <= 1.0f &&
+                ndcCorner.Y >= -1.0f && ndcCorner.Y <= 1.0f &&
+                ndcCorner.Z >= 0.0f && ndcCorner.Z <= 1.0f) // Assuming Z range [0, 1] for LH projection
+            {
+                lightClipSpaceBounds.Expand(ndcCorner);
+                boundsValid = true;
+            }
+        }
+        // Note: A more robust method involves clipping the camera frustum polygon
+        // against the light frustum planes instead of just transforming corners.
+    }
+
+    // --- Step 3 & 4: Calculate Crop Matrix ---
+
+    FMatrix cropMatrix = FMatrix::Identity; // Default to identity if bounds are invalid
+
+    if (boundsValid &&
+        lightClipSpaceBounds.min.X < lightClipSpaceBounds.max.X && // Check for valid range
+        lightClipSpaceBounds.min.Y < lightClipSpaceBounds.max.Y)
+    {
+        // Clamp bounds to [-1, 1] just in case
+        float minX = FMath::Max(-1.0f, lightClipSpaceBounds.min.X);
+        float maxX = FMath::Min(1.0f, lightClipSpaceBounds.max.X);
+        float minY = FMath::Max(-1.0f, lightClipSpaceBounds.min.Y);
+        float maxY = FMath::Min(1.0f, lightClipSpaceBounds.max.Y);
+
+        // Avoid division by zero if the range is tiny
+        if (FMath::Abs(maxX - minX) < KINDA_SMALL_NUMBER || FMath::Abs(maxY - minY) < KINDA_SMALL_NUMBER)
+        {
+            // Bounds are too small, likely camera frustum is outside or edge-on
+            // Fallback to standard projection (or handle differently)
+            // For now, we keep cropMatrix as Identity
+        }
+        else
+        {
+            // Calculate scale and offset to map [minX, maxX] -> [-1, 1] and [minY, maxY] -> [-1, 1]
+            float scaleX = 2.0f / (maxX - minX);
+            float scaleY = 2.0f / (maxY - minY);
+            float offsetX = -(maxX + minX) / (maxX - minX);
+            float offsetY = -(maxY + minY) / (maxY - minY);
+
+            // Create the crop matrix (Row-Major assumed for FMatrix)
+            // This matrix transforms coordinates already in light clip space [-1, 1]
+            // It scales and shifts the sub-rectangle [minX,maxX]x[minY,maxY] to fill [-1,1]x[-1,1]
+            cropMatrix = FMatrix::Identity;
+            cropMatrix.M[0][0] = scaleX;
+            cropMatrix.M[1][1] = scaleY;
+            cropMatrix.M[3][0] = offsetX; // Translation applied in the last row for row-major
+            cropMatrix.M[3][1] = offsetY;
+            // Z is usually not cropped/scaled in basic PSM, but could be for LiSPSM etc.
+            // cropMatrix.M[2][2] = scaleZ;
+            // cropMatrix.M[3][2] = offsetZ;
+        }
     }
     else
     {
-        // 일반적인 경우 월드 up 벡터 사용
-        up = FVector(0.0f, 0.0f, 1.0f);
+        // Handle the case where no part of the camera frustum is inside the light frustum
+        // Option 1: Keep cropMatrix as Identity (render full spotlight shadow map - potentially wasteful)
+        // Option 2: Mark this shadow map as unnecessary / inactive
+        // Option 3: Use a default small area (less ideal)
+        // Current code defaults to Identity (Option 1)
     }
 
-    // dir과 직교하는 실제 up 벡터 계산
-    FVector right = FVector::CrossProduct(up, dir).GetSafeNormal();
-    up = FVector::CrossProduct(dir, right).GetSafeNormal();
 
-    FVector target = Info.Position + dir;
+    // --- Step 5: Final Shadow Matrix ---
+    // Apply the crop matrix *after* the standard light view-projection
+    SpotLightViewProjMatrix = lightViewProj * cropMatrix;
+    FShadowViewProj LightVPData{ SpotLightViewProjMatrix };
+    BufferManager->UpdateConstantBuffer(TEXT("FShadowViewProj"), LightVPData);
 
-    FMatrix View = JungleMath::CreateViewMatrix(Info.Position, target, up);
-
-    SpotLightViewProjMatrix = View * Projection;
 }
-
 void FSpotLightShadowMap::RenderShadowMap()
 {
     if (SpotLights.Num() <= 0) return;
@@ -218,8 +359,9 @@ void FSpotLightShadowMap::RenderShadowMap()
     Graphics->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
     BufferManager->BindConstantBuffer(TEXT("FShadowViewProj"), 0, EShaderStage::Vertex);
-    BufferManager->UpdateConstantBuffer(TEXT("FShadowViewProj"), SpotLightViewProjMatrix);
+    BufferManager->BindConstantBuffer(TEXT("FShadowObjWorld"), 1, EShaderStage::Vertex);
 
+   
     // 메시 렌더
     for (auto* Comp : MeshComps)
     {
@@ -229,7 +371,6 @@ void FSpotLightShadowMap::RenderShadowMap()
 
         // 월드 행렬 상수
         FMatrix W = Comp->GetWorldMatrix();
-        BufferManager->BindConstantBuffer(TEXT("FShadowObjWorld"), 1, EShaderStage::Vertex);
         BufferManager->UpdateConstantBuffer(TEXT("FShadowObjWorld"), W);
 
         UINT stride = sizeof(FStaticMeshVertex);

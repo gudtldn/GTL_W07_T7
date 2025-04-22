@@ -66,7 +66,7 @@ void FDirectionalShadowMap::CreateShadowRasterizer()
 {
     D3D11_RASTERIZER_DESC rd;
     ZeroMemory(&rd, sizeof(rd));
-    rd.CullMode = D3D11_CULL_FRONT;
+    rd.CullMode = D3D11_CULL_BACK;
     rd.FillMode = D3D11_FILL_SOLID;
     rd.FrontCounterClockwise = FALSE;
     rd.DepthBias = 100.f;
@@ -172,7 +172,11 @@ void FDirectionalShadowMap::UpdateViewProjMatrices(FEditorViewportClient& ViewCa
         center.Z - LightDir.Z * radius
     );
 
-    FMatrix LightView = JungleMath::CreateLookAtMatrix(Eye, center, FVector(0, 0, 1));
+    FVector up = FMath::Abs(LightDir.Z) > 0.99f
+        ? FVector(1, 0, 0)
+        : FVector(0, 0, 1);
+
+    FMatrix LightView = JungleMath::CreateLookAtMatrix(Eye, center, up);
 
     FVector minB{ FLT_MAX,  FLT_MAX,  FLT_MAX };
     FVector maxB{ -FLT_MAX, -FLT_MAX, -FLT_MAX };
@@ -184,27 +188,21 @@ void FDirectionalShadowMap::UpdateViewProjMatrices(FEditorViewportClient& ViewCa
         minB.Z = FMath::Min(minB.Z, ls.Z); maxB.Z = FMath::Max(maxB.Z, ls.Z);
     }
 
-    const float nearZ = 0.0f;
+    const float nearZ = FMath::Max(0.1f, minB.Z);
     const float farZ = maxB.Z;
     FMatrix LightProj = JungleMath::CreateOrthoOffCenterProjectionMatrix(minB.X, maxB.X, minB.Y, maxB.Y, nearZ, farZ);
 
     DirectionalLightViewProjMatrix = LightView * LightProj;
 
-    FDirectionalLightViewProj vp{ LightView, LightProj };
+    float worldSizeX = maxB.X - minB.X;
+    float worldSizeY = maxB.Y - minB.Y;
+    float maxWorldSize = FMath::Max(worldSizeX, worldSizeY);
+    float worldTexelScale = maxWorldSize / static_cast<float>(ShadowResolution);
+
+    FDirectionalLightViewProj vp{ LightView, LightProj, worldTexelScale };
     FShadowViewProj LightVP{ DirectionalLightViewProjMatrix };
     BufferManager->UpdateConstantBuffer(TEXT("FDirectionalLightViewProj"), vp);
     BufferManager->UpdateConstantBuffer(TEXT("FShadowViewProj"), LightVP);
-}
-
-void FDirectionalShadowMap::UpdateObjectConstant(const FMatrix& WorldMatrix, const FVector4& UUIDColor, bool bIsSelected) const
-{
-    FObjectConstantBuffer ObjectData = {};
-    ObjectData.WorldMatrix = WorldMatrix;
-    ObjectData.InverseTransposedWorld = FMatrix::Transpose(FMatrix::Inverse(WorldMatrix));
-    ObjectData.UUIDColor = UUIDColor;
-    ObjectData.bIsSelected = bIsSelected;
-
-    BufferManager->UpdateConstantBuffer(TEXT("FObjectConstantBuffer"), ObjectData);
 }
 
 void FDirectionalShadowMap::RenderShadowMap()

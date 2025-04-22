@@ -86,10 +86,11 @@ cbuffer PointShadowData : register(b7)
     row_major matrix PointLightViewProj[6];
 };
 
-cbuffer LightViewProjCB : register(b5)
+cbuffer DirectionalShadowData : register(b5)
 {
     row_major matrix LightView;
     row_major matrix LightProj;
+    float worldTexelScale;
 };
 
 
@@ -131,29 +132,38 @@ float CalculateSpecular(float3 WorldNormal, float3 ToLightDir, float3 ViewDir, f
 #endif
     return Spec * SpecularStrength;
 }
-
 float SampleSpotShadow(float3 worldPos, float3 spotLightPos, float3 spotLightDir, float spotOuterAngle)
 {
-    //float3 toFragment = worldPos - spotLightPos;
-    //float distToFragment = length(toFragment);
-    //toFragment = normalize(toFragment);
+    //// 1) Normal과 Light 방향 각도 기반 Bias 계산
+    //float NdotL = dot(normalize(worldNormal), spotLightDir);
+    //float slopeScale = 0.01f; // 기울기에 민감도 감소 (PSM 특성 반영)
+    //float minBias = 0.005f; // 최소 Bias 감소
+    //float maxBias = 0.05f; // 최대 Bias 조정
     
-    //float cosAngle = dot(toFragment, normalize(spotLightDir));
-    //float cosOuterCone = cos(spotOuterAngle / 2);
-    
-    //if (cosAngle < cosOuterCone)
-    //    return 0.0f;
-    
+    //// 각도가 클수록(표면이 수직일수록) Bias 증가
+    //float angleFactor = pow(1.0f - saturate(NdotL), 2.0f);
+    //float bias = lerp(minBias, maxBias, angleFactor) * slopeScale;
+
+    //// 2) 라이트 클립 공간 변환
+    //float4 lightSpacePos = mul(float4(worldPos, 1.0f), SpotLightViewProj);
+    //float2 uv = lightSpacePos.xy / lightSpacePos.w * 0.5f + 0.5f;
+    //uv.y = 1.0f - uv.y;
+
+    //// 3) Perspective-aware Bias: 클립 공간 W 성분으로 스케일링
+    //float depthBias = bias * lightSpacePos.w; // 핵심 수정 부분
+    //float depth = (lightSpacePos.z - depthBias) / lightSpacePos.w;
+
+    //if (uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1)
+    //    return 1.0f;
+
+    //// 4) PCF 샘플링 (기존과 동일)
     float4 lightSpacePos = mul(float4(worldPos, 1.0f), SpotLightViewProj);
-    
     float2 uv = lightSpacePos.xy / lightSpacePos.w * 0.5f + 0.5f;
     uv.y = 1 - uv.y;
     float depth = lightSpacePos.z / lightSpacePos.w - ShadowBias;
-    
     if (uv.x < 0.0f || uv.x > 1.0f || uv.y < 0.0f || uv.y > 1.0f)
-        return 1.0f;
+        return 1.f;
     
-    // pcf
     float shadow = 0.0f;
     uint width, height;
     ShadowMap.GetDimensions(width, height);
@@ -174,6 +184,7 @@ float SampleSpotShadow(float3 worldPos, float3 spotLightPos, float3 spotLightDir
     shadow /= 9.0;
     return shadow;
 }
+
 // ——— 그림자 샘플링 헬퍼 ———
 float SamplePointShadow(float3 ToLight, float3 worldPos)
 {
@@ -347,6 +358,7 @@ bool InRange(float val, float min, float max)
     return (min <= val && val <= max);
 }
 
+
 float GetLightFromShadowMap(int idx, float3 WorldPos, float3 WorldNorm)
 {
     float NdotL = dot(normalize(WorldNorm), Directional[idx].Direction);
@@ -398,6 +410,8 @@ float GetLightFromShadowMap(int idx, float3 WorldPos, float3 WorldNorm)
    //// Light = pow(Light, 1/2.2f);
    // return Light;
 }
+
+
 
 float4 Lighting(float3 WorldPosition, float3 WorldNormal, float3 WorldViewPosition, float3 DiffuseColor)
 {

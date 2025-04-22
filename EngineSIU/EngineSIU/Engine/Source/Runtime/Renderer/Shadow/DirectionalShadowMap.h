@@ -45,7 +45,6 @@ public:
     void PrepareRenderState();
     void CollectStaticMeshes();
     void CollectDirectionalLights();
-    void UpdateObjectConstant(const FMatrix& WorldMatrix, const FVector4& UUIDColor, bool bIsSelected) const;
     void RenderShadowMap();
     void SetShadowResource(int tStart);
     void SetShadowSampler(int sStart);

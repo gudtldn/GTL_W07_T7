@@ -35,5 +35,6 @@ struct  FDirectionalLightViewProj
 {
     FMatrix DirectionalLightView;
     FMatrix DirectionalLightProj;
+    float WorldTexelSize;
 };
 

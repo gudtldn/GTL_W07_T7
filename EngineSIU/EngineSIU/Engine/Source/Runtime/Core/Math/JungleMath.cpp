@@ -51,19 +51,20 @@ FMatrix JungleMath::CreateViewMatrix(const FVector& eye, const FVector& target, 
 
     return View;
 }
-
 FMatrix JungleMath::CreateProjectionMatrix(float fov, float aspect, float nearPlane, float farPlane)
 {
-    float tanHalfFOV = tan(fov / 2.0f);
-    float depth = farPlane - nearPlane;
+    // DirectXMath XMMatrixPerspectiveFovLH 호환 방식
+    float yScale = 1.0f / tanf(fov * 0.5f);          // Y축 스케일
+    float xScale = yScale / aspect;                  // X축 스케일
+    float fRange = farPlane / (farPlane - nearPlane);
 
     FMatrix Projection = {};
-    Projection.M[0][0] = 1.0f / (aspect * tanHalfFOV);
-    Projection.M[1][1] = 1.0f / tanHalfFOV;
-    Projection.M[2][2] = farPlane / depth;
-    Projection.M[2][3] = 1.0f;
-    Projection.M[3][2] = -(nearPlane * farPlane) / depth;
-    Projection.M[3][3] = 0.0f;  
+    Projection.M[0][0] = xScale;
+    Projection.M[1][1] = yScale;
+    Projection.M[2][2] = fRange;                     // Z 축 투영
+    Projection.M[2][3] = 1.0f;                       // LH 구성: w = depth
+    Projection.M[3][2] = -nearPlane * fRange;        // nearPlane 오프셋
+    Projection.M[3][3] = 0.0f;
 
     return Projection;
 }
@@ -128,6 +129,21 @@ FQuat JungleMath::EulerToQuaternion(const FVector& eulerDegrees)
     quat.Normalize();
     return quat;
 }
+FMatrix JungleMath::CreatePerspectiveOffCenterProjectionMatrix(float left, float right, float bottom, float top, float nearPlane, float farPlane)
+{
+    FMatrix P = {};
+    // 1) XY 스케일 (near 기준)
+    P.M[0][0] = 2.0f * nearPlane / (right - left);
+    P.M[1][1] = 2.0f * nearPlane / (top - bottom);
+    // 2) XY 오프셋
+    P.M[2][0] = (left + right) / (left - right);
+    P.M[2][1] = (top + bottom) / (bottom - top);
+    // 3) z 매핑 및 w-분할 활성화
+    P.M[2][2] = farPlane / (farPlane - nearPlane);
+    P.M[2][3] = 1.0f;
+    P.M[3][2] = -nearPlane * farPlane / (farPlane - nearPlane);
+    return P;
+}
 
 FMatrix JungleMath::CreateLookAtMatrix(const FVector& eye, const FVector& target, const FVector& up)
 {
@@ -140,6 +156,24 @@ FMatrix JungleMath::CreateLookAtMatrix(const FVector& eye, const FVector& target
     view.M[1][0] = xAxis.Y; view.M[1][1] = yAxis.Y; view.M[1][2] = zAxis.Y; view.M[1][3] = 0.0f;
     view.M[2][0] = xAxis.Z; view.M[2][1] = yAxis.Z; view.M[2][2] = zAxis.Z; view.M[2][3] = 0.0f;
     // 5) 위치 보정
+    view.M[3][0] = -FVector::DotProduct(xAxis, eye);
+    view.M[3][1] = -FVector::DotProduct(yAxis, eye);
+    view.M[3][2] = -FVector::DotProduct(zAxis, eye);
+    view.M[3][3] = 1.0f;
+
+    return view;
+}
+FMatrix JungleMath::CreateLookToMatrix(const FVector& eye, const FVector& forward, const FVector& up)
+{
+    // forward 방향으로 시점을 설정하는 LookTo 매트릭스
+    FVector zAxis = forward.GetSafeNormal();
+    FVector xAxis = up.Cross(zAxis).GetSafeNormal();
+    FVector yAxis = zAxis.Cross(xAxis);
+
+    FMatrix view = {};
+    view.M[0][0] = xAxis.X; view.M[0][1] = yAxis.X; view.M[0][2] = zAxis.X; view.M[0][3] = 0.0f;
+    view.M[1][0] = xAxis.Y; view.M[1][1] = yAxis.Y; view.M[1][2] = zAxis.Y; view.M[1][3] = 0.0f;
+    view.M[2][0] = xAxis.Z; view.M[2][1] = yAxis.Z; view.M[2][2] = zAxis.Z; view.M[2][3] = 0.0f;
     view.M[3][0] = -FVector::DotProduct(xAxis, eye);
     view.M[3][1] = -FVector::DotProduct(yAxis, eye);
     view.M[3][2] = -FVector::DotProduct(zAxis, eye);
