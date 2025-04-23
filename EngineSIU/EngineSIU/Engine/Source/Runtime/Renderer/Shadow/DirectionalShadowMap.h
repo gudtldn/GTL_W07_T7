@@ -57,7 +57,7 @@ private:
     ID3D11ShaderResourceView* ShadowSRV = nullptr;
     ID3D11SamplerState* ShadowSampler = nullptr;
 
-    float ShadowResolution = 4096;
+    float ShadowResolution = 2048;
     ID3D11RasterizerState* ShadowRasterizer;
     ID3D11DepthStencilState* dsState;
     TArray<UDirectionalLightComponent*> DirectionalLights;

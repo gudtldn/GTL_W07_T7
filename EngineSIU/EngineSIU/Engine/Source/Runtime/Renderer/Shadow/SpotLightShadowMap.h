@@ -39,8 +39,8 @@ private:
     ID3D11DepthStencilView* ShadowDSV = nullptr;
     ID3D11ShaderResourceView* ShadowSRV = nullptr;
     ID3D11SamplerState* ShadowSampler = nullptr;
-    uint32 ShadowMapSize = 1024;
-    FMatrix SpotLightViewProjMatrix = {};
+    uint32 ShadowMapSize = 2048;
+    FMatrix SpotLightViewProjMatrix;
 
     // Begin ImGui Debug
     ID3D11Texture2D* DepthLinearBuffer = { nullptr };

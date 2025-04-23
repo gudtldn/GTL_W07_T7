@@ -105,7 +105,7 @@ void FDirectionalShadowMap::PrepareRenderState()
     Graphics->DeviceContext->IASetInputLayout(DepthIL);
     Graphics->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-
+    
     BufferManager->BindConstantBuffer(TEXT("FShadowViewProj"), 0, EShaderStage::Vertex);
     BufferManager->BindConstantBuffer(TEXT("FDirectionalLightViewProj"), 5, EShaderStage::Pixel);
 

@@ -71,19 +71,20 @@ cbuffer Lighting : register(b0)
 Texture2D ShadowMap : register(t10);
 TextureCube<float> ShadowCube : register(t11);
 Texture2D<float> ShadowTexture : register(t12);
+Texture2D ShadowMap2 : register(t13);
 SamplerComparisonState ShadowSampler : register(s10);
 
 // Point Light 의 6개 face 뷰·프로젝션 행렬과 바이어스
 cbuffer SpotShadowData : register(b6)
 {
     row_major matrix SpotLightViewProj;
-    float ShadowBias; // 깊이 비교 시 바이어스
-    float3 _padding; // 16바이트 정렬용
 };
 
 cbuffer PointShadowData : register(b7)
 {
     row_major matrix PointLightViewProj[6];
+    float ShadowBias; // 깊이 비교 시 바이어스
+    float3 _padding; // 16바이트 정렬용
 };
 
 cbuffer DirectionalShadowData : register(b5)
@@ -134,55 +135,20 @@ float CalculateSpecular(float3 WorldNormal, float3 ToLightDir, float3 ViewDir, f
 }
 float SampleSpotShadow(float3 worldPos, float3 spotLightPos, float3 spotLightDir, float spotOuterAngle)
 {
-    //// 1) Normal과 Light 방향 각도 기반 Bias 계산
-    //float NdotL = dot(normalize(worldNormal), spotLightDir);
-    //float slopeScale = 0.01f; // 기울기에 민감도 감소 (PSM 특성 반영)
-    //float minBias = 0.005f; // 최소 Bias 감소
-    //float maxBias = 0.05f; // 최대 Bias 조정
+  
+    float bias = 0.001f;
     
-    //// 각도가 클수록(표면이 수직일수록) Bias 증가
-    //float angleFactor = pow(1.0f - saturate(NdotL), 2.0f);
-    //float bias = lerp(minBias, maxBias, angleFactor) * slopeScale;
-
-    //// 2) 라이트 클립 공간 변환
-    //float4 lightSpacePos = mul(float4(worldPos, 1.0f), SpotLightViewProj);
-    //float2 uv = lightSpacePos.xy / lightSpacePos.w * 0.5f + 0.5f;
-    //uv.y = 1.0f - uv.y;
-
-    //// 3) Perspective-aware Bias: 클립 공간 W 성분으로 스케일링
-    //float depthBias = bias * lightSpacePos.w; // 핵심 수정 부분
-    //float depth = (lightSpacePos.z - depthBias) / lightSpacePos.w;
-
-    //if (uv.x < 0 || uv.x > 1 || uv.y < 0 || uv.y > 1)
-    //    return 1.0f;
-
-    //// 4) PCF 샘플링 (기존과 동일)
-    float4 lightSpacePos = mul(float4(worldPos, 1.0f), SpotLightViewProj);
-    float2 uv = lightSpacePos.xy / lightSpacePos.w * 0.5f + 0.5f;
-    uv.y = 1 - uv.y;
-    float depth = lightSpacePos.z / lightSpacePos.w - ShadowBias;
-    if (uv.x < 0.0f || uv.x > 1.0f || uv.y < 0.0f || uv.y > 1.0f)
-        return 1.f;
+    float4 LightClipSpacePos = mul(float4(worldPos, 1.0f), SpotLightViewProj);
     
-    float shadow = 0.0f;
-    uint width, height;
-    ShadowMap.GetDimensions(width, height);
-    float2 texelSize = float2(1.0 / width, 1.0 / height);
-
-    for (int x = -1; x <= 1; ++x)
+    float2 ShadowMapTexCoord =
     {
-        for (int y = -1; y <= 1; ++y)
-        {
-            float2 offset = float2(x, y) * texelSize;
-            shadow += ShadowMap.SampleCmpLevelZero(
-                ShadowSampler,
-                uv.xy + offset,
-                depth
-            );
-        }
-    }
-    shadow /= 9.0;
-    return shadow;
+        0.5f + LightClipSpacePos.x / LightClipSpacePos.w / 2.f,
+        0.5f - LightClipSpacePos.y / LightClipSpacePos.w / 2.f
+    };
+    float LightDistance = LightClipSpacePos.z / LightClipSpacePos.w;
+    LightDistance -= bias;
+    
+    return ShadowMap2.SampleCmpLevelZero(ShadowSampler, ShadowMapTexCoord, LightDistance).r;
 }
 
 // ——— 그림자 샘플링 헬퍼 ———
@@ -331,7 +297,6 @@ float4 SpotLight(int Index, float3 WorldPosition, float3 WorldNormal, float3 Wor
     
     //return float4(Lit * Attenuation * SpotlightFactor * LightInfo.Intensity, 1.0);
     float shadow = SampleSpotShadow(WorldPosition, LightInfo.Position, LightInfo.Direction, LightInfo.OuterRad);
-    //float shadow = SampleSpotShadow(WorldNormal, WorldPosition, LightInfo.Position, LightInfo.Direction, LightInfo.OuterRad);
     
     return float4(Lit * Attenuation * SpotlightFactor * LightInfo.Intensity * shadow, 1.0);
     //return float4(shadow, shadow, shadow, 1.0);
@@ -426,7 +391,7 @@ float4 Lighting(float3 WorldPosition, float3 WorldNormal, float3 WorldViewPositi
     [unroll(MAX_SPOT_LIGHT)]
     for (int j = 0; j < SpotLightsCount; j++)
     {
-       FinalColor += SpotLight(j, WorldPosition, WorldNormal, WorldViewPosition, DiffuseColor);
+        FinalColor += SpotLight(j, WorldPosition, WorldNormal, WorldViewPosition, DiffuseColor);
     }
     
     [unroll(MAX_DIRECTIONAL_LIGHT)]

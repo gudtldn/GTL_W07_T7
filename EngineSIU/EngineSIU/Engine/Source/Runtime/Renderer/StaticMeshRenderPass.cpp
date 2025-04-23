@@ -385,7 +385,7 @@ void FStaticMeshRenderPass::Render(const std::shared_ptr<FEditorViewportClient>&
         UpdateObjectConstant(WorldMatrix, UUIDColor, bIsSelected);
         
         SpotLightShadowMap->UpdateConstantBuffer();
-        SpotLightShadowMap->SetShadowResource(10);
+        SpotLightShadowMap->SetShadowResource(13);
         SpotLightShadowMap->SetShadowSampler(10);
         
         PointLightShadowMap->UpdateConstantBuffer();
