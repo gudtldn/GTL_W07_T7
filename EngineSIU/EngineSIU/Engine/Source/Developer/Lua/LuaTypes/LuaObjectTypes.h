@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class LuaObjectTypes
+class FLuaObjectTypes
 {
 public:
     

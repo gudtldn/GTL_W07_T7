@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class LuaMathTypes
+class FLuaMathTypes
 {
 public:
     
