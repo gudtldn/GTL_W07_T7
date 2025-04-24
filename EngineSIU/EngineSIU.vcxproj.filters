@@ -1355,6 +1355,7 @@
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="EngineSIU\EngineSIU.natvis" />
+    <Natvis Include="EngineSIU\Engine\Source\ThirdParty\sol2\sol2.natvis" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="EngineSIU\Shaders\FogShader.hlsl">
@@ -1414,6 +1415,14 @@
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileUtility.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderFileMetadata.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lauxlib.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lua.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lua.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\luaconf.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lualib.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol2\config.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol2\forward.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol2\sol.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultPropertySheet.props" />
