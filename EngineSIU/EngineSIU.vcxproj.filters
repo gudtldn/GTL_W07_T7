@@ -1414,6 +1414,11 @@
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileUtility.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderFileMetadata.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lauxlib.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lua.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lua.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\luaconf.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lualib.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultPropertySheet.props" />
