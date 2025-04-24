@@ -1341,17 +1341,17 @@
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Renderer\Shadow\SpotLightShadowMap.cpp">
       <Filter>EngineSIU\Engine\Source\Runtime\Renderer\Shadow</Filter>
     </ClCompile>
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\BackgroundShaderCompileData.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\BackgroundShaderCompile.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\ShaderCompileUtility.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\ShaderFileMetadata.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\ShaderMetadataPtr.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Renderer\Shadow\PointLightShadowMap.cpp">
       <Filter>EngineSIU\Engine\Source\Runtime\Renderer\Shadow</Filter>
     </ClCompile>
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Renderer\Shadow\DirectionalShadowMap.cpp">
       <Filter>EngineSIU\Engine\Source\Runtime\Renderer\Shadow</Filter>
     </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileData.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompile.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileUtility.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderFileMetadata.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="EngineSIU\EngineSIU.natvis" />
@@ -1393,20 +1393,13 @@
     <FxCompile Include="EngineSIU\Shaders\VertexBillboardShader.hlsl">
       <Filter>EngineSIU\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="VSMGenerationPS.hlsl">
-      <Filter>EngineSIU\Shaders</Filter>
-    </FxCompile>
+    <FxCompile Include="EngineSIU\Shaders\VSMGenerationPS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\DirectXTK\Include\DirectXTK\SimpleMath.inl" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Renderer\Shadow\SpotLightShadowMap.h">
       <Filter>EngineSIU\Engine\Source\Runtime\Renderer\Shadow</Filter>
     </ClInclude>
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\BackgroundShaderCompileData.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\BackgroundShaderCompile.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\ShaderCompileUtility.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\ShaderFileMetadata.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderHotReload\ShaderMetadataPtr.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\Queue.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\TSafeQueue.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Launch\ShadowDefine.h" />
@@ -1416,5 +1409,13 @@
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Renderer\Shadow\DirectionalShadowMap.h">
       <Filter>EngineSIU\Engine\Source\Runtime\Renderer\Shadow</Filter>
     </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileData.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompile.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileUtility.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderFileMetadata.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DefaultPropertySheet.props" />
   </ItemGroup>
 </Project>
