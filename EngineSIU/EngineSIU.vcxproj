@@ -487,6 +487,11 @@
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\ImGui\include\ImGui\imstb_textedit.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\ImGui\include\ImGui\imstb_truetype.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Json\include\Json\json.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lauxlib.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lua.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lua.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\luaconf.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lualib.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\tinyfiledialogs\include\tinyfiledialogs.h" />
     <ClInclude Include="EngineSIU\LightGridGenerator.h" />
   </ItemGroup>
