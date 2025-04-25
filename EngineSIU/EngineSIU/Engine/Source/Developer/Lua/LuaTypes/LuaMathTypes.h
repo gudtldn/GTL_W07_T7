@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "sol/sol.hpp"
 
 namespace LuaTypes::Math
@@ -12,12 +12,12 @@ namespace LuaTypes::Math
 //     }
 // };
 
-void BindFColorToLua(sol::state& Lua);
-void BindFLinearColorToLua(sol::state& Lua);
-void BindFVectorToLua(sol::state& Lua);
-void BindFVector2DToLua(sol::state& Lua);
-void BindFVector4ToLua(sol::state& Lua);
-void BindFRotatorToLua(sol::state& Lua);
-void BindFQuatToLua(sol::state& Lua);
-void BindFMatrixToLua(sol::state& Lua);
+void BindFColorToLua(sol::table& Table);
+void BindFLinearColorToLua(sol::table& Table);
+void BindFVectorToLua(sol::table& Table);
+void BindFVector2DToLua(sol::table& Table);
+void BindFVector4ToLua(sol::table& Table);
+void BindFRotatorToLua(sol::table & Table);
+void BindFQuatToLua(sol::table& Table);
+void BindFMatrixToLua(sol::table& Table);
 }
