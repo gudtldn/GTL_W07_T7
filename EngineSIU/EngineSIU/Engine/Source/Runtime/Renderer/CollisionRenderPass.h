@@ -2,6 +2,9 @@
 #include "IRenderPass.h"
 #include "Define.h"
 
+class UCapsuleComponent;
+class USphereComponent;
+class UBoxComponent;
 class FDXDBufferManager;
 class FGraphicsDevice;
 class FDXDShaderManager;
@@ -70,6 +73,11 @@ private:
     ID3D11ShaderResourceView* CreateCollisionSphereSRV(ID3D11Buffer* Buffer, UINT NumSpheres) const;
     ID3D11ShaderResourceView* CreateCollisionCapsuleSRV(ID3D11Buffer* Buffer, UINT NumCapsules) const;
 
+    /** Create collision struct */
+    static FCollisionBox CreateCollisionBox(const UBoxComponent* BoxComponent);
+    static FCollisionSphere CreateCollisionSphere(const USphereComponent* SphereComponent);
+    static FCollisionCapsule CreateCollisionCapsule(const UCapsuleComponent* CapsuleComponent);
+    
     /** Update buffers */
     void UpdateBoxBuffer();
     void UpdateSphereBuffer();

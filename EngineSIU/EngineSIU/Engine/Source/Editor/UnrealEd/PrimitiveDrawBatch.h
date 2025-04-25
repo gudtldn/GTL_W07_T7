@@ -42,9 +42,9 @@ public:
     void AddAABBToBatch(const FBoundingBox& LocalAABB, const FVector& Center, const FMatrix& ModelMatrix);
     void AddOBBToBatch(const FBoundingBox& LocalAABB, const FVector& Center, const FMatrix& ModelMatrix);
     void AddConeToBatch(const FVector& Center, float Radius, float Height, int Segments, const FVector4& Color, const FMatrix& ModelMatrix);
-    void AddCollisionBoxBatch();
-    void AddCollisionSphereBatch();
-    void AddCollisionCapsuleBatch();
+    void AddCollisionBoxBatch(const FCollisionBox& Box);
+    void AddCollisionSphereBatch(const FCollisionSphere& Sphere);
+    void AddCollisionCapsuleBatch(const FCollisionCapsule& Capsule);
 
     // 프리미티브 버퍼 생성 함수들
     void CreatePrimitiveBuffers();
@@ -66,10 +66,10 @@ public:
     // 파이프라인 관련 (렌더러에서 호출하는 "prepare" 함수)
     void PrepareLineResources() const;
 
-    /**
-     * Collision 
-     **/
-    //
+    /*************************
+     * Collision             *
+     *************************/
+
     /** Updates when exceeded after comparison. */
     bool IsCollisionBoxOverLimit();
 

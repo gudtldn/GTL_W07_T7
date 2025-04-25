@@ -491,7 +491,7 @@ struct FCollisionBox
     FVector Extent;
     float Pad1;
 
-    FVector4 Color;
+    FLinearColor Color;
 };
 
 struct FCollisionSphere
@@ -499,7 +499,7 @@ struct FCollisionSphere
     FVector Center;
     float Radius;
 
-    FVector4 Color;
+    FLinearColor Color;
 };
 
 struct FCollisionCapsule
@@ -510,7 +510,7 @@ struct FCollisionCapsule
     float HalfHeight;
     FVector Pad0;
 
-    FVector4 Color;
+    FLinearColor Color;
 };
 
 struct FCollisionCountConstants

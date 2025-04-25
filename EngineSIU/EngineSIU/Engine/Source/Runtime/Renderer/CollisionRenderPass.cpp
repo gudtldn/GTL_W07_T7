@@ -1,8 +1,14 @@
 ﻿#include "CollisionRenderPass.h"
 
 #include "UnrealClient.h"
+#include "Components/Collision/BoxComponent.h"
+#include "Components/Collision/CapsuleComponent.h"
+#include "Components/Collision/SphereComponent.h"
 #include "D3D11RHI/DXDShaderManager.h"
+#include "Engine/Engine.h"
 #include "UnrealEd/EditorViewportClient.h"
+#include "UObject/Casts.h"
+#include "UObject/UObjectIterator.h"
 
 FCollisionRenderPass::FCollisionRenderPass()
     : BufferManager(nullptr)
@@ -42,10 +48,32 @@ void FCollisionRenderPass::Initialize(FDXDBufferManager* InBufferManager, FGraph
     
     CreateShader();
     CreateDummyBuffer();
+
+    CollisionCountConstantBuffer = BufferManager->GetConstantBuffer("FCollisionCountConstants");
 }
 
 void FCollisionRenderPass::PrepareRender()
 {
+    for (const auto iter : TObjectRange<UShapeComponent>())
+    {
+        if (iter->GetWorld() == GEngine->ActiveWorld)
+        {
+            if (auto Box = Cast<UBoxComponent>(iter))
+            {
+                FEngineLoop::PrimitiveDrawBatch.AddCollisionBoxBatch(CreateCollisionBox(Box));
+            }
+
+            if (auto Sphere = Cast<USphereComponent>(iter))
+            {
+                FEngineLoop::PrimitiveDrawBatch.AddCollisionSphereBatch(CreateCollisionSphere(Sphere));
+            }
+
+            if (auto Capsule = Cast<UCapsuleComponent>(iter))
+            {
+                FEngineLoop::PrimitiveDrawBatch.AddCollisionCapsuleBatch(CreateCollisionCapsule(Capsule));
+            }
+        }
+    }
 }
 
 void FCollisionRenderPass::Render(const std::shared_ptr<FEditorViewportClient>& Viewport)
@@ -233,6 +261,48 @@ ID3D11ShaderResourceView* FCollisionRenderPass::CreateCollisionCapsuleSRV(ID3D11
     Graphics->Device->CreateShaderResourceView(Buffer, &SRVDesc, &SRV);
     return SRV;
 }
+
+FCollisionBox FCollisionRenderPass::CreateCollisionBox(const UBoxComponent* BoxComponent)
+{
+    FCollisionBox OutBox;
+    OutBox.Pad0 = 0.0f; OutBox.Pad1 = 0.0f;
+
+    OutBox.Center = BoxComponent->GetWorldLocation();
+    OutBox.Extent = BoxComponent->GetScaledBoxExtent();
+    
+    FLinearColor Color(BoxComponent->ShapeColor);
+    OutBox.Color = Color;
+
+    return OutBox;
+}
+
+FCollisionSphere FCollisionRenderPass::CreateCollisionSphere(const USphereComponent* SphereComponent)
+{
+    FCollisionSphere OutSphere;
+
+    OutSphere.Center = SphereComponent->GetWorldLocation();
+    OutSphere.Radius = SphereComponent->GetScaledSphereRadius();
+
+    FLinearColor Color(SphereComponent->ShapeColor);
+    OutSphere.Color = Color;
+    
+    return OutSphere;
+}
+
+FCollisionCapsule FCollisionRenderPass::CreateCollisionCapsule(const UCapsuleComponent* CapsuleComponent)
+{
+    FCollisionCapsule OutCapsule;
+
+    OutCapsule.Center = CapsuleComponent->GetWorldLocation();
+    OutCapsule.Radius = CapsuleComponent->GetScaledCapsuleRadius();
+    OutCapsule.HalfHeight = CapsuleComponent->GetScaledCapsuleHalfHeight();
+
+    FLinearColor Color(CapsuleComponent->ShapeColor);
+    OutCapsule.Color = Color;
+    
+    return OutCapsule;
+}
+
 
 void FCollisionRenderPass::UpdateBoxBuffer()
 {

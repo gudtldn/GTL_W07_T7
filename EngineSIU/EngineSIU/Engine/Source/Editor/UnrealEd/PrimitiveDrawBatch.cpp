@@ -294,31 +294,19 @@ void UPrimitiveDrawBatch::AddConeToBatch(const FVector& Center, float Radius, fl
     Cones.Add(Cone);
 }
 
-void UPrimitiveDrawBatch::AddCollisionBoxBatch()
+void UPrimitiveDrawBatch::AddCollisionBoxBatch(const FCollisionBox& Box)
 {
-    FCollisionBox CollisionBox;
-
-    // Add something
-    
-    CollisionBoxes.Add(CollisionBox);
+    CollisionBoxes.Add(Box);
 }
 
-void UPrimitiveDrawBatch::AddCollisionSphereBatch()
+void UPrimitiveDrawBatch::AddCollisionSphereBatch(const FCollisionSphere& Sphere)
 {
-    FCollisionSphere CollisionSphere;
-
-    // Add something
-    
-    CollisionSpheres.Add(CollisionSphere);
+    CollisionSpheres.Add(Sphere);
 }
 
-void UPrimitiveDrawBatch::AddCollisionCapsuleBatch()
+void UPrimitiveDrawBatch::AddCollisionCapsuleBatch(const FCollisionCapsule& Capsule)
 {
-    FCollisionCapsule CollisionCapsule;
-
-    // Add something
-
-    CollisionCapsules.Add(CollisionCapsule);
+    CollisionCapsules.Add(Capsule);
 }
 
 // 7. 버퍼 생성 함수들
