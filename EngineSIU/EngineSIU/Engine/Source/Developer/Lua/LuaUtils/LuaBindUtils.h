@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <string_view>
 
-
 namespace LuaBindUtils
 {
 /**
@@ -25,7 +24,4 @@ consteval std::string_view GetMemberVarName(std::string_view RawName)
 
     return MemberName;
 }
-
 }
-
-#define LUA_BIND_MEMBER_VAR(MemberName) LuaBindUtils::GetMemberName(#MemberName), MemberName
