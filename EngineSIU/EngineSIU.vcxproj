@@ -319,7 +319,9 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderFileMetadata.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\Queue.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\StringConv.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\TSafeQueue.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Traits\IsCharType.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\AmbientLightActor.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Editor\LevelEditor\SlateAppMessageHandler.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Editor\LevelEditor\SLevelEditor.h" />
