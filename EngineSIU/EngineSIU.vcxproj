@@ -191,7 +191,6 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaBindMacros.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaMathTypes.cpp" />
@@ -326,11 +325,12 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClCompile Include="EngineSIU\LightGridGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaBindMacros.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaMathTypes.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaObjectTypes.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindMacros.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindUtils.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileData.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompile.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileUtility.h" />
