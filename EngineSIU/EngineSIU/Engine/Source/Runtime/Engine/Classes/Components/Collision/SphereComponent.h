@@ -19,7 +19,7 @@ protected:
 
 public:
     /**
-     * Change the sphere radius.
+     * Change the sphere radius. This is unscaled size.
      * @param InRadius the new sphere radius.
      */
     void SetSphereRadius(float InRadius);

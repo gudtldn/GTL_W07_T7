@@ -29,4 +29,5 @@ void USphereComponent::TickComponent(float DeltaTime)
 
 void USphereComponent::SetSphereRadius(float InRadius)
 {
+    SphereRadius = InRadius;
 }
