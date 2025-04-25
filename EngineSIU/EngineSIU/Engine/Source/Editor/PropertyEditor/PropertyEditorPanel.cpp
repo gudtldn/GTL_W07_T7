@@ -1,4 +1,6 @@
 #include "PropertyEditorPanel.h"
+#include <filesystem>
+#include <shellapi.h>
 
 #include "World/World.h"
 #include "Actors/Player.h"
@@ -17,6 +19,7 @@
 #include "Engine/Engine.h"
 #include "Components/HeightFogComponent.h"
 #include "Components/ProjectileMovementComponent.h"
+#include "Developer/Lua/LuaActor.h"
 #include "GameFramework/Actor.h"
 #include "Engine/AssetManager.h"
 #include "UObject/UObjectIterator.h"
@@ -57,6 +60,75 @@ void PropertyEditorPanel::Render()
         return;
     AEditorPlayer* player = Engine->GetEditorPlayer();
     AActor* PickedActor = Engine->GetSelectedActor();
+
+    if (PickedActor && PickedActor->IsA<ALuaActor>())
+    {
+        namespace fs = std::filesystem;
+        const fs::path SolutionPath = fs::current_path().parent_path();
+        const fs::path LuaFolderPath = SolutionPath / "GameJam" / "Lua";
+
+        // 먼저 .lua 파일이 있는지 확인
+        const fs::path LuaPath = LuaFolderPath / (PickedActor->GetClass()->GetName() + ".lua").ToWideString();
+        ImGui::Text("Lua File: %s", LuaPath.filename().generic_string().c_str());
+        if (fs::exists(LuaPath))
+        {
+            if (ImGui::Button("Open Lua File", ImVec2(ImGui::GetWindowContentRegionMax().x, 32)))
+            {
+                HINSTANCE hInst = ShellExecute(
+                    nullptr,
+                    L"open",
+                    LuaPath.c_str(),
+                    nullptr,
+                    nullptr,
+                    SW_SHOWNORMAL
+                );
+
+                if (reinterpret_cast<INT_PTR>(hInst) <= 32)
+                {
+                    ImGui::OpenPopup("Error");
+                    ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_Always);
+                    ImGui::BeginPopupModal("Error", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+                    ImGui::Text("Failed to open Lua File");
+                    ImGui::EndPopup();
+                }
+            }
+        }
+        else
+        {
+            ImGui::Text("Lua File: %s", LuaPath.filename().generic_string().c_str());
+            if (ImGui::Button("Create And Open Lua File", ImVec2(ImGui::GetWindowContentRegionMax().x, 32)))
+            {
+                if (!fs::exists(LuaFolderPath))
+                {
+                    fs::create_directory(LuaFolderPath);
+                }
+
+                fs::copy_file(
+                    fs::current_path() / "Engine/Source/Developer/Lua/LuaTemplate/LuaActorTemplate.lua",
+                    LuaPath
+                );
+
+                HINSTANCE hInst = ShellExecute(
+                    nullptr,
+                    L"open",
+                    LuaPath.c_str(),
+                    nullptr,
+                    nullptr,
+                    SW_SHOWNORMAL
+                );
+
+                if (reinterpret_cast<INT_PTR>(hInst) <= 32)
+                {
+                    ImGui::OpenPopup("Error");
+                    ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_Always);
+                    ImGui::BeginPopupModal("Error", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+                    ImGui::Text("Failed to open Lua File");
+                    ImGui::EndPopup();
+                }
+            }
+        }
+    }
+
     if (PickedActor)
     {
         ImGui::SetItemDefaultFocus();
