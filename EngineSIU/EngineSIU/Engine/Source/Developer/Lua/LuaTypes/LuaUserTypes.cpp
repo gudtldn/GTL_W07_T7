@@ -1,4 +1,4 @@
-#include "LuaMathTypes.h"
+#include "LuaUserTypes.h"
 
 #include "Developer/Lua/LuaUtils/LuaBindMacros.h"
 #include "Math/Color.h"
@@ -6,7 +6,7 @@
 #include "Math/Quat.h"
 
 
-void LuaTypes::Math::BindFColorToLua(sol::table& Table)
+void LuaTypes::FBindLua<FColor>::Bind(sol::table& Table)
 {
     Table.Lua_New_UserType(
         FColor,
@@ -34,7 +34,7 @@ void LuaTypes::Math::BindFColorToLua(sol::table& Table)
     );
 }
 
-void LuaTypes::Math::BindFLinearColorToLua(sol::table& Table)
+void LuaTypes::FBindLua<FLinearColor>::Bind(sol::table& Table)
 {
     Table.Lua_New_UserType(
         FLinearColor,
@@ -64,7 +64,7 @@ void LuaTypes::Math::BindFLinearColorToLua(sol::table& Table)
     );
 }
 
-void LuaTypes::Math::BindFVectorToLua(sol::table& Table)
+void LuaTypes::FBindLua<FVector>::Bind(sol::table& Table)
 {
     Table.Lua_New_UserType(
         FVector,
@@ -101,7 +101,7 @@ void LuaTypes::Math::BindFVectorToLua(sol::table& Table)
     );
 }
 
-void LuaTypes::Math::BindFVector2DToLua(sol::table& Table)
+void LuaTypes::FBindLua<FVector2D>::Bind(sol::table& Table)
 {
     Table.Lua_New_UserType(
         FVector2D,
@@ -133,7 +133,7 @@ void LuaTypes::Math::BindFVector2DToLua(sol::table& Table)
     );
 }
 
-void LuaTypes::Math::BindFVector4ToLua(sol::table& Table)
+void LuaTypes::FBindLua<FVector4>::Bind(sol::table& Table)
 {
     Table.Lua_New_UserType(
         FVector4,
@@ -149,7 +149,7 @@ void LuaTypes::Math::BindFVector4ToLua(sol::table& Table)
     );
 }
 
-void LuaTypes::Math::BindFRotatorToLua(sol::table& Table)
+void LuaTypes::FBindLua<FRotator>::Bind(sol::table& Table)
 {
     Table.Lua_New_UserType(
         FRotator,
@@ -178,7 +178,7 @@ void LuaTypes::Math::BindFRotatorToLua(sol::table& Table)
     );
 }
 
-void LuaTypes::Math::BindFQuatToLua(sol::table& Table)
+void LuaTypes::FBindLua<FQuat>::Bind(sol::table& Table)
 {
     Table.Lua_New_UserType(
         FQuat,
@@ -205,7 +205,7 @@ void LuaTypes::Math::BindFQuatToLua(sol::table& Table)
     );
 }
 
-void LuaTypes::Math::BindFMatrixToLua(sol::table& Table)
+void LuaTypes::FBindLua<FMatrix>::Bind(sol::table& Table)
 {
     Table.Lua_New_UserType(
         FMatrix,

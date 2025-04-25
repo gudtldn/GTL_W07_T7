@@ -1,6 +1,6 @@
 ﻿#include "LuaManager.h"
+#include "LuaTypes/LuaUserTypes.h"
 
-#include "LuaTypes/LuaMathTypes.h"
 
 FLuaManager& FLuaManager::Get()
 {
@@ -35,14 +35,15 @@ void FLuaManager::Initialize()
     );
 
     sol::table Ns = LuaState.create_named_table("SIUEngine");
-    LuaTypes::Math::BindFColorToLua(Ns);
-    LuaTypes::Math::BindFLinearColorToLua(Ns);
-    LuaTypes::Math::BindFVectorToLua(Ns);
-    LuaTypes::Math::BindFVector2DToLua(Ns);
-    LuaTypes::Math::BindFVector4ToLua(Ns);
-    LuaTypes::Math::BindFRotatorToLua(Ns);
-    LuaTypes::Math::BindFQuatToLua(Ns);
-    LuaTypes::Math::BindFMatrixToLua(Ns);
+
+    LuaTypes::FBindLua<FColor>::Bind(Ns);
+    LuaTypes::FBindLua<FLinearColor>::Bind(Ns);
+    LuaTypes::FBindLua<FVector>::Bind(Ns);
+    LuaTypes::FBindLua<FVector2D>::Bind(Ns);
+    LuaTypes::FBindLua<FVector4>::Bind(Ns);
+    LuaTypes::FBindLua<FRotator>::Bind(Ns);
+    LuaTypes::FBindLua<FQuat>::Bind(Ns);
+    LuaTypes::FBindLua<FMatrix>::Bind(Ns);
 
     bInitialized = true;
 }
