@@ -1,4 +1,4 @@
-﻿#include "LuaMathTypes.h"
+#include "LuaMathTypes.h"
 
 #include "Developer/Lua/LuaUtils/LuaBindMacros.h"
 #include "Math/Color.h"
@@ -6,9 +6,9 @@
 #include "Math/Quat.h"
 
 
-void LuaTypes::Math::BindFColorToLua(sol::state& Lua)
+void LuaTypes::Math::BindFColorToLua(sol::table& Table)
 {
-    Lua.Lua_New_UserType(
+    Table.Lua_New_UserType(
         FColor,
 
         // 생성자
@@ -34,9 +34,9 @@ void LuaTypes::Math::BindFColorToLua(sol::state& Lua)
     );
 }
 
-void LuaTypes::Math::BindFLinearColorToLua(sol::state& Lua)
+void LuaTypes::Math::BindFLinearColorToLua(sol::table& Table)
 {
-    Lua.Lua_New_UserType(
+    Table.Lua_New_UserType(
         FLinearColor,
 
         // Constructors
@@ -64,9 +64,9 @@ void LuaTypes::Math::BindFLinearColorToLua(sol::state& Lua)
     );
 }
 
-void LuaTypes::Math::BindFVectorToLua(sol::state& Lua)
+void LuaTypes::Math::BindFVectorToLua(sol::table& Table)
 {
-    Lua.Lua_New_UserType(
+    Table.Lua_New_UserType(
         FVector,
 
         // Constructors
@@ -101,9 +101,9 @@ void LuaTypes::Math::BindFVectorToLua(sol::state& Lua)
     );
 }
 
-void LuaTypes::Math::BindFVector2DToLua(sol::state& Lua)
+void LuaTypes::Math::BindFVector2DToLua(sol::table& Table)
 {
-    Lua.Lua_New_UserType(
+    Table.Lua_New_UserType(
         FVector2D,
 
         // Constructors
@@ -133,9 +133,9 @@ void LuaTypes::Math::BindFVector2DToLua(sol::state& Lua)
     );
 }
 
-void LuaTypes::Math::BindFVector4ToLua(sol::state& Lua)
+void LuaTypes::Math::BindFVector4ToLua(sol::table& Table)
 {
-    Lua.Lua_New_UserType(
+    Table.Lua_New_UserType(
         FVector4,
 
         // Constructors
@@ -149,9 +149,9 @@ void LuaTypes::Math::BindFVector4ToLua(sol::state& Lua)
     );
 }
 
-void LuaTypes::Math::BindFRotatorToLua(sol::state& Lua)
+void LuaTypes::Math::BindFRotatorToLua(sol::table& Table)
 {
-    Lua.Lua_New_UserType(
+    Table.Lua_New_UserType(
         FRotator,
 
         // Constructors
@@ -178,9 +178,9 @@ void LuaTypes::Math::BindFRotatorToLua(sol::state& Lua)
     );
 }
 
-void LuaTypes::Math::BindFQuatToLua(sol::state& Lua)
+void LuaTypes::Math::BindFQuatToLua(sol::table& Table)
 {
-    Lua.Lua_New_UserType(
+    Table.Lua_New_UserType(
         FQuat,
 
         // Constructors
@@ -205,9 +205,9 @@ void LuaTypes::Math::BindFQuatToLua(sol::state& Lua)
     );
 }
 
-void LuaTypes::Math::BindFMatrixToLua(sol::state& Lua)
+void LuaTypes::Math::BindFMatrixToLua(sol::table& Table)
 {
-    Lua.Lua_New_UserType(
+    Table.Lua_New_UserType(
         FMatrix,
 
         // Constructors
