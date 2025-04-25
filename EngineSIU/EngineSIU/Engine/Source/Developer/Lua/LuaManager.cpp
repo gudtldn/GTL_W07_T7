@@ -1,6 +1,7 @@
-﻿#include "LuaManager.h"
+#include "LuaManager.h"
 
 #include "LuaTypes/LuaMathTypes.h"
+#include "LuaUtils/LuaStub.h"
 
 FLuaManager& FLuaManager::Get()
 {
@@ -45,4 +46,6 @@ void FLuaManager::Initialize()
     LuaTypes::Math::BindFMatrixToLua(Ns);
 
     bInitialized = true;
+
+    generateStubs(LuaState);
 }

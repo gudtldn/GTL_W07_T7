@@ -323,6 +323,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaObjectTypes.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindMacros.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindUtils.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaStub.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileData.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompile.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileUtility.h" />
