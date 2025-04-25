@@ -516,9 +516,9 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lua.hpp" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\luaconf.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lualib.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol2\config.hpp" />
-    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol2\forward.hpp" />
-    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol2\sol.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\config.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\forward.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\sol.hpp" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\tinyfiledialogs\include\tinyfiledialogs.h" />
     <ClInclude Include="EngineSIU\LightGridGenerator.h" />
   </ItemGroup>
