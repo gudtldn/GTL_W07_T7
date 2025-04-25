@@ -121,11 +121,11 @@ void LuaTypes::Math::BindFVector2DToLua(sol::table& Table)
         sol::meta_function::division, &FVector2D::operator/,
 
         // Utility functions
-        // "Length", &FVector2D::Length,
-        // "SquaredLength", &FVector2D::LengthSquared,
-        // "Normalize", &FVector2D::Normalize,
-        // "IsNormalized", &FVector2D::IsNormalized,
-        // "DotProduct", &FVector2D::DotProduct,
+        // LUA_BIND_MEMBER(&FVector2D::Length),
+        // LUA_BIND_MEMBER(&FVector2D::LengthSquared),
+        // LUA_BIND_MEMBER(&FVector2D::Normalize),
+        // LUA_BIND_MEMBER(&FVector2D::IsNormalized),
+        // LUA_BIND_MEMBER(&FVector2D::DotProduct),
 
         // Static properties
         LUA_BIND_VAR(FVector2D::ZeroVector)
@@ -158,9 +158,9 @@ void LuaTypes::Math::BindFRotatorToLua(sol::table& Table)
         sol::constructors<FRotator(), FRotator(float, float, float)>(),
 
         // Member variables
-        "Pitch", &FRotator::Pitch,
-        "Yaw", &FRotator::Yaw,
-        "Roll", &FRotator::Roll,
+        LUA_BIND_MEMBER(&FRotator::Pitch),
+        LUA_BIND_MEMBER(&FRotator::Yaw),
+        LUA_BIND_MEMBER(&FRotator::Roll),
 
         // Operators
         sol::meta_function::equal_to, &FRotator::operator==,
@@ -169,9 +169,9 @@ void LuaTypes::Math::BindFRotatorToLua(sol::table& Table)
         sol::meta_function::multiplication, &FRotator::operator*,
 
         // Utility functions
-        "Normalize", &FRotator::Normalize,
-        "GetNormalized", &FRotator::GetNormalized
-        // "GetInverse", &FRotator::GetInverse,
+        LUA_BIND_MEMBER(&FRotator::Normalize),
+        LUA_BIND_MEMBER(&FRotator::GetNormalized)
+        // LUA_BIND_MEMBER(&FRotator::GetInverse),
 
         // Static properties
         // LUA_BIND_VAR(FRotator::ZeroRotator)
@@ -187,18 +187,18 @@ void LuaTypes::Math::BindFQuatToLua(sol::table& Table)
         sol::constructors<FQuat(), FQuat(float, float, float, float)>(),
 
         // Member variables
-        "X", &FQuat::X,
-        "Y", &FQuat::Y,
-        "Z", &FQuat::Z,
-        "W", &FQuat::W,
+        LUA_BIND_MEMBER(&FQuat::X),
+        LUA_BIND_MEMBER(&FQuat::Y),
+        LUA_BIND_MEMBER(&FQuat::Z),
+        LUA_BIND_MEMBER(&FQuat::W),
 
         // Utility functions
-        "Normalize", &FQuat::Normalize,
-        "IsNormalized", &FQuat::IsNormalized,
-        "RotateVector", &FQuat::RotateVector
-        // "GetAxisX", &FQuat::GetAxisX,
-        // "GetAxisY", &FQuat::GetAxisY,
-        // "GetAxisZ", &FQuat::GetAxisZ,
+        LUA_BIND_MEMBER(&FQuat::Normalize),
+        LUA_BIND_MEMBER(&FQuat::IsNormalized),
+        LUA_BIND_MEMBER(&FQuat::RotateVector)
+        // LUA_BIND_MEMBER(&FQuat::GetAxisX),
+        // LUA_BIND_MEMBER(&FQuat::GetAxisY),
+        // LUA_BIND_MEMBER(&FQuat::GetAxisZ),
 
         // Static functions
         // LUA_BIND_VAR(FQuat::Identity)
@@ -214,11 +214,11 @@ void LuaTypes::Math::BindFMatrixToLua(sol::table& Table)
         sol::constructors<FMatrix()>(),
 
         // Matrix operations
-        // "Determinant", &FMatrix::Determinant,
-        // "Inverse", &FMatrix::Inverse,
-        // "Transpose", &FMatrix::Transpose,
-        // "TransformVector3", &FMatrix::TransformVector,
-        // "TransformPosition", &FMatrix::TransformPosition,
+        // LUA_BIND_MEMBER(&FMatrix::Determinant),
+        // LUA_BIND_MEMBER(&FMatrix::Inverse),
+        // LUA_BIND_MEMBER(&FMatrix::Transpose),
+        // LUA_BIND_MEMBER(&FMatrix::TransformVector),
+        // LUA_BIND_MEMBER(&FMatrix::TransformPosition),
 
         // Static functions
         LUA_BIND_VAR(FMatrix::Identity)
