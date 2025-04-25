@@ -7,10 +7,13 @@ namespace LuaBindUtils
  * 멤버 변수 포인터 형식의 문자열에서 멤버 변수 이름만 가져옵니다.
  * @note "&Test::Var" -> "Var"
  */
-consteval std::string_view GetMemberVarName(std::string_view RawName)
+consteval std::string_view GetMemberName(std::string_view RawName, bool bIsMemberMethod = false)
 {
-    // 멤버변수가 아닌 경우
-    if (!RawName.starts_with("&")) throw;
+    if (bIsMemberMethod)
+    {
+        // 멤버메서드가 아닌 경우
+        if (!RawName.starts_with("&")) throw;
+    }
 
     // 1. 마지막 '::' 찾기
     const size_t LastColonPos = RawName.find_last_of(':');

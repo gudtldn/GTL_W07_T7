@@ -8,4 +8,6 @@
  */
 #define Lua_New_UserType(TypeName, ...) new_usertype<TypeName>(#TypeName, __VA_ARGS__)
 
-#define LUA_BIND_MEMBER_VAR(MemberName) LuaBindUtils::GetMemberVarName(#MemberName), MemberName
+#define LUA_BIND_MEMBER(MemberName) LuaBindUtils::GetMemberName(#MemberName, true), MemberName
+
+#define LUA_BIND_VAR(MemberName) LuaBindUtils::GetMemberName(#MemberName, false), sol::var(MemberName)
