@@ -36,6 +36,7 @@ void FLuaManager::Initialize()
 
     sol::table Ns = LuaState.create_named_table("SIUEngine");
 
+    // Math Types
     LuaTypes::FBindLua<FColor>::Bind(Ns);
     LuaTypes::FBindLua<FLinearColor>::Bind(Ns);
     LuaTypes::FBindLua<FVector>::Bind(Ns);
@@ -44,6 +45,9 @@ void FLuaManager::Initialize()
     LuaTypes::FBindLua<FRotator>::Bind(Ns);
     LuaTypes::FBindLua<FQuat>::Bind(Ns);
     LuaTypes::FBindLua<FMatrix>::Bind(Ns);
+
+    // Object Types
+    LuaTypes::FBindLua<ALuaActor>::Bind(Ns);
 
     bInitialized = true;
 }

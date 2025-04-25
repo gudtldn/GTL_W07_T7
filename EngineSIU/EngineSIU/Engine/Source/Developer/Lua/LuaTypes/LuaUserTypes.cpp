@@ -1,14 +1,17 @@
 #include "LuaUserTypes.h"
 
+#include "Engine/World/World.h"
+#include "Developer/Lua/LuaActor.h"
 #include "Developer/Lua/LuaUtils/LuaBindMacros.h"
 #include "Math/Color.h"
 #include "Math/Matrix.h"
 #include "Math/Quat.h"
 
 
+
 void LuaTypes::FBindLua<FColor>::Bind(sol::table& Table)
 {
-    Table.Lua_New_UserType(
+    Table.Lua_NewUserType(
         FColor,
 
         // 생성자
@@ -36,7 +39,7 @@ void LuaTypes::FBindLua<FColor>::Bind(sol::table& Table)
 
 void LuaTypes::FBindLua<FLinearColor>::Bind(sol::table& Table)
 {
-    Table.Lua_New_UserType(
+    Table.Lua_NewUserType(
         FLinearColor,
 
         // Constructors
@@ -66,7 +69,7 @@ void LuaTypes::FBindLua<FLinearColor>::Bind(sol::table& Table)
 
 void LuaTypes::FBindLua<FVector>::Bind(sol::table& Table)
 {
-    Table.Lua_New_UserType(
+    Table.Lua_NewUserType(
         FVector,
 
         // Constructors
@@ -103,7 +106,7 @@ void LuaTypes::FBindLua<FVector>::Bind(sol::table& Table)
 
 void LuaTypes::FBindLua<FVector2D>::Bind(sol::table& Table)
 {
-    Table.Lua_New_UserType(
+    Table.Lua_NewUserType(
         FVector2D,
 
         // Constructors
@@ -135,7 +138,7 @@ void LuaTypes::FBindLua<FVector2D>::Bind(sol::table& Table)
 
 void LuaTypes::FBindLua<FVector4>::Bind(sol::table& Table)
 {
-    Table.Lua_New_UserType(
+    Table.Lua_NewUserType(
         FVector4,
 
         // Constructors
@@ -151,7 +154,7 @@ void LuaTypes::FBindLua<FVector4>::Bind(sol::table& Table)
 
 void LuaTypes::FBindLua<FRotator>::Bind(sol::table& Table)
 {
-    Table.Lua_New_UserType(
+    Table.Lua_NewUserType(
         FRotator,
 
         // Constructors
@@ -180,7 +183,7 @@ void LuaTypes::FBindLua<FRotator>::Bind(sol::table& Table)
 
 void LuaTypes::FBindLua<FQuat>::Bind(sol::table& Table)
 {
-    Table.Lua_New_UserType(
+    Table.Lua_NewUserType(
         FQuat,
 
         // Constructors
@@ -207,7 +210,7 @@ void LuaTypes::FBindLua<FQuat>::Bind(sol::table& Table)
 
 void LuaTypes::FBindLua<FMatrix>::Bind(sol::table& Table)
 {
-    Table.Lua_New_UserType(
+    Table.Lua_NewUserType(
         FMatrix,
 
         // Constructors
@@ -222,5 +225,42 @@ void LuaTypes::FBindLua<FMatrix>::Bind(sol::table& Table)
 
         // Static functions
         LUA_BIND_VAR(FMatrix::Identity)
+    );
+}
+
+void LuaTypes::FBindLua<ALuaActor>::Bind(sol::table& Table)
+{
+    Table.Lua_NewUserType(
+        ALuaActor,
+
+        // UObject 메서드
+        LUA_BIND_MEMBER(&ALuaActor::Duplicate),
+        LUA_BIND_MEMBER(&ALuaActor::GetFName),
+        LUA_BIND_MEMBER(&ALuaActor::GetName),
+        LUA_BIND_MEMBER(&ALuaActor::GetOuter),
+        LUA_BIND_MEMBER(&ALuaActor::GetWorld),
+        LUA_BIND_MEMBER(&ALuaActor::GetUUID),
+        LUA_BIND_MEMBER(&ALuaActor::GetClass),
+
+        // AActor 메서드
+        LUA_BIND_MEMBER(&ALuaActor::GetActorLocation),
+        LUA_BIND_MEMBER(&ALuaActor::GetActorRotation),
+        LUA_BIND_MEMBER(&ALuaActor::GetActorScale),
+
+        LUA_BIND_MEMBER(&ALuaActor::GetActorForwardVector),
+        LUA_BIND_MEMBER(&ALuaActor::GetActorRightVector),
+        LUA_BIND_MEMBER(&ALuaActor::GetActorUpVector),
+
+        LUA_BIND_MEMBER(&ALuaActor::SetActorLocation),
+        LUA_BIND_MEMBER(&ALuaActor::SetActorRotation),
+        LUA_BIND_MEMBER(&ALuaActor::SetActorScale),
+
+        LUA_BIND_MEMBER(&ALuaActor::GetRootComponent),
+        LUA_BIND_MEMBER(&ALuaActor::SetRootComponent),
+        LUA_BIND_MEMBER(&ALuaActor::GetOwner),
+        LUA_BIND_MEMBER(&ALuaActor::SetOwner),
+
+        LUA_BIND_MEMBER(&ALuaActor::Destroy),
+        LUA_BIND_MEMBER(&ALuaActor::IsActorBeingDestroyed)
     );
 }
