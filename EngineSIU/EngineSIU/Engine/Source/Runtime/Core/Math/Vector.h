@@ -169,7 +169,8 @@ public:
     bool AllComponentsEqual(float Tolerance = KINDA_SMALL_NUMBER) const;
 
     float Length() const;
-    float LengthSquared() const;
+    float SquaredLength() const;
+    float SizeSquared() const;
 
     bool Normalize(float Tolerance = SMALL_NUMBER);
 
@@ -182,7 +183,8 @@ public:
     bool IsNearlyZero(float Tolerance = SMALL_NUMBER) const;
     bool IsZero() const;
 
-    
+    bool IsNormalized() const;
+
     FString ToString() const;
     bool InitFromString(const FString& InSourceString);
 };
@@ -331,7 +333,7 @@ inline float FVector::Length() const
     return FMath::Sqrt(X * X + Y * Y + Z * Z);
 }
 
-inline float FVector::LengthSquared() const
+inline float FVector::SquaredLength() const
 {
     return X * X + Y * Y + Z * Z;
 }
