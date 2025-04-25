@@ -1,7 +1,22 @@
 ﻿#include "LuaManager.h"
 
-FLuaManager::FLuaManager()
+
+FLuaManager& FLuaManager::Get()
 {
+    static FLuaManager Instance;
+    return Instance;
+}
+
+sol::state& FLuaManager::GetLuaState()
+{
+    assert(bInitialized && "LuaManager is not initialized.");
+    return LuaState;
+}
+
+void FLuaManager::Initialize()
+{
+    if (bInitialized) return;
+
     LuaState.open_libraries(
         sol::lib::base,       // Lua를 사용하기 위한 기본 라이브러리 (print, type, pcall 등)
         // sol::lib::package,    // 모듈 로딩(require) 및 패키지 관리 기능
@@ -17,10 +32,7 @@ FLuaManager::FLuaManager()
         // sol::lib::ffi,        // 외부 C 함수 및 데이터 구조 접근 기능 (LuaJIT 전용)
         sol::lib::utf8        // UTF-8 인코딩 문자열 처리 기능 (Lua 5.3 이상)
     );
-}
 
-FLuaManager& FLuaManager::Get()
-{
-    static FLuaManager Instance;
-    return Instance;
+
+    bInitialized = true;
 }
