@@ -8,7 +8,7 @@
 UClass* UObject::StaticClass()
 {
     static UClass ClassInfo{
-        TEXT("UObject"),
+        "UObject",
         sizeof(UObject),
         alignof(UObject),
         nullptr,

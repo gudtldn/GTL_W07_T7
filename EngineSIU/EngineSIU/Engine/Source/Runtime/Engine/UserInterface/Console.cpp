@@ -116,16 +116,30 @@ void FConsole::Clear()
 }
 
 // 로그 추가
-void FConsole::AddLog(ELogLevel Level, const char* Fmt, ...)
+void FConsole::AddLog(ELogLevel Level, const ANSICHAR* Fmt, ...)
 {
     va_list Args;
     va_start(Args, Fmt);
     // AddLog(Level, Fmt, Args);
 
     char Buf[1024];
-    vsnprintf(Buf, sizeof(Buf), Fmt, Args);
+    vsnprintf_s(Buf, sizeof(Buf), _TRUNCATE, Fmt, Args);
 
     Items.Emplace(Level, std::string(Buf));
+    bScrollToBottom = true;
+    va_end(Args);
+}
+
+void FConsole::AddLog(ELogLevel Level, const WIDECHAR* Fmt, ...)
+{
+    va_list Args;
+    va_start(Args, Fmt);
+    // AddLog(Level, Fmt, Args);
+
+    wchar_t Buf[1024];
+    _vsnwprintf_s(Buf, sizeof(Buf), _TRUNCATE, Fmt, Args);
+
+    Items.Emplace(Level, FString(Buf).ToAnsiString());
     bScrollToBottom = true;
     va_end(Args);
 }
@@ -200,7 +214,7 @@ void FConsole::Draw()
     TArray CopyItems = Items;
     for (const FLogEntry& Item : CopyItems)
     {
-        if (!Filter.PassFilter(*Item.Message)) continue;
+        if (!Filter.PassFilter(Item.Message.ToAnsiString().c_str())) continue;
 
         // 로그 수준에 맞는 필터링
         if ((Item.Level == ELogLevel::Display && !bShowLogTemp) ||
