@@ -15,22 +15,22 @@ void LuaTypes::Math::BindFColorToLua(sol::table& Table)
         sol::constructors<FColor(), FColor(uint8, uint8, uint8, uint8)>(),
 
         // 멤버 변수
-        "R", &FColor::R,
-        "G", &FColor::G,
-        "B", &FColor::B,
-        "A", &FColor::A,
+        LUA_BIND_MEMBER(&FColor::R),
+        LUA_BIND_MEMBER(&FColor::G),
+        LUA_BIND_MEMBER(&FColor::B),
+        LUA_BIND_MEMBER(&FColor::A),
 
         // 연산자 오버로딩
         sol::meta_function::equal_to, &FColor::operator==,
 
         // 정적 상수 (읽기 전용 속성으로 바인딩)
-        "White", sol::var(FColor::White),
-        "Black", sol::var(FColor::Black),
-        "Transparent", sol::var(FColor::Transparent),
-        "Red", sol::var(FColor::Red),
-        "Green", sol::var(FColor::Green),
-        "Blue", sol::var(FColor::Blue),
-        "Yellow", sol::var(FColor::Yellow)
+        LUA_BIND_VAR(FColor::White),
+        LUA_BIND_VAR(FColor::Black),
+        LUA_BIND_VAR(FColor::Transparent),
+        LUA_BIND_VAR(FColor::Red),
+        LUA_BIND_VAR(FColor::Green),
+        LUA_BIND_VAR(FColor::Blue),
+        LUA_BIND_VAR(FColor::Yellow)
     );
 }
 
@@ -43,10 +43,10 @@ void LuaTypes::Math::BindFLinearColorToLua(sol::table& Table)
         sol::constructors<FLinearColor(), FLinearColor(float, float, float, float)>(),
 
         // Member variables
-        "R", &FLinearColor::R,
-        "G", &FLinearColor::G,
-        "B", &FLinearColor::B,
-        "A", &FLinearColor::A,
+        LUA_BIND_MEMBER(&FLinearColor::R),
+        LUA_BIND_MEMBER(&FLinearColor::G),
+        LUA_BIND_MEMBER(&FLinearColor::B),
+        LUA_BIND_MEMBER(&FLinearColor::A),
 
         // Operators
         sol::meta_function::equal_to, &FLinearColor::operator==,
@@ -54,13 +54,13 @@ void LuaTypes::Math::BindFLinearColorToLua(sol::table& Table)
         sol::meta_function::addition, &FLinearColor::operator+,
 
         // Static constants
-        "White", sol::var(FLinearColor::White),
-        "Black", sol::var(FLinearColor::Black),
-        "Transparent", sol::var(FLinearColor::Transparent),
-        "Red", sol::var(FLinearColor::Red),
-        "Green", sol::var(FLinearColor::Green),
-        "Blue", sol::var(FLinearColor::Blue),
-        "Yellow", sol::var(FLinearColor::Yellow)
+        LUA_BIND_VAR(FLinearColor::White),
+        LUA_BIND_VAR(FLinearColor::Black),
+        LUA_BIND_VAR(FLinearColor::Transparent),
+        LUA_BIND_VAR(FLinearColor::Red),
+        LUA_BIND_VAR(FLinearColor::Green),
+        LUA_BIND_VAR(FLinearColor::Blue),
+        LUA_BIND_VAR(FLinearColor::Yellow)
     );
 }
 
@@ -73,9 +73,9 @@ void LuaTypes::Math::BindFVectorToLua(sol::table& Table)
         sol::constructors<FVector(), FVector(float, float, float)>(),
 
         // Member variables
-        "X", &FVector::X,
-        "Y", &FVector::Y,
-        "Z", &FVector::Z,
+        LUA_BIND_MEMBER(&FVector::X),
+        LUA_BIND_MEMBER(&FVector::Y),
+        LUA_BIND_MEMBER(&FVector::Z),
 
         // Operators
         sol::meta_function::equal_to, &FVector::operator==,
@@ -85,19 +85,19 @@ void LuaTypes::Math::BindFVectorToLua(sol::table& Table)
         sol::meta_function::division, [](const FVector& A, const FVector& B) { return A / B; },
 
         // Utility functions
-        "Length", &FVector::Length,
-        "SquaredLength", &FVector::SquaredLength,
-        "Normalize", &FVector::Normalize,
-        "IsNormalized", &FVector::IsNormalized,
-        "DotProduct", &FVector::DotProduct,
-        "CrossProduct", &FVector::CrossProduct,
+        LUA_BIND_MEMBER(&FVector::Length),
+        LUA_BIND_MEMBER(&FVector::SquaredLength),
+        LUA_BIND_MEMBER(&FVector::Normalize),
+        LUA_BIND_MEMBER(&FVector::IsNormalized),
+        LUA_BIND_MEMBER(&FVector::DotProduct),
+        LUA_BIND_MEMBER(&FVector::CrossProduct),
 
         // Static properties
-        "ZeroVector", sol::var(FVector::ZeroVector),
-        "OneVector", sol::var(FVector::OneVector),
-        "UpVector", sol::var(FVector::UpVector),
-        "ForwardVector", sol::var(FVector::ForwardVector),
-        "RightVector", sol::var(FVector::RightVector)
+        LUA_BIND_VAR(FVector::ZeroVector),
+        LUA_BIND_VAR(FVector::OneVector),
+        LUA_BIND_VAR(FVector::UpVector),
+        LUA_BIND_VAR(FVector::ForwardVector),
+        LUA_BIND_VAR(FVector::RightVector)
     );
 }
 
@@ -110,8 +110,8 @@ void LuaTypes::Math::BindFVector2DToLua(sol::table& Table)
         sol::constructors<FVector2D(), FVector2D(float, float)>(),
 
         // Member variables
-        "X", &FVector2D::X,
-        "Y", &FVector2D::Y,
+        LUA_BIND_MEMBER(&FVector2D::X),
+        LUA_BIND_MEMBER(&FVector2D::Y),
 
         // Operators
         sol::meta_function::equal_to, &FVector2D::operator==,
@@ -128,8 +128,8 @@ void LuaTypes::Math::BindFVector2DToLua(sol::table& Table)
         // "DotProduct", &FVector2D::DotProduct,
 
         // Static properties
-        "ZeroVector", sol::var(FVector2D::ZeroVector)
-        // "UnitVector", sol::var(FVector2D::UnitVector)
+        LUA_BIND_VAR(FVector2D::ZeroVector)
+        // LUA_BIND_VAR(FVector2D::UnitVector)
     );
 }
 
@@ -142,10 +142,10 @@ void LuaTypes::Math::BindFVector4ToLua(sol::table& Table)
         sol::constructors<FVector4(), FVector4(float, float, float, float)>(),
 
         // Member variables
-        "X", &FVector4::X,
-        "Y", &FVector4::Y,
-        "Z", &FVector4::Z,
-        "W", &FVector4::W
+        LUA_BIND_MEMBER(&FVector4::X),
+        LUA_BIND_MEMBER(&FVector4::Y),
+        LUA_BIND_MEMBER(&FVector4::Z),
+        LUA_BIND_MEMBER(&FVector4::W)
     );
 }
 
@@ -174,7 +174,7 @@ void LuaTypes::Math::BindFRotatorToLua(sol::table& Table)
         // "GetInverse", &FRotator::GetInverse,
 
         // Static properties
-        // "ZeroRotator", sol::var(FRotator::ZeroRotator)
+        // LUA_BIND_VAR(FRotator::ZeroRotator)
     );
 }
 
@@ -201,7 +201,7 @@ void LuaTypes::Math::BindFQuatToLua(sol::table& Table)
         // "GetAxisZ", &FQuat::GetAxisZ,
 
         // Static functions
-        // "Identity", sol::var(FQuat::Identity)
+        // LUA_BIND_VAR(FQuat::Identity)
     );
 }
 
@@ -221,6 +221,6 @@ void LuaTypes::Math::BindFMatrixToLua(sol::table& Table)
         // "TransformPosition", &FMatrix::TransformPosition,
 
         // Static functions
-        "Identity", sol::var(FMatrix::Identity)
+        LUA_BIND_VAR(FMatrix::Identity)
     );
 }

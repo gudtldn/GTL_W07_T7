@@ -1,5 +1,6 @@
 ﻿#include "LuaManager.h"
 
+#include "LuaTypes/LuaMathTypes.h"
 
 FLuaManager& FLuaManager::Get()
 {
@@ -33,6 +34,15 @@ void FLuaManager::Initialize()
         sol::lib::utf8        // UTF-8 인코딩 문자열 처리 기능 (Lua 5.3 이상)
     );
 
+    sol::table Ns = LuaState.create_named_table("SIUEngine");
+    LuaTypes::Math::BindFColorToLua(Ns);
+    LuaTypes::Math::BindFLinearColorToLua(Ns);
+    LuaTypes::Math::BindFVectorToLua(Ns);
+    LuaTypes::Math::BindFVector2DToLua(Ns);
+    LuaTypes::Math::BindFVector4ToLua(Ns);
+    LuaTypes::Math::BindFRotatorToLua(Ns);
+    LuaTypes::Math::BindFQuatToLua(Ns);
+    LuaTypes::Math::BindFMatrixToLua(Ns);
 
     bInitialized = true;
 }
