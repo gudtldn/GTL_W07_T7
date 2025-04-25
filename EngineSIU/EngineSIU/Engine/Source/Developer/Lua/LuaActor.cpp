@@ -3,7 +3,7 @@
 void ALuaActor::BeginPlay()
 {
     Super::BeginPlay();
-
+ 
 }
 
 void ALuaActor::Tick(float DeltaTime)
