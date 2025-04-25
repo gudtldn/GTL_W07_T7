@@ -5,7 +5,7 @@ namespace LuaBindUtils
 {
 /**
  * 멤버 변수 포인터 형식의 문자열에서 멤버 변수 이름만 가져옵니다.
- * @note &Test::Var -> Var
+ * @note "&Test::Var" -> "Var"
  */
 consteval std::string_view GetMemberVarName(std::string_view RawName)
 {
