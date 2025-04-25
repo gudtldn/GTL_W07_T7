@@ -42,6 +42,9 @@ public:
     void AddAABBToBatch(const FBoundingBox& LocalAABB, const FVector& Center, const FMatrix& ModelMatrix);
     void AddOBBToBatch(const FBoundingBox& LocalAABB, const FVector& Center, const FMatrix& ModelMatrix);
     void AddConeToBatch(const FVector& Center, float Radius, float Height, int Segments, const FVector4& Color, const FMatrix& ModelMatrix);
+    void AddCollisionBoxBatch();
+    void AddCollisionSphereBatch();
+    void AddCollisionCapsuleBatch();
 
     // 프리미티브 버퍼 생성 함수들
     void CreatePrimitiveBuffers();
@@ -63,6 +66,50 @@ public:
     // 파이프라인 관련 (렌더러에서 호출하는 "prepare" 함수)
     void PrepareLineResources() const;
 
+    /**
+     * Collision 
+     **/
+    //
+    /** Updates when exceeded after comparison. */
+    bool IsCollisionBoxOverLimit();
+
+    /** Updates when exceeded after comparison. */
+    bool IsCollisionSphereOverLimit();
+
+    /** Updates when exceeded after comparison. */
+    bool IsCollisionCapsuleOverLimit();
+
+    FORCEINLINE int GetCollisionBoxCount() const
+    {
+        return CollisionBoxes.Num();
+    }
+    FORCEINLINE int GetCollisionSphereCount() const
+    {
+        return CollisionSpheres.Num();
+    }
+    FORCEINLINE int GetCollisionCapsuleCount() const
+    {
+        return CollisionCapsules.Num();
+    }
+
+    FORCEINLINE const TArray<FCollisionBox>& GetCollisionBoxes() const
+    {
+        return CollisionBoxes;
+    }
+
+    FORCEINLINE const TArray<FCollisionSphere>& GetCollisionSpheres() const
+    {
+        return CollisionSpheres;
+    }
+
+    FORCEINLINE const TArray<FCollisionCapsule>& GetCollisionCapsules() const
+    {
+        return CollisionCapsules;
+    }
+    
+    /** Remove collision containers */
+    void RemoveCollisionContainers();
+    
 private:
     // Graphics 디바이스 (초기화 시 전달받음)
     FGraphicsDevice* Graphics = nullptr;
@@ -88,10 +135,19 @@ private:
     size_t AllocatedConeCapacity = 0;
     size_t AllocatedOBBCapacity = 0;
 
+    size_t AllocatedCollisionBoxCapacity = 0;
+    size_t AllocatedCollisionSphereCapacity = 0;
+    size_t AllocatedCollisionCapsuleCapacity = 0;
+
     // 프리미티브 데이터 컨테이너
     TArray<FBoundingBox> BoundingBoxes;
     TArray<FOBB> OrientedBoundingBoxes;
     TArray<FCone> Cones;
+
+    // Collision Data Container
+    TArray<FCollisionBox> CollisionBoxes;
+    TArray<FCollisionSphere> CollisionSpheres;
+    TArray<FCollisionCapsule> CollisionCapsules;
 
     // 그리드 파라미터 및 추가 데이터
     FGridParameters GridParameters;
