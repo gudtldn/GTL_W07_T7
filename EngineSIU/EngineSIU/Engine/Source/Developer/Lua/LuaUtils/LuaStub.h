@@ -8,6 +8,10 @@
 
 // Stub 파일 생성 함수
 void generateStubs(sol::state& lua) {
+    // TODO 일단은 Stub 파일 전부 만듬
+    // 이후에 시간 남으면 아래 함수 오류 고칠것
+    // sol::table idx = mt["__index"]; 이쪽이 문제임
+    return;
     // 1) SIUEngine 테이블 얻기
     sol::table ns = lua["SIUEngine"];
     assert(ns.valid());

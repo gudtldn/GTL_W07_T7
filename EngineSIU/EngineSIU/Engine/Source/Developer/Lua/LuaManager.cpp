@@ -1,7 +1,5 @@
 #include "LuaManager.h"
 #include "LuaTypes/LuaUserTypes.h"
-
-#include "LuaTypes/LuaMathTypes.h"
 #include "LuaUtils/LuaStub.h"
 
 FLuaManager& FLuaManager::Get()
