@@ -1,6 +1,7 @@
 #include "Engine.h"
 
 #include "EditorEngine.h"
+#include "Developer/Lua/LuaManager.h"
 #include "UnrealEd/SceneManager.h"
 #include "UObject/Casts.h"
 #include "World/World.h"
@@ -9,6 +10,7 @@ UEngine* GEngine = nullptr;
 
 void UEngine::Init()
 {
+    FLuaManager::Get().Initialize();
 }
 
 FWorldContext* UEngine::GetWorldContextFromWorld(const UWorld* InWorld)

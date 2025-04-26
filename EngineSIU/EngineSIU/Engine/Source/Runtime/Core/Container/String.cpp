@@ -1,22 +1,9 @@
 #include "String.h"
 #include <algorithm>
-#include <cctype>
 #include <vector>
 
 #include "CoreMiscDefines.h"
 #include "Math/MathUtility.h"
-
-
-#if USE_WIDECHAR
-std::wstring FString::ConvertToWideChar(const ANSICHAR* NarrowStr)
-{
-	const int Size = MultiByteToWideChar(CP_UTF8, 0, NarrowStr, -1, nullptr, 0);
-	std::wstring Str;
-	Str.resize(Size - 1);
-	MultiByteToWideChar(CP_UTF8, 0, NarrowStr, -1, Str.data(), Size);
-	return Str;
-}
-#endif
 
 
 FString FString::SanitizeFloat(float InFloat)
@@ -38,6 +25,42 @@ int FString::ToInt(const FString& InString)
     return std::stoi(*InString);
 }
 
+bool FString::ToBool() const
+{
+    // 빈 문자열은 false로 처리
+    if (IsEmpty())
+    {
+        return false;
+    }
+
+    // 가장 일반적인 경우: "true" 또는 "1" (대소문자 무관)
+    // Equals 함수가 이미 대소문자 무시 비교를 지원하므로 활용합니다.
+    if (Equals(TEXT("true"), ESearchCase::IgnoreCase))
+    {
+        return true;
+    }
+    if (Equals(TEXT("1"))) // "1"은 대소문자 구분이 의미 없음
+    {
+        return true;
+    }
+
+    // 그 외: "false" 또는 "0" (대소문자 무관)
+    // 이 경우들도 명시적으로 false를 반환하는 것이 안전합니다.
+    if (Equals(TEXT("false"), ESearchCase::IgnoreCase))
+    {
+        return false;
+    }
+    if (Equals(TEXT("0"))) // "0"도 대소문자 구분이 의미 없음
+    {
+        return false;
+    }
+
+    // 위 조건에 해당하지 않는 모든 다른 문자열은 false로 처리합니다.
+    // (예: "Yes", "No", "On", "Off" 등을 추가로 지원하고 싶다면 여기에 조건을 추가할 수 있습니다.)
+    // UE_LOG(LogTemp, Warning, TEXT("FString::ToBool() : Unrecognized string '%s' treated as false."), **this); // 필요시 경고 로그
+    return false;
+}
+
 FString FString::RightChop(int32 Count) const
 {
     const int32 MyLen = Len(); // 현재 문자열 길이
@@ -51,17 +74,17 @@ FString FString::RightChop(int32 Count) const
     // Count가 문자열 길이 이상이면 빈 문자열 반환
     if (Count >= MyLen)
     {
-        return FString(); // 기본 생성된 빈 FString 반환
+        return FString{}; // 기본 생성된 빈 FString 반환
     }
 
     // std::basic_string::substr(pos)는 위치 pos부터 끝까지의 부분 문자열을 반환합니다.
     // Count는 제거할 문자의 개수이므로, 부분 문자열은 Count 인덱스부터 시작합니다.
     // static_cast<size_t>는 substr이 size_t를 인자로 받기 때문에 필요합니다.
-    BaseStringType Substring = PrivateString.substr(static_cast<size_t>(Count));
+    BaseStringType Substring = PrivateString.substr(Count);
 
     // 추출된 부분 문자열로 새로운 FString 객체를 생성하여 반환
     // std::move를 사용하면 불필요한 복사를 피할 수 있습니다 (C++11 이상).
-    return FString(std::move(Substring));
+    return FString{std::move(Substring)};
 }
 
 void FString::Empty()
@@ -230,7 +253,7 @@ FString FString::Printf(const ElementType* Format, ...)
 {
     if (!Format) // 포맷 문자열 null 체크
     {
-        return FString();
+        return FString{};
     }
 
     // 첫 번째 시도: 스택에 작은 버퍼를 할당 (일반적인 경우를 빠르게 처리)
@@ -284,7 +307,7 @@ FString FString::Printf(const ElementType* Format, ...)
         if (RequiredSize < 0) // 크기 계산 실패 (오류)
         {
             // 오류 로그 출력 가능
-            return FString(); // 빈 문자열 반환
+            return FString{}; // 빈 문자열 반환
         }
 
         // 필요한 크기 + 널 종료 문자 공간 할당
@@ -313,7 +336,7 @@ FString FString::Printf(const ElementType* Format, ...)
         {
             // 최종 포맷팅 실패 (이론상 발생하기 어려움)
             // 오류 로그 출력 가능
-            return FString(); // 빈 문자열 반환
+            return FString{}; // 빈 문자열 반환
         }
     }
 }
