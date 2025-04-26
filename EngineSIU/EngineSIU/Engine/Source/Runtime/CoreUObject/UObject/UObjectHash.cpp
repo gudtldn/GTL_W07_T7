@@ -70,14 +70,6 @@ void AddToClassMap(UObject* Object)
 
     UClass* Class = Object->GetClass();
     HashTable.ClassToObjectListMap.FindOrAdd(Class).Add(Object);
-
-    for (UClass* SuperClass = Class->GetSuperClass(); SuperClass;)
-    {
-        HashTable.ClassToChildListMap.FindOrAdd(SuperClass).Add(Class);
-    
-        Class = SuperClass;
-        SuperClass = SuperClass->GetSuperClass();
-    }
 }
 
 void RemoveFromClassMap(UObject* Object)
@@ -134,5 +126,17 @@ void GetObjectsOfClass(const UClass* ClassToLookFor, TArray<UObject*>& Results, 
                 Results.Add(Object);
             }
         }
+    }
+}
+
+void AddClassToChildListMap(UClass* InClass)
+{
+    FUObjectHashTables& HashTable = FUObjectHashTables::Get();
+    for (UClass* SuperClass = InClass->GetSuperClass(); SuperClass;)
+    {
+        HashTable.ClassToChildListMap.FindOrAdd(SuperClass).Add(InClass);
+
+        InClass = SuperClass;
+        SuperClass = SuperClass->GetSuperClass();
     }
 }
