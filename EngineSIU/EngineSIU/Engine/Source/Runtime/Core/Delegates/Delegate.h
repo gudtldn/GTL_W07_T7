@@ -8,7 +8,6 @@
 #define FUNC_DECLARE_MULTICAST_DELEGATE(MulticastDelegateName, ReturnType, ...) \
 	using MulticastDelegateName = TMulticastDelegate<ReturnType(__VA_ARGS__)>;
 
-
 class FDelegateHandle
 {
 	friend class std::hash<FDelegateHandle>;
@@ -81,6 +80,15 @@ public:
 	    };
 	}
 
+    template <typename T>
+    void BindDynamic(T* Instance, void (T::*Func)(ParamTypes...))
+	{
+	    this->Func = [Instance, Func](ParamTypes... args)
+	    {
+	        (Instance->*Func)(std::forward<ParamTypes>(args)...);
+	    };
+	}
+
 	void UnBind()
 	{
 		Func = nullptr;
@@ -115,14 +123,15 @@ class TMulticastDelegate<ReturnType(ParamTypes...)>
 {
     // TODO: std::function 사용 안하고 직접 TFunction 구현하기
 	using FuncType = std::function<ReturnType(ParamTypes...)>;
-	TMap<FDelegateHandle, FuncType> DelegateHandles;
-
+    TMap<FDelegateHandle, FuncType> DelegateHandles;
+    TMap<const char*, FDelegateHandle> DelegateHandlesByName;
+    
 public:
 	template <typename FunctorType>
-	FDelegateHandle AddLambda(FunctorType&& InFunctor)
+	FDelegateHandle AddLambda(const char* FuncName, FunctorType&& InFunctor)
 	{
 		FDelegateHandle DelegateHandle = FDelegateHandle::CreateHandle();
-
+        
         DelegateHandles.Add(
             DelegateHandle,
             [Func = std::forward<FunctorType>(InFunctor)](ParamTypes... Params) mutable
@@ -130,17 +139,42 @@ public:
                 Func(std::forward<ParamTypes>(Params)...);
             }
         );
+	    DelegateHandlesByName.Add(FuncName, DelegateHandle);
 		return DelegateHandle;
 	}
 
-	bool Remove(FDelegateHandle Handle)
+    template <typename T>
+    FDelegateHandle AddDynamic(const char* FuncName, T* Instance, void (T::*Func)(ParamTypes...))
 	{
-		if (Handle.IsValid())
-		{
-			DelegateHandles.Remove(Handle);
-			return true;
-		}
-		return false;
+	    FDelegateHandle Handle = FDelegateHandle::CreateHandle();
+	    DelegateHandles.Add(
+	        Handle,
+	        [Instance, Func](ParamTypes... args)
+	        {
+	            (Instance->*Func)(std::forward<ParamTypes>(args)...);
+	        }
+	    );
+	    DelegateHandlesByName.Add(FuncName, Handle);
+	    return Handle;
+	}
+
+    bool Remove(FDelegateHandle Handle)
+	{
+	    if (Handle.IsValid())
+	    {
+	        DelegateHandles.Remove(Handle);
+	        return true;
+	    }
+	    return false;
+	}
+
+    void RemoveByName(const char* Name)
+	{
+	    if (const FDelegateHandle* HandlePtr = DelegateHandlesByName.Find(Name))
+	    {
+	        DelegateHandles.Remove(*HandlePtr);
+	        DelegateHandlesByName.Remove(Name);
+	    }
 	}
 
 	void Broadcast(ParamTypes... Params) const
