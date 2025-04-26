@@ -19,6 +19,7 @@
 #include "Engine/Engine.h"
 #include "Components/HeightFogComponent.h"
 #include "Components/ProjectileMovementComponent.h"
+#include "Components/RigidbodyComponent.h"
 #include "Developer/Lua/LuaActor.h"
 #include "GameFramework/Actor.h"
 #include "Engine/AssetManager.h"
@@ -420,6 +421,15 @@ void PropertyEditorPanel::Render()
 
             ImGui::PopStyleColor();
         }
+
+    if (PickedActor) 
+    {
+        if (URigidbodyComponent* RigidbodyComp = (PickedActor->GetComponentByClass<URigidbodyComponent>())) 
+        {
+            RenderForRigidbody(RigidbodyComp);
+        }
+    }
+
     // TODO: 추후에 RTTI를 이용해서 프로퍼티 출력하기
     if (PickedActor)
         if (UTextComponent* textOBj = Cast<UTextComponent>(PickedActor->GetRootComponent()))
@@ -971,6 +981,84 @@ void PropertyEditorPanel::RenderCreateMaterialView()
     }
 
     ImGui::End();
+}
+
+void PropertyEditorPanel::RenderForRigidbody(URigidbodyComponent* RigidbodyComp)
+{
+    if (RigidbodyComp == nullptr)
+        return;
+
+    ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+    if (ImGui::TreeNodeEx("RigidBody", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+    {
+        if (ImGui::Button("Reset Rigidbody")) 
+        {
+            RigidbodyComp->ResetRigidbody();
+        }
+
+        // --- Velocity ---
+        {
+            FVector velVec = RigidbodyComp->GetVelocity();
+            float vel[3] = { velVec.X, velVec.Y, velVec.Z };
+            if (ImGui::InputFloat3("Velocity", vel))
+            {
+                RigidbodyComp->SetVelocity(FVector(vel[0], vel[1], vel[2]));
+            }
+        }
+
+        // --- Angular Velocity ---
+        {
+            FVector angVelVec = RigidbodyComp->GetAngularVelocity();
+            float angVel[3] = { angVelVec.X, angVelVec.Y, angVelVec.Z };
+            if (ImGui::InputFloat3("AngularVelocity", angVel))
+            {
+                RigidbodyComp->SetAngularVelocity(FVector(angVel[0], angVel[1], angVel[2]));
+            }
+        }
+
+        ImGui::Separator();
+
+        // --- Accumulated Force & Torque (read-only) ---
+        {
+            FVector accForce = RigidbodyComp->GetAccumulatedForce();
+            FVector accTorque = RigidbodyComp->GetAccumulatedTorque();
+
+            float forceAccum[3] = { accForce.X,  accForce.Y,  accForce.Z };
+            float torqueAccum[3] = { accTorque.X, accTorque.Y, accTorque.Z };
+
+            // Accumulated는 관찰만 가능
+            ImGui::InputFloat3("Force Accumulated", forceAccum);
+            ImGui::InputFloat3("Torque Accumulated", torqueAccum);
+        }
+
+        ImGui::Separator();
+
+        // Force / Point 입력 버퍼
+        static float force[3] = { 0,0,0 };
+        static float point[3] = { 0,0,0 };
+
+        ImGui::InputFloat3("Force", force);
+        ImGui::InputFloat3("Point", point);
+
+        if (ImGui::Button("Apply Force"))
+        {
+            RigidbodyComp->ApplyForceAtPoint(
+                FVector(force[0], force[1], force[2]),
+                FVector(point[0], point[1], point[2])
+            );
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Apply Impulse"))
+        {
+            RigidbodyComp->ApplyImpulseAtPoint(
+                FVector(force[0], force[1], force[2]),
+                FVector(point[0], point[1], point[2])
+            );
+        }
+
+        ImGui::TreePop();
+    }
+    ImGui::PopStyleColor();
 }
 
 void PropertyEditorPanel::OnResize(HWND hWnd)
