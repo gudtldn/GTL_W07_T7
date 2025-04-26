@@ -6,7 +6,11 @@ URigidbodyComponent::URigidbodyComponent()
     AngularVelocity(FVector::ZeroVector),
     Mass(1.0f),
     ForceAccum(FVector::ZeroVector),
-    TorqueAccum(FVector::ZeroVector)
+    TorqueAccum(FVector::ZeroVector),
+    Restituation(0.7f),
+    Friction(0.025f),
+    Radius(1.0f),
+    RollingFriction(0.1f)
 {
     // TODO 크기에 대한 설정 가능하게끔 변경해야함
     float width = 1.0f;
@@ -141,6 +145,17 @@ void URigidbodyComponent::Integrate(float dt)
     GetOwner()->GetRootComponent()->SetRelativeRotation(newRot);
 
     CheckAndResolveGroundCollision();
+
+    // 굴림 운동에 대한 이해 부족으로 단순히 각속도 감쇠 로직 적용
+    // 굴림 운동 구현하기엔 시간이 없어요 ㅠ
+
+    FVector worldLoc = GetOwner()->GetActorLocation();
+    if (worldLoc.Z <= 0.0f  && Velocity.Length() < 0.1f)
+    {
+        // 1) 각속도 댐핑
+        float damping = 0.4f;
+        AngularVelocity *= FMath::Clamp(1.0f - damping * dt, 0.0f, 1.0f);
+    }
 
     // --- (C) 누적값 초기화 ---
     ForceAccum = FVector::ZeroVector;

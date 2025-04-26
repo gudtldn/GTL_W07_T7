@@ -13,6 +13,7 @@
 #include "Components/ParticleSubUVComponent.h"
 #include "Components/TextComponent.h"
 #include "Components/ProjectileMovementComponent.h"
+#include "Components/RigidbodyComponent.h"
 
 #include "Engine/FLoaderOBJ.h"
 #include "Engine/StaticMeshActor.h"
@@ -304,6 +305,9 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                     SpawnedActor->SetActorLabel(TEXT("OBJ_SPHERE"));
                     USphereComp* SphereComp = SpawnedActor->AddComponent<USphereComp>(TEXT("SphereComponent"));
                     SphereComp->SetStaticMesh(FManagerOBJ::GetStaticMesh(L"Contents/Sphere.obj"));
+
+                    URigidbodyComponent* RigidbodyComp = SpawnedActor->AddComponent<URigidbodyComponent>(TEXT("RigidbodyComponent"));
+
                     break;
                 }
                 case OBJ_CUBE:

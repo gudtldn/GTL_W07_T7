@@ -58,8 +58,11 @@ private:
     FVector ForceAccum;        // 누적 외력
     FVector TorqueAccum;       // 누적 토크
 
-    float Restituation = 0.6f;
-    float Friction = 0.1f;
+    float Restituation;
+    float Friction;
 
     FVector Gravity;
+
+    float Radius;
+    float RollingFriction;
 };
