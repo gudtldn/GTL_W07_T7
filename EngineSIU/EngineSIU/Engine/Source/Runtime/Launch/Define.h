@@ -485,6 +485,8 @@ struct FFogConstants
  */
 struct FCollisionBox
 {
+    FMatrix WorldMatrix;
+    
     FVector Center;
     float Pad0;
 
@@ -496,6 +498,8 @@ struct FCollisionBox
 
 struct FCollisionSphere
 {
+    FMatrix WorldMatrix;
+    
     FVector Center;
     float Radius;
 
@@ -504,6 +508,8 @@ struct FCollisionSphere
 
 struct FCollisionCapsule
 {
+    FMatrix WorldMatrix;
+    
     FVector Center;
     float Radius;
 
