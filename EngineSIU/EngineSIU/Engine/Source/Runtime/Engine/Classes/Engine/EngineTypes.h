@@ -12,4 +12,15 @@ enum Type : uint8
     /** 프로그램을 종료했을 때 */
     Quit,
 };
+
+inline const char* ToString(Type e)
+{
+    switch (e)
+    {
+    case Destroyed: return "Destroyed";
+    case WorldTransition: return "WorldTransition";
+    case Quit: return "Quit";
+    default: return "unknown";
+    }
+}
 }
