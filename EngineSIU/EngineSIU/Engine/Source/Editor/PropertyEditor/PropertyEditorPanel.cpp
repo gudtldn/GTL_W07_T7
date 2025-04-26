@@ -166,12 +166,12 @@ void PropertyEditorPanel::Render()
                     {
                         // TempPath가 GameJam/Lua폴더 안에 있는지
                         fs::path TempPath = SelectedFilePath;
-                        if (LuaFolderPath.compare(TempPath.parent_path()) < 0)
+                        if (LuaFolderPath.compare(TempPath.parent_path()) <= 0)
                         {
                             fs::create_directories(TempPath.parent_path());
                             fs::copy_file(
                                 fs::current_path() / "Engine/Source/Developer/Lua/LuaTemplate/LuaActorTemplate.lua",
-                                SelectedFilePath
+                                TempPath
                             );
                             SelectedPath = std::move(TempPath);
                         }
