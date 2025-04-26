@@ -176,9 +176,6 @@ void FRenderer::CreateConstantBuffers()
 
     UINT DepthMapData = sizeof(struct FDepthMapData);
     BufferManager->CreateBufferGeneric<struct FDepthMapData>("FDepthMapData", nullptr, DepthMapData, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE);
-
-    UINT CollisionCountData = sizeof(FCollisionCountConstants);
-    BufferManager->CreateBufferGeneric<FCollisionCountConstants>("FCollisionCountConstants", nullptr, CollisionCountData, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE);
     
     // TODO: 함수로 분리
     ID3D11Buffer* ObjectBuffer = BufferManager->GetConstantBuffer(TEXT("FObjectConstantBuffer"));

@@ -48,8 +48,7 @@ void FCollisionRenderPass::Initialize(FDXDBufferManager* InBufferManager, FGraph
     
     CreateShader();
     CreateDummyBuffer();
-
-    CollisionCountConstantBuffer = BufferManager->GetConstantBuffer("FCollisionCountConstants");
+    CreateConstantBuffer();
 }
 
 void FCollisionRenderPass::PrepareRender()
@@ -118,6 +117,17 @@ void FCollisionRenderPass::CreateDummyBuffer()
     HRESULT HR = Graphics->Device->CreateBuffer(&VBDesc, &VBInitData, &DummyVertexBuffer);
 }
 
+void FCollisionRenderPass::CreateConstantBuffer()
+{
+    D3D11_BUFFER_DESC bufferDesc = {};
+    bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    bufferDesc.ByteWidth = (sizeof(FCollisionCountConstants) + 0xf) & 0xfffffff0;
+    
+    Graphics->Device->CreateBuffer(&bufferDesc, nullptr, &CollisionCountConstantBuffer);
+}
+
 void FCollisionRenderPass::PrepareDebugLineShader() const
 {
     Graphics->DeviceContext->VSSetShader(VertexCollisionShader, nullptr, 0);
@@ -131,7 +141,7 @@ void FCollisionRenderPass::PrepareDebugLineShader() const
         // Register collision SRVs (registers t0, t1, t2) to vertex shader
         Graphics->DeviceContext->VSSetShaderResources(0, 1, &CollisionBoxSRV);
         Graphics->DeviceContext->VSSetShaderResources(1, 1, &CollisionSphereSRV);
-        Graphics->DeviceContext->VSSetShaderResources(2, 1, &CollisionSphereSRV);
+        Graphics->DeviceContext->VSSetShaderResources(2, 1, &CollisionCapsuleSRV);
     }
 }
 
@@ -168,8 +178,6 @@ void FCollisionRenderPass::DrawLines() const
         (NumCapsule * CapsuleLineCount);
     
     Graphics->DeviceContext->DrawInstanced(VertexCountPerInstance, InstanceCount, 0, 0);
-    
-    Graphics->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
 void FCollisionRenderPass::ReloadShader()
@@ -264,8 +272,7 @@ ID3D11ShaderResourceView* FCollisionRenderPass::CreateCollisionCapsuleSRV(ID3D11
 
 FCollisionBox FCollisionRenderPass::CreateCollisionBox(const UBoxComponent* BoxComponent)
 {
-    FCollisionBox OutBox;
-    OutBox.Pad0 = 0.0f; OutBox.Pad1 = 0.0f;
+    FCollisionBox OutBox = {};
 
     OutBox.Center = BoxComponent->GetWorldLocation();
     OutBox.Extent = BoxComponent->GetScaledBoxExtent();
@@ -278,7 +285,7 @@ FCollisionBox FCollisionRenderPass::CreateCollisionBox(const UBoxComponent* BoxC
 
 FCollisionSphere FCollisionRenderPass::CreateCollisionSphere(const USphereComponent* SphereComponent)
 {
-    FCollisionSphere OutSphere;
+    FCollisionSphere OutSphere = {};
 
     OutSphere.Center = SphereComponent->GetWorldLocation();
     OutSphere.Radius = SphereComponent->GetScaledSphereRadius();
@@ -291,7 +298,7 @@ FCollisionSphere FCollisionRenderPass::CreateCollisionSphere(const USphereCompon
 
 FCollisionCapsule FCollisionRenderPass::CreateCollisionCapsule(const UCapsuleComponent* CapsuleComponent)
 {
-    FCollisionCapsule OutCapsule;
+    FCollisionCapsule OutCapsule = {};
 
     OutCapsule.Center = CapsuleComponent->GetWorldLocation();
     OutCapsule.Radius = CapsuleComponent->GetScaledCapsuleRadius();
@@ -357,11 +364,22 @@ void FCollisionRenderPass::UpdateCapsuleBuffer()
 
 void FCollisionRenderPass::UpdateCollisionConstantBuffer() const
 {
-    FCollisionCountConstants CollisionConstants;
-    CollisionConstants.BoxCount = FEngineLoop::PrimitiveDrawBatch.GetCollisionBoxCount();
-    CollisionConstants.SphereCount = FEngineLoop::PrimitiveDrawBatch.GetCollisionSphereCount();
-    CollisionConstants.CapsuleCount = FEngineLoop::PrimitiveDrawBatch.GetCollisionCapsuleCount();
-    BufferManager->UpdateConstantBuffer("FCollisionCountConstants", &CollisionConstants);
+    D3D11_MAPPED_SUBRESOURCE MappedResource;
+    HRESULT hr = Graphics->DeviceContext->Map(CollisionCountConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &MappedResource);
+    if (FAILED(hr))
+    {
+        UE_LOG(ELogLevel::Error, TEXT("Buffer Map 실패, HRESULT: 0x%X"), hr);
+        return;
+    }
+
+    auto Data = static_cast<FCollisionCountConstants*>(MappedResource.pData);
+    Data->BoxCount = FEngineLoop::PrimitiveDrawBatch.GetCollisionBoxCount();
+    Data->SphereCount = FEngineLoop::PrimitiveDrawBatch.GetCollisionSphereCount();
+    Data->CapsuleCount = FEngineLoop::PrimitiveDrawBatch.GetCollisionCapsuleCount();
+    Data->Pad0 = -1;
+    Graphics->DeviceContext->Unmap(CollisionCountConstantBuffer, 0);
+
+    Graphics->DeviceContext->VSSetConstantBuffers(0, 1, &CollisionCountConstantBuffer);
 }
 
 void FCollisionRenderPass::MapBoxBuffer() const
@@ -413,15 +431,15 @@ void FCollisionRenderPass::MapCapsuleBuffer() const
         return;
     }
 
-    const TArray<FCollisionCapsule>& Spheres = FEngineLoop::PrimitiveDrawBatch.GetCollisionCapsules();
+    const TArray<FCollisionCapsule>& Capsules = FEngineLoop::PrimitiveDrawBatch.GetCollisionCapsules();
     
     D3D11_MAPPED_SUBRESOURCE MappedResource;
     Graphics->DeviceContext->Map(CollisionCapsuleStructuredBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &MappedResource);
     auto Data = static_cast<FCollisionCapsule*>(MappedResource.pData);
     
-    for (int i = 0; i < Spheres.Num(); i++)
+    for (int i = 0; i < Capsules.Num(); i++)
     {
-        Data[i] = Spheres[i];
+        Data[i] = Capsules[i];
     }
     
     Graphics->DeviceContext->Unmap(CollisionCapsuleStructuredBuffer, 0);
@@ -436,6 +454,7 @@ void FCollisionRenderPass::ResetObjectConstant() const
     ObjectData.bIsSelected = false;
     
     BufferManager->UpdateConstantBuffer(TEXT("FObjectConstantBuffer"), ObjectData);
+    BufferManager->BindConstantBuffer(TEXT("FObjectConstantBuffer"), 0, EShaderStage::Vertex);
 }
 
 void FCollisionRenderPass::ReleaseCollisionBoxBuffer()

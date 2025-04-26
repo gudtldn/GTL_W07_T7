@@ -22,6 +22,7 @@ public:
 
     void CreateShader();
     void CreateDummyBuffer();
+    void CreateConstantBuffer();
     void PrepareDebugLineShader() const;
     void ProcessRendering();
     void DrawLines() const;

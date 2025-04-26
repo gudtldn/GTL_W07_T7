@@ -513,10 +513,10 @@ struct FCollisionCapsule
     FLinearColor Color;
 };
 
-struct FCollisionCountConstants
+struct alignas(16) FCollisionCountConstants
 {
-    uint32 BoxCount;
-    uint32 SphereCount;
-    uint32 CapsuleCount;
-    uint32 Pad;
+    int BoxCount;
+    int SphereCount;
+    int CapsuleCount;
+    int Pad0;
 };

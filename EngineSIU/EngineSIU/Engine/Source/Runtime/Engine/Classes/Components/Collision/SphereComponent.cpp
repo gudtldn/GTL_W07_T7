@@ -4,7 +4,7 @@
 
 USphereComponent::USphereComponent()
 {
-    SphereRadius = 32.0f;
+    SphereRadius = 1.0f;
     ShapeColor = FColor(255, 0, 0, 255);
 }
 
