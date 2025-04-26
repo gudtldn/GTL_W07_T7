@@ -1,3 +1,5 @@
+setmetatable(_ENV, { __index = EngineSIU })
+
 local ALuaActor = {}
 ALuaActor.__index = ALuaActor
 
