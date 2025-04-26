@@ -19,6 +19,29 @@ URigidbodyComponent::URigidbodyComponent()
 
     InvInertiaBody = FMatrix::ComputeInvInertiaBox(Mass, width, height, depth);
     Gravity = FVector(0.0f, 0.0f, -7.5f);
+
+
+    // x,y ∈ [-10,10] 범위를 둘러싼 네 벽
+    // 1) 뒤쪽 벽 (y = -10)
+    TestBoxes[0] = FBoundingBox(
+        /*min=*/FVector(-10.0f, -10.0f, 0.0f),
+        /*max=*/FVector(10.0f, -9.0f, 20.0f)
+    );
+    // 2) 앞쪽 벽 (y = +10)
+    TestBoxes[1] = FBoundingBox(
+        FVector(-10.0f, 9.0f, 0.0f),
+        FVector(10.0f, 10.0f, 20.0f)
+    );
+    // 3) 왼쪽 벽 (x = -10)
+    TestBoxes[2] = FBoundingBox(
+        FVector(-10.0f, -10.0f, 0.0f),
+        FVector(-9.0f, 10.0f, 20.0f)
+    );
+    // 4) 오른쪽 벽 (x = +10)
+    TestBoxes[3] = FBoundingBox(
+        FVector(9.0f, -10.0f, 0.0f),
+        FVector(10.0f, 10.0f, 20.0f)
+    );
 }
 
 URigidbodyComponent::~URigidbodyComponent()
@@ -166,6 +189,17 @@ void URigidbodyComponent::TickComponent(float DeltaTime)
 {
     Super::TickComponent(DeltaTime);
     Integrate(DeltaTime);
+
+    // 2) 테스트 박스 4개에 대해 충돌 처리
+    for (int i = 0; i < 4; ++i)
+    {
+        ResolveSphereAABB(
+            TestBoxes[i],
+            Radius,
+            Restituation,
+            Friction
+        );
+    }
 }
 
 void URigidbodyComponent::GetProperties(TMap<FString, FString>& OutProperties) const
@@ -272,5 +306,83 @@ void URigidbodyComponent::CheckAndResolveGroundCollision()
         // 충돌 후 위치 보정: 바로 땅 위로 올려두면 파이프 관통 방지
         worldLoc.Z = 0.0f;
         GetOwner()->SetActorLocation(worldLoc);
+    }
+}
+
+
+void URigidbodyComponent::ResolveSphereAABB(const FBoundingBox& box, float radius, float restitution, float friction)
+{
+    // 1) 구 중심
+    FVector center = GetOwner()->GetActorLocation();
+
+    // 2) AABB 위의 가장 가까운 점 찾기 (클램프)
+    FVector closest;
+    closest.X = FMath::Clamp(center.X, box.min.X, box.max.X);
+    closest.Y = FMath::Clamp(center.Y, box.min.Y, box.max.Y);
+    closest.Z = FMath::Clamp(center.Z, box.min.Z, box.max.Z);
+
+    // 3) 중심↔closest 벡터, 거리 제곱
+    FVector delta = center - closest;
+    float dist2 = delta.SizeSquared();
+
+    // 4) 충돌 여부: dist² ≤ r²
+    if (dist2 > radius * radius)
+        return;
+
+    // 5) 실제 거리와 penetration 깊이
+    float dist = FMath::Sqrt(dist2);
+    float penetration = radius - dist;
+
+    // 6) 충돌 normal (거리 0일 땐 임의축)
+    FVector normal = (dist > KINDA_SMALL_NUMBER)
+        ? delta / dist
+        : FVector(1.0f, 0.0f, 0.0f);
+
+    // 7) 위치 보정: penetration 만큼 평면 밖으로 이동
+    center += normal * penetration;
+    GetOwner()->SetActorLocation(center);
+
+    // 8) 접촉점 (AABB 위의 closest)
+    FVector contactPoint = closest;
+
+    // 9) r_world: COM→접촉점
+    FVector r_world = contactPoint - center;
+
+    // 10) 접촉점 상대 속도: v + ω×r
+    FVector v_contact = Velocity + (AngularVelocity ^ r_world);
+
+    // 11) 노멀 성분
+    float v_n = v_contact.Dot(normal);
+    if (v_n >= 0.0f)
+        return;  // 분리 중이므로 처리 안 함
+
+    // 12) 충돌 임펄스 j 계산
+    UpdateInertiaTensor();  // invInertiaWorld 갱신
+    FVector r_cross_n = r_world ^ normal;
+
+    // I⁻¹ · (r×n)
+    FVector Iinv_rn(
+        InvInertiaWorld.M[0][0] * r_cross_n.X + InvInertiaWorld.M[0][1] * r_cross_n.Y + InvInertiaWorld.M[0][2] * r_cross_n.Z,
+        InvInertiaWorld.M[1][0] * r_cross_n.X + InvInertiaWorld.M[1][1] * r_cross_n.Y + InvInertiaWorld.M[1][2] * r_cross_n.Z,
+        InvInertiaWorld.M[2][0] * r_cross_n.X + InvInertiaWorld.M[2][1] * r_cross_n.Y + InvInertiaWorld.M[2][2] * r_cross_n.Z
+    );
+
+    float k_rot = normal.Dot(Iinv_rn ^ r_world); // 회전 저항
+    float k_lin = 1.0f / Mass;                            // 선형 관성
+    float j = -(1.0f + restitution) * v_n / (k_lin + k_rot);
+
+    // 13) 노멀 임펄스 적용
+    FVector impulseN = normal * j;
+    ApplyImpulseAtPoint(impulseN, r_world);
+
+    // 14) 마찰 임펄스 (kinetic)
+    FVector v_tangent = v_contact - normal * v_n;
+    float vt = v_tangent.Length();
+    if (vt > KINDA_SMALL_NUMBER)
+    {
+        FVector tangent = v_tangent / vt;
+        float jt = friction * FMath::Abs(j);
+        FVector impulseT = -tangent * jt;
+        ApplyImpulseAtPoint(impulseT, r_world);
     }
 }

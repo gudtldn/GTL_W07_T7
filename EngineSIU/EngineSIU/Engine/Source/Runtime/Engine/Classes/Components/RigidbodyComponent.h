@@ -44,6 +44,8 @@ public:
 
     void CheckAndResolveGroundCollision();
 
+    void ResolveSphereAABB(const FBoundingBox& box, float radius, float restitution, float friction);
+
 private:
     //FQuat Orientation;  // 회전 쿼터니언
     FVector Velocity;   // 선형 속도
@@ -65,4 +67,7 @@ private:
 
     float Radius;
     float RollingFriction;
+
+    // 테스트용 AABB 4개
+    FBoundingBox TestBoxes[4];
 };
