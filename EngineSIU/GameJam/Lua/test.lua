@@ -7,7 +7,9 @@ function ALuaActor:new(cpp_actor)
     instance.cpp_actor = cpp_actor -- C++ 객체 참조 저장
 
     -- instance.health = 100      -- 인스턴스별 상태
-    -- instance.mode = "Idle"
+    -- instance.mode = "Idle"s
+
+    print("[new]")
 
     instance.test = 1;
 
@@ -17,34 +19,35 @@ end
 
 -- PIE 또는 Spawn이 되었을 때 호출되는 함수
 function ALuaActor:BeginPlay()
-
+    print("[BeginPlay]")
 end
 
 
 -- 매 프레임마다 호출되는 함수
 function ALuaActor:Tick(delta_time)
-print("Tick", delta_time)
+    print("[Tick]", delta_time)
 end
 
 
 -- 충돌 시 호출되는 함수
 function ALuaActor:OnOverlap(other_actor)
-
+    print("[OnOverlap]", other_actor)
 end
 
 
 function ALuaActor:Destroyed()
-
+    print("[Destroyed]")
 end
 
 
 -- 액터가 모든 로직을 끝내고 정리되기 전에 호출되는 함수
 function ALuaActor:EndPlay(reason)
-
+    print("[EndPlay]", reason)
 end
 
 
 local function create_actor_instance(cpp_actor)
+    print("Creating Lua Actor Instance")
     return ALuaActor:new(cpp_actor)
 end
 
