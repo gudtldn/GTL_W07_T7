@@ -67,17 +67,17 @@ float3 ComputeCollisionBoxPosition(uint VertexId, uint InstanceId)
     FCollisionBox B = CollisionBoxSB[BoxIndex];
 
     // 8개 코너 계산 (Extent = half-size)
-    // float3 C = B.Center; // 나중에 Center에 대한 프로퍼티가 추가 될 수도 있으니 남겨둠.
+    float3 C = B.Center;
     float3 E = B.Extent;
     float3 Corners[8] = {
-        float3(-E.x, -E.y, -E.z),
-        float3(+E.x, -E.y, -E.z),
-        float3(+E.x, +E.y, -E.z),
-        float3(-E.x, +E.y, -E.z),
-        float3(-E.x, -E.y, +E.z),
-        float3(+E.x, -E.y, +E.z),
-        float3(+E.x, +E.y, +E.z),
-        float3(-E.x, +E.y, +E.z),
+        C + float3(-E.x, -E.y, -E.z),
+        C + float3(+E.x, -E.y, -E.z),
+        C + float3(+E.x, +E.y, -E.z),
+        C + float3(-E.x, +E.y, -E.z),
+        C + float3(-E.x, -E.y, +E.z),
+        C + float3(+E.x, -E.y, +E.z),
+        C + float3(+E.x, +E.y, +E.z),
+        C + float3(-E.x, +E.y, +E.z),
     };
 
     // 12개 엣지 (정점 인덱스 페어)
@@ -97,7 +97,7 @@ float3 ComputeCollisionSpherePosition(uint VertexId, uint InstanceId)
     uint LineIndex    = InstanceId % SphereEdgeCount;
     FCollisionSphere S = CollisionSphereSB[SphereIndex];
 
-    // float3 C = S.Center; // 나중에 Center에 대한 프로퍼티가 추가 될 수도 있으니 남겨둠.
+    float3 C = S.Center;
     float  R = S.Radius;
 
     // 평면 선택: 0=XY,1=XZ,2=YZ
@@ -110,18 +110,18 @@ float3 ComputeCollisionSpherePosition(uint VertexId, uint InstanceId)
     float3 p0, p1;
     if (Plane == 0) {
         // XY 평면 (Z 고정)
-        p0 = float3(cos(a0)*R, sin(a0)*R, 0);
-        p1 = float3(cos(a1)*R, sin(a1)*R, 0);
+        p0 = C + float3(cos(a0)*R, sin(a0)*R, 0);
+        p1 = C + float3(cos(a1)*R, sin(a1)*R, 0);
     }
     else if (Plane == 1) {
         // XZ 평면 (Y 고정)
-        p0 = float3(cos(a0)*R, 0, sin(a0)*R);
-        p1 = float3(cos(a1)*R, 0, sin(a1)*R);
+        p0 = C + float3(cos(a0)*R, 0, sin(a0)*R);
+        p1 = C + float3(cos(a1)*R, 0, sin(a1)*R);
     }
     else {
         // YZ 평면 (X 고정)
-        p0 = float3(0, cos(a0)*R, sin(a0)*R);
-        p1 = float3(0, cos(a1)*R, sin(a1)*R);
+        p0 = C + float3(0, cos(a0)*R, sin(a0)*R);
+        p1 = C + float3(0, cos(a1)*R, sin(a1)*R);
     }
 
     return (VertexId == 0) ? p0 : p1;
@@ -133,7 +133,7 @@ float3 ComputeCollisionCapsulePosition(uint VertexId, uint InstanceId)
     uint LineIndex = InstanceId % CapsuleEdgeCount;
     FCollisionCapsule C = CollisionCapsuleSB[CapIndex];
 
-    // float3 center     = C.Center; // 나중에 Center에 대한 프로퍼티가 추가 될 수도 있으니 남겨둠.
+    float3 center     = C.Center;
     float  radius     = C.Radius;
     float  halfHeight = C.HalfHeight;
 
@@ -152,8 +152,8 @@ float3 ComputeCollisionCapsulePosition(uint VertexId, uint InstanceId)
             float2( 0, 1), float2( 0,-1)
         };
         float2 d = dirs[LineIndex] * radius;
-        float3 top    = float3(d.x, +halfHeight, d.y);
-        float3 bottom = float3(d.x, -halfHeight, d.y);
+        float3 top    = center + float3(d.x, +halfHeight, d.y);
+        float3 bottom = center + float3(d.x, -halfHeight, d.y);
         rawPos = (VertexId == 0) ? top : bottom;
     }
     else
@@ -170,8 +170,8 @@ float3 ComputeCollisionCapsulePosition(uint VertexId, uint InstanceId)
             float a1 = TWO_PI * (segIdx2 + 1) / CapsuleSegments;
             float y = (which == 0) ? +halfHeight : -halfHeight;
 
-            float3 p0 = float3(cos(a0)*radius, y, sin(a0)*radius);
-            float3 p1 = float3(cos(a1)*radius, y, sin(a1)*radius);
+            float3 p0 = center + float3(cos(a0)*radius, y, sin(a0)*radius);
+            float3 p1 = center + float3(cos(a1)*radius, y, sin(a1)*radius);
             rawPos = (VertexId == 0) ? p0 : p1;
         }
         else
@@ -192,8 +192,8 @@ float3 ComputeCollisionCapsulePosition(uint VertexId, uint InstanceId)
                 float y1 = (isBottom ? -halfHeight - sin(p1)*radius
                                      : +halfHeight + sin(p1)*radius);
 
-                float3 v0 = float3(cos(p0)*radius, y0, 0);
-                float3 v1 = float3(cos(p1)*radius, y1, 0);
+                float3 v0 = center + float3(cos(p0)*radius, y0, 0);
+                float3 v1 = center + float3(cos(p1)*radius, y1, 0);
                 rawPos = (VertexId == 0) ? v0 : v1;
             }
             else
@@ -211,8 +211,8 @@ float3 ComputeCollisionCapsulePosition(uint VertexId, uint InstanceId)
                 float y1 = (isBottom ? -halfHeight - sin(p1)*radius
                                      : +halfHeight + sin(p1)*radius);
 
-                float3 v0 = float3(0, y0, cos(p0)*radius);
-                float3 v1 = float3(0, y1, cos(p1)*radius);
+                float3 v0 = center + float3(0, y0, cos(p0)*radius);
+                float3 v1 = center + float3(0, y1, cos(p1)*radius);
                 rawPos = (VertexId == 0) ? v0 : v1;
             }
         }

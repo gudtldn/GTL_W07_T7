@@ -276,7 +276,7 @@ FCollisionBox FCollisionRenderPass::CreateCollisionBox(const UBoxComponent* BoxC
 
     OutBox.WorldMatrix = BoxComponent->GetWorldMatrix();
     
-    OutBox.Center = BoxComponent->GetWorldLocation();
+    OutBox.Center = BoxComponent->GetRelativeLocation();
     OutBox.Extent = BoxComponent->GetScaledBoxExtent();
     
     FLinearColor Color(BoxComponent->ShapeColor);
@@ -291,7 +291,7 @@ FCollisionSphere FCollisionRenderPass::CreateCollisionSphere(const USphereCompon
 
     OutSphere.WorldMatrix = SphereComponent->GetWorldMatrix();
 
-    OutSphere.Center = SphereComponent->GetWorldLocation();
+    OutSphere.Center = SphereComponent->GetRelativeLocation();
     OutSphere.Radius = SphereComponent->GetScaledSphereRadius();
 
     FLinearColor Color(SphereComponent->ShapeColor);
@@ -306,7 +306,7 @@ FCollisionCapsule FCollisionRenderPass::CreateCollisionCapsule(const UCapsuleCom
 
     OutCapsule.WorldMatrix = CapsuleComponent->GetWorldMatrix();
     
-    OutCapsule.Center = CapsuleComponent->GetWorldLocation();
+    OutCapsule.Center = CapsuleComponent->GetRelativeLocation();
     OutCapsule.Radius = CapsuleComponent->GetScaledCapsuleRadius();
     OutCapsule.HalfHeight = CapsuleComponent->GetScaledCapsuleHalfHeight();
 
