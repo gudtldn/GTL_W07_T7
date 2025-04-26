@@ -15,6 +15,7 @@
 #include "D3D11RHI/DXDBufferManager.h"
 
 
+class FCollisionRenderPass;
 class FPostProcessCompositingPass;
 enum class EResourceType : uint8;
 
@@ -111,6 +112,9 @@ public:
     FLineRenderPass* LineRenderPass = nullptr;
     FFogRenderPass* FogRenderPass = nullptr;
     FEditorRenderPass* EditorRenderPass = nullptr;
+
+    /** Collision render pass */
+    FCollisionRenderPass* CollisionRenderPass = nullptr;
     
     FCompositingPass* CompositingPass = nullptr;
     FPostProcessCompositingPass* PostProcessCompositingPass = nullptr;

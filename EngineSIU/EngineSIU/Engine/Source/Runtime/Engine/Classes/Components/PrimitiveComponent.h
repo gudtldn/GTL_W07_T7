@@ -22,20 +22,34 @@ public:
     void GetProperties(TMap<FString, FString>& OutProperties) const override;
     void SetProperties(const TMap<FString, FString>& InProperties) override;
 
+    virtual bool IsZeroExtent() const;
 
+
+protected:
+    /** The type of primitive. */
+    FString Type;
+
+    /** Bounding box used for spatial queries such as culling or collision detection. */
     FBoundingBox AABB;
 
-private:
-    FString m_Type;
-
 public:
-    FString GetType() { return m_Type; }
+    void SetType(const FString& InType);
 
-    void SetType(const FString& _Type)
-    {
-        m_Type = _Type;
-        //staticMesh = FEngineLoop::resourceMgr.GetMesh(m_Type);
-    }
-    FBoundingBox GetBoundingBox() const { return AABB; }
+    /** @return the primitive type. */
+    FORCEINLINE FString GetType() { return Type; }
+
+    /** @return the aligned-axis bounding box of this primitive */
+    FORCEINLINE FBoundingBox GetBoundingBox() const { return AABB; }
+
+
+    /**
+     * If true, generates overlap events when component initialize.
+     */
+    bool bGenerateOverlapEvents = true;
+
+    /**
+     * If true, detect other component.
+     */
+    bool bBlockComponent = true;
 };
 
