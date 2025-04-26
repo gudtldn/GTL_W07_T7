@@ -43,10 +43,10 @@ struct FCollisionCapsule
 
 cbuffer CollisionCountCB : register(b0)
 {
-    uint BoxCount;
-    uint SphereCount;
-    uint CapsuleCount;
-    uint Pad0;
+    int BoxCount;
+    int SphereCount;
+    int CapsuleCount;
+    int Pad0;
 }
 
 StructuredBuffer<FCollisionBox> CollisionBoxSB : register(t0);
@@ -136,7 +136,9 @@ float3 ComputeCollisionCapsulePosition(uint VertexId, uint InstanceId)
     const uint circCount = 2 * CapsuleSegments; // 위/아래 원
     const uint arcCount  = CapsuleSegments;     // 반구 아크 per 평면
 
-    // 1) 실린더 세로선 (4개)
+    float3 rawPos;
+
+    // 1) 실린더 세로선
     if (LineIndex < cylCount)
     {
         static const float2 dirs[4] = {
@@ -146,63 +148,72 @@ float3 ComputeCollisionCapsulePosition(uint VertexId, uint InstanceId)
         float2 d = dirs[LineIndex] * radius;
         float3 top    = center + float3(d.x, +halfHeight, d.y);
         float3 bottom = center + float3(d.x, -halfHeight, d.y);
-        return (VertexId == 0) ? top : bottom;
+        rawPos = (VertexId == 0) ? top : bottom;
     }
-    LineIndex -= cylCount;
-
-    // 2) 위/아래 원 (2*Segments)
-    if (LineIndex < circCount)
+    else
     {
-        uint idx     = LineIndex;
-        uint which   = idx / CapsuleSegments; // 0=top,1=bottom
-        uint segIdx2 = idx % CapsuleSegments;
-        float a0 = TWO_PI * segIdx2       / CapsuleSegments;
-        float a1 = TWO_PI * (segIdx2 + 1) / CapsuleSegments;
-        float y = (which == 0) ? +halfHeight : -halfHeight;
+        LineIndex -= cylCount;
 
-        float3 p0 = center + float3(cos(a0)*radius, y, sin(a0)*radius);
-        float3 p1 = center + float3(cos(a1)*radius, y, sin(a1)*radius);
-        return (VertexId == 0) ? p0 : p1;
+        // 2) 위/아래 원
+        if (LineIndex < circCount)
+        {
+            uint idx     = LineIndex;
+            uint which   = idx / CapsuleSegments; 
+            uint segIdx2 = idx % CapsuleSegments;
+            float a0 = TWO_PI * segIdx2       / CapsuleSegments;
+            float a1 = TWO_PI * (segIdx2 + 1) / CapsuleSegments;
+            float y = (which == 0) ? +halfHeight : -halfHeight;
+
+            float3 p0 = center + float3(cos(a0)*radius, y, sin(a0)*radius);
+            float3 p1 = center + float3(cos(a1)*radius, y, sin(a1)*radius);
+            rawPos = (VertexId == 0) ? p0 : p1;
+        }
+        else
+        {
+            LineIndex -= circCount;
+
+            // 3) XY평면 반구
+            if (LineIndex < arcCount)
+            {
+                uint idx       = LineIndex;
+                bool isBottom  = (idx & 1) != 0;
+                uint i         = idx >> 1;
+                float p0 = PI * i       / (CapsuleSegments/2);
+                float p1 = PI * (i+1)   / (CapsuleSegments/2);
+
+                float y0 = (isBottom ? -halfHeight - sin(p0)*radius
+                                     : +halfHeight + sin(p0)*radius);
+                float y1 = (isBottom ? -halfHeight - sin(p1)*radius
+                                     : +halfHeight + sin(p1)*radius);
+
+                float3 v0 = center + float3(cos(p0)*radius, y0, 0);
+                float3 v1 = center + float3(cos(p1)*radius, y1, 0);
+                rawPos = (VertexId == 0) ? v0 : v1;
+            }
+            else
+            {
+                // 4) YZ평면 반구
+                LineIndex -= arcCount;
+                uint idx       = LineIndex;
+                bool isBottom  = (idx & 1) != 0;
+                uint i         = idx >> 1;
+                float p0 = PI * i       / (CapsuleSegments/2);
+                float p1 = PI * (i+1)   / (CapsuleSegments/2);
+
+                float y0 = (isBottom ? -halfHeight - sin(p0)*radius
+                                     : +halfHeight + sin(p0)*radius);
+                float y1 = (isBottom ? -halfHeight - sin(p1)*radius
+                                     : +halfHeight + sin(p1)*radius);
+
+                float3 v0 = center + float3(0, y0, cos(p0)*radius);
+                float3 v1 = center + float3(0, y1, cos(p1)*radius);
+                rawPos = (VertexId == 0) ? v0 : v1;
+            }
+        }
     }
-    LineIndex -= circCount;
-
-    // 3) XY 평면 반구 아크 (Segments edges)
-    if (LineIndex < arcCount)
-    {
-        uint idx = LineIndex;            // [0 .. Seg-1]
-        bool isBottom = (idx & 1) != 0;  // 짝수=위, 홀수=아래
-        uint  i       = idx >> 1;        // [0 .. Seg/2-1]
-        float p0 = PI * i       / (CapsuleSegments/2);
-        float p1 = PI * (i + 1) / (CapsuleSegments/2);
-
-        float y0 = (isBottom ? -halfHeight - sin(p0)*radius
-                             : +halfHeight + sin(p0)*radius);
-        float y1 = (isBottom ? -halfHeight - sin(p1)*radius
-                             : +halfHeight + sin(p1)*radius);
-
-        float3 v0 = center + float3(cos(p0)*radius, y0, 0);
-        float3 v1 = center + float3(cos(p1)*radius, y1, 0);
-        return (VertexId == 0) ? v0 : v1;
-    }
-    LineIndex -= arcCount;
-
-    // 4) YZ 평면 반구 아크 (Segments edges)
-    {
-        uint idx = LineIndex;            // [0 .. Seg-1]
-        bool isBottom = (idx & 1) != 0;
-        uint  i       = idx >> 1;
-        float p0 = PI * i       / (CapsuleSegments/2);
-        float p1 = PI * (i + 1) / (CapsuleSegments/2);
-
-        float y0 = (isBottom ? -halfHeight - sin(p0)*radius
-                             : +halfHeight + sin(p0)*radius);
-        float y1 = (isBottom ? -halfHeight - sin(p1)*radius
-                             : +halfHeight + sin(p1)*radius);
-
-        float3 v0 = center + float3(0, y0, cos(p0)*radius);
-        float3 v1 = center + float3(0, y1, cos(p1)*radius);
-        return (VertexId == 0) ? v0 : v1;
-    }
+    
+    // rawPos = (x, y, z) → (x, z, y)
+    return float3(rawPos.x, rawPos.z, rawPos.y);
 }
 
 struct VS_INPUT
@@ -225,21 +236,32 @@ PS_INPUT mainVS(VS_INPUT input)
     PS_INPUT output;
     float3 pos;
     float4 color;
+
+    uint BoxLineCount = BoxCount * BoxEdgeCount;
+    uint SphereLineCount = SphereCount * SphereEdgeCount;
     
-    if (input.InstanceID < BoxCount * BoxEdgeCount)
+    if (input.InstanceID < BoxLineCount)
     {
         pos = ComputeCollisionBoxPosition(input.VertexID, input.InstanceID);
-        color = CollisionBoxSB[input.InstanceID / BoxEdgeCount].Color;
+
+        uint BoxIndex = input.InstanceID / BoxEdgeCount;
+        color = CollisionBoxSB[BoxIndex].Color;
     }
-    else if (input.InstanceID < BoxCount * BoxEdgeCount + SphereCount * SphereEdgeCount)
+    else if (input.InstanceID < BoxLineCount + SphereLineCount)
     {
-        pos = ComputeCollisionSpherePosition(input.VertexID,input.InstanceID - BoxCount * BoxEdgeCount);
-        color = CollisionSphereSB[input.InstanceID / SphereEdgeCount].Color;
+        uint Rel = input.InstanceID - BoxLineCount;
+        pos = ComputeCollisionSpherePosition(input.VertexID,Rel);
+
+        uint SphereIndex = Rel / SphereEdgeCount;
+        color = CollisionSphereSB[SphereIndex].Color;
     }
     else
     {
-        pos = ComputeCollisionCapsulePosition(input.VertexID,input.InstanceID - BoxCount * BoxEdgeCount - SphereCount * SphereEdgeCount);
-        color = CollisionCapsuleSB[input.InstanceID / CapsuleEdgeCount].Color;
+        uint Rel = input.InstanceID - BoxLineCount - SphereLineCount;
+        pos = ComputeCollisionCapsulePosition(input.VertexID,Rel);
+
+        uint CapsuleIndex = Rel / CapsuleEdgeCount;
+        color = CollisionCapsuleSB[CapsuleIndex].Color;
     }
 
     /** Transform **/ 
