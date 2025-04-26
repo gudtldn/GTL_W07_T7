@@ -40,6 +40,10 @@ public:
 
     void ResetRigidbody();
 
+    void ResolveStaticCollision(const FVector& worldPoint, const FVector& normal, float restitution, float friction);
+
+    void CheckAndResolveGroundCollision();
+
 private:
     //FQuat Orientation;  // 회전 쿼터니언
     FVector Velocity;   // 선형 속도
@@ -53,4 +57,9 @@ private:
     // 누적 용량
     FVector ForceAccum;        // 누적 외력
     FVector TorqueAccum;       // 누적 토크
+
+    float Restituation = 0.6f;
+    float Friction = 0.1f;
+
+    FVector Gravity;
 };
