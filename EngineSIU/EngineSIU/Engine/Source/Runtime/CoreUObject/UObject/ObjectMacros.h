@@ -2,6 +2,7 @@
 // ReSharper disable CppClangTidyClangDiagnosticPedantic
 #pragma once
 #include "Class.h"
+#include "UObjectHash.h"
 
 // name을 문자열화 해주는 매크로
 #define INLINE_STRINGIFY(name) #name
@@ -19,6 +20,7 @@ private: \
         TClass##_StaticClassRegistrar_() \
         { \
             UClass::GetClassMap().Add(#TClass, ThisClass::StaticClass()); \
+            AddClassToChildListMap(ThisClass::StaticClass()); \
         } \
     } TClass##_StaticClassRegistrar_{}; \
 public: \
