@@ -27,6 +27,19 @@ public: \
     using Super = TSuperClass; \
     using ThisClass = TClass;
 
+// 이렇게 바꿀수도 있음
+// inline static struct TClass##_StaticClassRegistrar_
+// {
+//     TClass##_StaticClassRegistrar_()
+//     {
+//         UClass::GetClassMap().Add(#TClass, ThisClass::StaticClass());
+//         FCoreDelegates::OnPostEngineInit.AddStatic([]
+//         {
+//             AddClassToChildListMap(ThisClass::StaticClass());
+//         });
+//     }
+// } TClass##_StaticClassRegistrar_ {};
+
 
 // RTTI를 위한 클래스 매크로
 #define DECLARE_CLASS(TClass, TSuperClass) \
