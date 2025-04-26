@@ -70,6 +70,8 @@ void AActor::BeginPlay()
     {
         Comp->BeginPlay();
     }
+
+    bHasActorBegunPlay = true;
 }
 
 void AActor::Tick(float DeltaTime)
@@ -92,6 +94,9 @@ void AActor::Destroyed()
 
 void AActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+    if (!bHasActorBegunPlay) return;
+    bHasActorBegunPlay = false;
+
     // 본인이 소유하고 있는 모든 컴포넌트의 EndPlay 호출
     for (UActorComponent* Component : GetComponents())
     {
@@ -119,7 +124,6 @@ bool AActor::Destroy()
 
 UActorComponent* AActor::AddComponent(UClass* InClass, FName InName, bool bTryRootComponent)
 {
-
     if (!InClass)
     {
         UE_LOG(ELogLevel::Error, TEXT("UActorComponent failed: ComponentClass is null."));
