@@ -101,7 +101,7 @@ LuaScriptData& FLuaManager::LoadOrGetScriptData(const std::filesystem::path& Pat
         return *Data;
     }
 
-    LuaScriptData& Data = ScriptCache.FindOrAdd(Path);
+    LuaScriptData& Data = ScriptCache.Emplace(Path);
     Data.LoadAttempted = true;
     Data.LoadSucceeded = false;
     Data.FactoryFunction = sol::lua_nil;
