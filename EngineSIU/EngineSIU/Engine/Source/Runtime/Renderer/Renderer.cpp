@@ -19,6 +19,7 @@
 #include <UObject/UObjectIterator.h>
 #include <UObject/Casts.h>
 
+#include "CollisionRenderPass.h"
 #include "CompositingPass.h"
 #include "PostProcessCompositingPass.h"
 #include "UnrealClient.h"
@@ -59,6 +60,8 @@ void FRenderer::Initialize(FGraphicsDevice* InGraphics, FDXDBufferManager* InBuf
     SpotLightShadowMapPass = new FSpotLightShadowMap();
     PointLightShadowMapPass = new FPointLightShadowMap();
 
+    CollisionRenderPass = new FCollisionRenderPass();
+
     StaticMeshRenderPass->Initialize(BufferManager, Graphics, ShaderManager);
     WorldBillboardRenderPass->Initialize(BufferManager, Graphics, ShaderManager);
     EditorBillboardRenderPass->Initialize(BufferManager, Graphics, ShaderManager);
@@ -85,6 +88,9 @@ void FRenderer::Initialize(FGraphicsDevice* InGraphics, FDXDBufferManager* InBuf
 	UpdateLightBufferPass->SetSpotLightShadowMap(SpotLightShadowMapPass);
 	UpdateLightBufferPass->SetPointLightShadowMap(PointLightShadowMapPass);
 	UpdateLightBufferPass->SetDirectionalShadowMap(DirectionalShadowMap);
+
+    /** Collision */
+    CollisionRenderPass->Initialize(BufferManager, Graphics, ShaderManager);
 }
 
 void FRenderer::Release()
@@ -105,6 +111,8 @@ void FRenderer::Release()
     delete DirectionalShadowMap;
     delete SpotLightShadowMapPass;
     delete PointLightShadowMapPass;
+
+    delete CollisionRenderPass;
 }
 
 void FRenderer::RenderShadowMap()
@@ -169,6 +177,9 @@ void FRenderer::CreateConstantBuffers()
     UINT DepthMapData = sizeof(struct FDepthMapData);
     BufferManager->CreateBufferGeneric<struct FDepthMapData>("FDepthMapData", nullptr, DepthMapData, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE);
 
+    UINT CollisionCountData = sizeof(FCollisionCountConstants);
+    BufferManager->CreateBufferGeneric<FCollisionCountConstants>("FCollisionCountConstants", nullptr, CollisionCountData, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE);
+    
     // TODO: 함수로 분리
     ID3D11Buffer* ObjectBuffer = BufferManager->GetConstantBuffer(TEXT("FObjectConstantBuffer"));
     ID3D11Buffer* CameraConstantBuffer = BufferManager->GetConstantBuffer(TEXT("FCameraConstantBuffer"));
@@ -288,6 +299,8 @@ bool FRenderer::HandleHotReloadShader() const
         EditorBillboardRenderPass->ReloadShader();
         FogRenderPass->ReloadShader();
         EditorRenderPass->ReloadShader();
+        
+        CollisionRenderPass->ReloadShader();
         return true;
     }
     return false;
@@ -312,6 +325,7 @@ void FRenderer::PrepareRenderPass()
     UpdateLightBufferPass->PrepareRender();
     FogRenderPass->PrepareRender();
     EditorRenderPass->PrepareRender();
+    CollisionRenderPass->PrepareRender();
 }
 
 void FRenderer::ClearRenderArr()
@@ -325,6 +339,7 @@ void FRenderer::ClearRenderArr()
     EditorRenderPass->ClearRenderArr();
     SpotLightShadowMapPass->ClearRenderArr();
     PointLightShadowMapPass->ClearRenderArr();
+    CollisionRenderPass->ClearRenderArr();
 }
 
 void FRenderer::UpdateCommonBuffer(const std::shared_ptr<FEditorViewportClient>& Viewport)
@@ -465,9 +480,11 @@ void FRenderer::RenderEditorOverlay(const std::shared_ptr<FEditorViewportClient>
     EditorRenderPass->Render(Viewport); // TODO: 임시로 이전에 작성되었던 와이어 프레임 렌더 패스로, 이후 개선 필요.
 
     LineRenderPass->Render(Viewport); // 기존 뎁스를 그대로 사용하지만 뎁스를 클리어하지는 않음
+
+    CollisionRenderPass->Render(Viewport);
     
     GizmoRenderPass->Render(Viewport); // 기존 뎁스를 SRV로 전달해서 샘플 후 비교하기 위해 기즈모 전용 DSV 사용
-
+    
     Graphics->DeviceContext->OMSetRenderTargets(0, nullptr, nullptr);
 }
 

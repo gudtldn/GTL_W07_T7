@@ -169,8 +169,7 @@ public:
     bool AllComponentsEqual(float Tolerance = KINDA_SMALL_NUMBER) const;
 
     float Length() const;
-    float SquaredLength() const;
-    float SizeSquared() const;
+    float LengthSquared() const;
 
     bool Normalize(float Tolerance = SMALL_NUMBER);
 
@@ -183,8 +182,13 @@ public:
     bool IsNearlyZero(float Tolerance = SMALL_NUMBER) const;
     bool IsZero() const;
 
-    bool IsNormalized() const;
-
+    /**
+     * Get the absolute minimum of the vectors coordinates.
+     *
+     * @return The absolute minimum of the vectors coordinates.
+     */
+    FORCEINLINE float GetAbsMin() const;
+    
     FString ToString() const;
     bool InitFromString(const FString& InSourceString);
 };
@@ -333,7 +337,7 @@ inline float FVector::Length() const
     return FMath::Sqrt(X * X + Y * Y + Z * Z);
 }
 
-inline float FVector::SquaredLength() const
+inline float FVector::LengthSquared() const
 {
     return X * X + Y * Y + Z * Z;
 }
@@ -404,6 +408,10 @@ inline bool FVector::IsZero() const
     return X==0.f && Y==0.f && Z==0.f;
 }
 
+FORCEINLINE float FVector::GetAbsMin() const
+{
+    return FMath::Min(FMath::Min(FMath::Abs(X),FMath::Abs(Y)),FMath::Abs(Z));
+}
 
 
 inline FArchive& operator<<(FArchive& Ar, FVector2D& V)
