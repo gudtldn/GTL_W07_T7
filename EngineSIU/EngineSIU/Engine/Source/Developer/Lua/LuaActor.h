@@ -13,6 +13,8 @@ class ALuaActor : public AStaticMeshActor
 public:
     ALuaActor();
 
+    virtual UObject* Duplicate(UObject* InOuter) override;
+
     virtual void BeginPlay() override;
     virtual void Tick(float DeltaTime) override;
     virtual void Destroyed() override;

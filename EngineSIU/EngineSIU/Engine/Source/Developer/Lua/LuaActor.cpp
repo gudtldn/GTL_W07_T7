@@ -7,6 +7,16 @@ ALuaActor::ALuaActor()
 {
 }
 
+UObject* ALuaActor::Duplicate(UObject* InOuter)
+{
+    if (ThisClass* NewClass = Cast<ThisClass>(Super::Duplicate(InOuter)))
+    {
+        NewClass->SetScriptPath(LuaScriptPath);
+        return NewClass;
+    }
+    return nullptr;
+}
+
 void ALuaActor::BeginPlay()
 {
     Super::BeginPlay();
@@ -24,7 +34,6 @@ void ALuaActor::Tick(float DeltaTime)
 void ALuaActor::Destroyed()
 {
     (void)CallLuaFunction("Destroyed");
-    CleanupLuaState();
 
     Super::Destroyed();
 }
@@ -39,9 +48,10 @@ void ALuaActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void ALuaActor::HandleScriptReload(const sol::protected_function& NewFactory)
 {
-    if (NewFactory.valid())
+    if (!NewFactory.valid())
     {
         UE_LOG(ELogLevel::Error, "ALuaActor [%s]: Received invalid factory on reload.", *GetName());
+        return;
     }
 
     // 1. 현재 상태 백업 (Lua에 요청)
@@ -121,6 +131,12 @@ void ALuaActor::SetScriptPath(const std::optional<std::filesystem::path>& Path)
     // 이전 스크립트 경로가 있었다면 등록 해제
     if (LuaScriptPath.has_value() && !LuaScriptPath->empty())
     {
+        // 기존 경로와 같다면 무시
+        if (Path.has_value() && LuaScriptPath == Path)
+        {
+            return;
+        }
+
         if (HasActorBegunPlay())
         {
             // 이미 플레이 중이었다면
@@ -131,8 +147,8 @@ void ALuaActor::SetScriptPath(const std::optional<std::filesystem::path>& Path)
 
     LuaScriptPath = Path;
 
-    // 새 경로가 유효하고 플레이가 시작되었다면 새로 등록 및 로드
-    if (LuaScriptPath.has_value() && !LuaScriptPath->empty() && HasActorBegunPlay())
+    // 새 경로가 유효하다면 새로 등록 및 로드
+    if (LuaScriptPath.has_value() && !LuaScriptPath->empty())
     {
         FLuaManager::Get().RegisterActor(this, *LuaScriptPath);
         sol::protected_function Factory = FLuaManager::Get().GetActorFactory(*LuaScriptPath);
@@ -143,7 +159,7 @@ void ALuaActor::SetScriptPath(const std::optional<std::filesystem::path>& Path)
             if (Result.valid() && Result.get_type() == sol::type::table)
             {
                 SelfTable = Result;
-                SelfTable["CppActor"] = this;
+                SelfTable["cpp_actor"] = this;
                 (void)CallLuaFunction("BeginPlay"); // 경로 변경 시에도 BeginPlay 호출
             }
             else
