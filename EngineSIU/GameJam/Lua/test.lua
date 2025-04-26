@@ -1,3 +1,5 @@
+setmetatable(_ENV, { __index = EngineSIU })
+
 local ALuaActor = {}
 ALuaActor.__index = ALuaActor
 
@@ -5,9 +7,6 @@ ALuaActor.__index = ALuaActor
 function ALuaActor:new(cpp_actor)
     local instance = setmetatable({}, ALuaActor)
     instance.cpp_actor = cpp_actor -- C++ 객체 참조 저장
-
-    -- instance.health = 100      -- 인스턴스별 상태
-    -- instance.mode = "Idle"s
 
     print("[new]")
 
@@ -25,7 +24,13 @@ end
 
 -- 매 프레임마다 호출되는 함수
 function ALuaActor:Tick(delta_time)
-    print("[Tick]", delta_time)
+    -- print("[Tick]", delta_time)
+    self.cpp_actor:SetActorLocation(
+        self.cpp_actor:GetActorLocation()
+        + self.cpp_actor:GetActorForwardVector()
+        * FVector.new(100, 100, 100)  -- TODO: 나중에 sol::overload로 오버로드 필요
+        * FVector.new(delta_time, delta_time, delta_time)
+    )
 end
 
 
