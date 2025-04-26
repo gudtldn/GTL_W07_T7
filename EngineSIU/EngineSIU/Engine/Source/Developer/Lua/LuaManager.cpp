@@ -49,18 +49,19 @@ sol::protected_function FLuaManager::GetActorFactory(const std::filesystem::path
 void FLuaManager::CheckForScriptChanges()
 {
     TArray<std::filesystem::path> PathsToReload;
-    for (const auto& [Path, ScriptData] : ScriptCache)
+    // for (const auto& [Path, ScriptData] : ScriptCache)
+    for (const auto& Cache : ScriptCache)
     {
         // if (!ScriptData.LoadSucceeded) continue;
 
         try
         {
-            if (fs::exists(Path))
+            if (fs::exists(Cache.Key))
             {
-                fs::file_time_type CurrentWriteTime = fs::last_write_time(Path);
-                if (CurrentWriteTime > ScriptData.LastWriteTime)
+                fs::file_time_type CurrentWriteTime = fs::last_write_time(Cache.Key);
+                if (CurrentWriteTime > Cache.Value.LastWriteTime)
                 {
-                    PathsToReload.Add(Path); // 변경된 경로 기록
+                    PathsToReload.Add(Cache.Key); // 변경된 경로 기록
                 }
             }
             else
@@ -71,7 +72,7 @@ void FLuaManager::CheckForScriptChanges()
         }
         catch (const fs::filesystem_error& Error)
         {
-            UE_LOG(ELogLevel::Error, "[LuaManager] Error checking script file: %s (%s)", Path.generic_string().c_str(), Error.what());
+            UE_LOG(ELogLevel::Error, "[LuaManager] Error checking script file: %s (%s)", Cache.Key.generic_string().c_str(), Error.what());
         }
     }
 
@@ -203,7 +204,7 @@ void FLuaManager::Initialize()
         sol::lib::utf8        // UTF-8 인코딩 문자열 처리 기능 (Lua 5.3 이상)
     );
 
-    sol::table Ns = LuaState.create_named_table("SIUEngine");
+    sol::table Ns = LuaState.create_named_table("EngineSIU");
 
     // Math Types
     LuaTypes::FBindLua<FColor>::Bind(Ns);
