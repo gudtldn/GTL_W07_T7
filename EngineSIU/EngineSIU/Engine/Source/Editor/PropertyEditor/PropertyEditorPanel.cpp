@@ -150,10 +150,14 @@ void PropertyEditorPanel::Render()
                         }
                     }
                 }
+                else
+                {
+                    fs::create_directories(LuaFolderPath);
+                }
 
                 if (ImGui::Selectable("Create New Lua Script", false))
                 {
-                    char const* FilterPatterns[1] = { "*.lua" };
+                    char const* FilterPatterns[] = { "*.lua" };
                     const char* SelectedFilePath = tinyfd_saveFileDialog(
                         "Create Lua Script",
                         (LuaFolderPath / "NewLuaScript.lua").generic_string().c_str(),
