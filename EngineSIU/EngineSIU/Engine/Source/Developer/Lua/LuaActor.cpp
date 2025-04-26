@@ -43,6 +43,8 @@ void ALuaActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
     CallLuaFunction("EndPlay", EEndPlayReason::ToString(EndPlayReason));
     CleanupLuaState();
 
+    FLuaManager::Get().DeregisterActor(this, *LuaScriptPath);
+
     Super::EndPlay(EndPlayReason);
 }
 
