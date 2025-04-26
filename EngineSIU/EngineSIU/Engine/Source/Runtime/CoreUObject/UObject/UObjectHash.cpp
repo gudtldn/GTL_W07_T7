@@ -10,6 +10,16 @@
  */
 struct FUObjectHashTables
 {
+private:
+    FUObjectHashTables() = default;
+    ~FUObjectHashTables() = default;
+
+public:
+    FUObjectHashTables(const FUObjectHashTables&) = delete;
+    FUObjectHashTables& operator=(const FUObjectHashTables&) = delete;
+    FUObjectHashTables(FUObjectHashTables&&) = delete;
+    FUObjectHashTables& operator=(FUObjectHashTables&&) = delete;
+
     static FUObjectHashTables& Get()
     {
         static FUObjectHashTables Singleton;
