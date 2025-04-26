@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <shellapi.h>
 
+#include "tinyfiledialogs.h"
 #include "World/World.h"
 #include "Actors/Player.h"
 #include "Components/Light/LightComponent.h"
@@ -61,71 +62,144 @@ void PropertyEditorPanel::Render()
     AEditorPlayer* player = Engine->GetEditorPlayer();
     AActor* PickedActor = Engine->GetSelectedActor();
 
-    if (PickedActor && PickedActor->IsA<ALuaActor>())
+    if (ALuaActor* LuaActor = Cast<ALuaActor>(PickedActor))
     {
         namespace fs = std::filesystem;
+
         const fs::path SolutionPath = fs::current_path().parent_path();
-        const fs::path LuaFolderPath = SolutionPath / "GameJam" / "Lua";
+        const fs::path LuaFolderPath = SolutionPath / "GameJam/Lua";
 
-        // 먼저 .lua 파일이 있는지 확인
-        const fs::path LuaPath = LuaFolderPath / (PickedActor->GetClass()->GetName() + ".lua").ToWideString();
-        ImGui::Text("Lua File: %s", LuaPath.filename().generic_string().c_str());
-        if (fs::exists(LuaPath))
+        const std::optional<fs::path>& LuaPath = LuaActor->GetScriptPath();
+
+        const ImVec2 WindowMax = ImGui::GetWindowContentRegionMax();
+        if (LuaPath.has_value())
         {
-            if (ImGui::Button("Open Lua File", ImVec2(ImGui::GetWindowContentRegionMax().x, 32)))
-            {
-                HINSTANCE hInst = ShellExecute(
-                    nullptr,
-                    L"open",
-                    LuaPath.c_str(),
-                    nullptr,
-                    nullptr,
-                    SW_SHOWNORMAL
-                );
-
-                if (reinterpret_cast<INT_PTR>(hInst) <= 32)
-                {
-                    ImGui::OpenPopup("Error");
-                    ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_Always);
-                    ImGui::BeginPopupModal("Error", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-                    ImGui::Text("Failed to open Lua File");
-                    ImGui::EndPopup();
-                }
-            }
+            ImGui::Text("Lua Script: %s", LuaPath.value().lexically_relative(LuaFolderPath).generic_string().c_str());
         }
         else
         {
-            ImGui::Text("Lua File: %s", LuaPath.filename().generic_string().c_str());
-            if (ImGui::Button("Create And Open Lua File", ImVec2(ImGui::GetWindowContentRegionMax().x, 32)))
+            ImGui::Text("Lua Script: None");
+        }
+
+        // 정상적인 파일이 있는경우
+        if (LuaPath.has_value())
+        {
+            const fs::path& SomePath = LuaPath.value();
+            if (fs::exists(LuaPath.value()))
             {
-                if (!fs::exists(LuaFolderPath))
+                if (ImGui::Button("Open In Editor", ImVec2(WindowMax.x / 2.0f - 10.0f, 32)))
                 {
-                    fs::create_directory(LuaFolderPath);
+                    HINSTANCE hInst = ShellExecute(
+                        nullptr,
+                        L"open",
+                        SomePath.c_str(),
+                        nullptr,
+                        nullptr,
+                        SW_SHOWNORMAL
+                    );
+    
+                    if (reinterpret_cast<INT_PTR>(hInst) <= 32)
+                    {
+                        ImGui::OpenPopup("Error");
+                        ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_Always);
+                        ImGui::BeginPopupModal("Error", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+                        ImGui::Text("Failed to open Lua File");
+                        ImGui::EndPopup();
+                    }
                 }
-
-                fs::copy_file(
-                    fs::current_path() / "Engine/Source/Developer/Lua/LuaTemplate/LuaActorTemplate.lua",
-                    LuaPath
-                );
-
-                HINSTANCE hInst = ShellExecute(
-                    nullptr,
-                    L"open",
-                    LuaPath.c_str(),
-                    nullptr,
-                    nullptr,
-                    SW_SHOWNORMAL
-                );
-
-                if (reinterpret_cast<INT_PTR>(hInst) <= 32)
-                {
-                    ImGui::OpenPopup("Error");
-                    ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiCond_Always);
-                    ImGui::BeginPopupModal("Error", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-                    ImGui::Text("Failed to open Lua File");
-                    ImGui::EndPopup();
-                }
+                ImGui::SameLine();
             }
+            else
+            {
+                LuaActor->SetScriptPath(std::nullopt);
+            }
+        }
+
+        static std::optional<fs::path> SelectedPath;
+        if (ImGui::Button("Select Lua File", ImVec2(LuaPath.has_value() ? WindowMax.x / 2.0f - 10.0f : WindowMax.x, 32)))
+        {
+            if (LuaPath.has_value())
+            {
+                SelectedPath = LuaPath;
+            }
+            else
+            {
+                SelectedPath.reset();
+            }
+            ImGui::OpenPopup("Select Lua File");
+        }
+
+        ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+        if (ImGui::BeginPopupModal("Select Lua File", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize))
+        {
+            if (ImGui::BeginCombo(
+                "##Lua Script List", SelectedPath.value_or("None").filename().generic_string().c_str(), ImGuiComboFlags_HeightLarge
+            ))
+            {
+                if (fs::exists(LuaFolderPath))
+                {
+                    for (const auto& Entry : fs::recursive_directory_iterator(LuaFolderPath))
+                    {
+                        if (Entry.is_regular_file())
+                        {
+                            const std::string& FileDisplay = Entry.path().lexically_relative(LuaFolderPath).generic_string();
+                            if (ImGui::Selectable(FileDisplay.c_str(), SelectedPath == Entry.path()))
+                            {
+                                SelectedPath = Entry;
+                            }
+                        }
+                    }
+                }
+
+                if (ImGui::Selectable("Create New Lua Script", false))
+                {
+                    char const* FilterPatterns[1] = { "*.lua" };
+                    const char* SelectedFilePath = tinyfd_saveFileDialog(
+                        "Create Lua Script",
+                        (LuaFolderPath / "NewLuaScript.lua").generic_string().c_str(),
+                        std::size(FilterPatterns),
+                        FilterPatterns,
+                        "Lua(.lua) file"
+                    );
+
+                    if (SelectedFilePath)
+                    {
+                        // TempPath가 GameJam/Lua폴더 안에 있는지
+                        fs::path TempPath = SelectedFilePath;
+                        if (LuaFolderPath.compare(TempPath.parent_path()) < 0)
+                        {
+                            fs::create_directories(TempPath.parent_path());
+                            fs::copy_file(
+                                fs::current_path() / "Engine/Source/Developer/Lua/LuaTemplate/LuaActorTemplate.lua",
+                                SelectedFilePath
+                            );
+                            SelectedPath = std::move(TempPath);
+                        }
+                        else
+                        {
+                            UE_LOG(ELogLevel::Error, "Invalid Lua Script Path");
+                        }
+                    }
+                }
+
+                ImGui::EndCombo();
+            }
+
+            const ImVec2 ContentHalfSize = ImVec2(ImGui::GetContentRegionAvail().x / 2.0f - 4.0f, 0);
+            if (ImGui::Button("Select", ContentHalfSize))
+            {
+                LuaActor->SetScriptPath(SelectedPath);
+                ImGui::CloseCurrentPopup();
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Cancel", ContentHalfSize))
+            {
+                ImGui::CloseCurrentPopup();
+            }
+
+            ImGui::EndPopup();
         }
     }
 
