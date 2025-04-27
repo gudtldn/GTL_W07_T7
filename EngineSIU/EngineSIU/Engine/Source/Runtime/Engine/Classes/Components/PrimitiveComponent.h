@@ -61,6 +61,8 @@ public:
 
     /** @return the aligned-axis bounding box of this primitive */
     FORCEINLINE FBoundingBox GetBoundingBox() const { return AABB; }
+
+    FORCEINLINE void SetBoundingBox(const FBoundingBox& InBoundingBox) { AABB = InBoundingBox; }
     
     /**
      * If true, generates overlap events when component initialize.
