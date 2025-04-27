@@ -1,5 +1,8 @@
 #include "RigidbodyComponent.h"
 #include "GameFramework/Actor.h"
+#include "Engine/Classes/Components/StaticMeshComponent.h"
+#include "UObject/UObjectIterator.h"
+#include "Engine/EditorEngine.h"
 
 URigidbodyComponent::URigidbodyComponent()
     :Velocity(FVector::ZeroVector),
@@ -171,7 +174,6 @@ void URigidbodyComponent::Integrate(float dt)
 
     // 굴림 운동에 대한 이해 부족으로 단순히 각속도 감쇠 로직 적용
     // 굴림 운동 구현하기엔 시간이 없어요 ㅠ
-
     FVector worldLoc = GetOwner()->GetActorLocation();
     if (worldLoc.Z <= 0.0f  && Velocity.Length() < 0.1f)
     {
@@ -190,15 +192,19 @@ void URigidbodyComponent::TickComponent(float DeltaTime)
     Super::TickComponent(DeltaTime);
     Integrate(DeltaTime);
 
-    // 2) 테스트 박스 4개에 대해 충돌 처리
-    for (int i = 0; i < 4; ++i)
+    
+    // StaticMeshComp의 AABB에 대해서 충돌 체크
+    for (auto* Comp : TObjectRange<UStaticMeshComponent>())
     {
-        ResolveSphereAABB(
-            TestBoxes[i],
-            Radius,
-            Restituation,
-            Friction
-        );
+        // 자기 자신에 대한 검사인 경우 패스
+        if (Comp->GetOwner() == this->GetOwner()) 
+        {
+            continue;
+        }
+        if (Comp->GetWorld() == GEngine->ActiveWorld)
+        {
+            ResolveSphereAABB(Comp->GetWorldAABB(), 1.0f, Restituation, Friction);
+        }
     }
 }
 

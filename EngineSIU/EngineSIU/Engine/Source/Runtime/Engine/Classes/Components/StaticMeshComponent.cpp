@@ -188,3 +188,8 @@ int UStaticMeshComponent::CheckRayIntersection(FVector& rayOrigin, FVector& rayD
     }
     return nIntersections;
 }
+
+FBoundingBox UStaticMeshComponent::GetWorldAABB()
+{
+    return AABB.TransformWorldIteration(GetWorldLocation(), GetWorldMatrix());
+}
