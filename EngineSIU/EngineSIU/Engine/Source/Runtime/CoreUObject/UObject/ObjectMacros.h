@@ -2,6 +2,7 @@
 // ReSharper disable CppClangTidyClangDiagnosticPedantic
 #pragma once
 #include "Class.h"
+#include "UObjectHash.h"
 
 // name을 문자열화 해주는 매크로
 #define INLINE_STRINGIFY(name) #name
@@ -19,11 +20,25 @@ private: \
         TClass##_StaticClassRegistrar_() \
         { \
             UClass::GetClassMap().Add(#TClass, ThisClass::StaticClass()); \
+            AddClassToChildListMap(ThisClass::StaticClass()); \
         } \
     } TClass##_StaticClassRegistrar_{}; \
 public: \
     using Super = TSuperClass; \
     using ThisClass = TClass;
+
+// 이렇게 바꿀수도 있음
+// inline static struct TClass##_StaticClassRegistrar_
+// {
+//     TClass##_StaticClassRegistrar_()
+//     {
+//         UClass::GetClassMap().Add(#TClass, ThisClass::StaticClass());
+//         FCoreDelegates::OnPostEngineInit.AddStatic([]
+//         {
+//             AddClassToChildListMap(ThisClass::StaticClass());
+//         });
+//     }
+// } TClass##_StaticClassRegistrar_ {};
 
 
 // RTTI를 위한 클래스 매크로
@@ -31,7 +46,7 @@ public: \
     __DECLARE_COMMON_CLASS_BODY__(TClass, TSuperClass) \
     static UClass* StaticClass() { \
         static UClass ClassInfo{ \
-            TEXT(#TClass), \
+            #TClass, \
             static_cast<uint32>(sizeof(TClass)), \
             static_cast<uint32>(alignof(TClass)), \
             TSuperClass::StaticClass(), \
@@ -49,7 +64,7 @@ public: \
     __DECLARE_COMMON_CLASS_BODY__(TClass, TSuperClass) \
     static UClass* StaticClass() { \
         static UClass ClassInfo{ \
-            TEXT(#TClass), \
+            #TClass, \
             static_cast<uint32>(sizeof(TClass)), \
             static_cast<uint32>(alignof(TClass)), \
             TSuperClass::StaticClass(), \

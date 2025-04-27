@@ -47,7 +47,8 @@ public:
     static FConsole& GetInstance(); // 참조 반환으로 변경
 
     void Clear();
-    void AddLog(ELogLevel Level, const char* Fmt, ...);
+    void AddLog(ELogLevel Level, const ANSICHAR* Fmt, ...);
+    void AddLog(ELogLevel Level, const WIDECHAR* Fmt, ...);
     // void AddLog(ELogLevel Level, const char* fmt, va_list args);
     void Draw();
     void ExecuteCommand(const std::string& Command);
