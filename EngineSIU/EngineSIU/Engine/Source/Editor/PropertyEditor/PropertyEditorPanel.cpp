@@ -111,6 +111,7 @@ void PropertyEditorPanel::Render()
             }
             else
             {
+                UE_LOG(ELogLevel::Error, "[%s]Invalid Lua Script Path", *LuaActor->GetName());
                 LuaActor->SetScriptPath(std::nullopt);
             }
         }
