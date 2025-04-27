@@ -1,6 +1,12 @@
 #pragma once
 #include "Components/SceneComponent.h"
 
+class UPrimitiveComponent;
+
+DECLARE_MULTICAST_DELEGATE_TwoParams(FComponentBeginOverlapSignature, AActor* /* OtherActor */, UPrimitiveComponent* /* OtherComp */)
+DECLARE_MULTICAST_DELEGATE_TwoParams(FComponentEndOverlapSignature, AActor* /* OtherActor */, UPrimitiveComponent* /* OtherComp */)
+DECLARE_DELEGATE_FourParams(FComponentHitSignature, AActor* /* OtherActor */,  UPrimitiveComponent* /* OtherComp */, FVector /* NormalImpulse */,  const FHitResult& /* Hit */)
+
 class UPrimitiveComponent : public USceneComponent
 {
     DECLARE_CLASS(UPrimitiveComponent, USceneComponent)
@@ -24,13 +30,28 @@ public:
 
     virtual bool IsZeroExtent() const;
 
+    virtual bool IntersectCollision(const UPrimitiveComponent* Other);
 
+    void BeginComponentOverlap(UPrimitiveComponent* OverlappedComponent);
+
+    void EndComponentOverlap(UPrimitiveComponent* OverlappedComponent);
+    
+    /** Week08 - Not implemented */
+    bool IsOverlappingActor(AActor* Other) const;
+
+    bool IsOverlappingComponent(UPrimitiveComponent* Other) const;
+
+    const TArray<UPrimitiveComponent*>& GetOverlappingComponents() const;
 protected:
     /** The type of primitive. */
     FString Type;
 
     /** Bounding box used for spatial queries such as culling or collision detection. */
     FBoundingBox AABB;
+
+    /** Set of components that this component is currently overlapping. */
+    TArray<UPrimitiveComponent*> OverlappingComponents;
+
 
 public:
     void SetType(const FString& InType);
@@ -40,8 +61,7 @@ public:
 
     /** @return the aligned-axis bounding box of this primitive */
     FORCEINLINE FBoundingBox GetBoundingBox() const { return AABB; }
-
-
+    
     /**
      * If true, generates overlap events when component initialize.
      */
@@ -51,5 +71,9 @@ public:
      * If true, detect other component.
      */
     bool bBlockComponent = true;
+    
+    // Events
+    FComponentBeginOverlapSignature OnComponentBeginOverlap;
+    FComponentEndOverlapSignature OnComponentEndOverlap;
+    FComponentHitSignature OnComponentHit;
 };
-

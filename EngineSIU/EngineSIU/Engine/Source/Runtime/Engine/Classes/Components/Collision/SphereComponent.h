@@ -7,11 +7,14 @@ class USphereComponent : public UShapeComponent
 
 public:
     USphereComponent();
-
+    ~USphereComponent();
+    
     virtual UObject* Duplicate(UObject* InOuter) override;
     
     virtual void InitializeComponent() override;
     virtual void TickComponent(float DeltaTime) override;
+
+    virtual bool IntersectCollision(const UPrimitiveComponent* Other) override;
     
 protected:
     /* The radius of the sphere */
