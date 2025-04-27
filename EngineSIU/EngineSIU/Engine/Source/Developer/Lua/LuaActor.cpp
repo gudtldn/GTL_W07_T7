@@ -17,6 +17,26 @@ UObject* ALuaActor::Duplicate(UObject* InOuter)
     return nullptr;
 }
 
+void ALuaActor::GetProperties(TMap<FString, FString>& OutProperties) const
+{
+    Super::GetProperties(OutProperties);
+
+    namespace fs = std::filesystem;
+    const fs::path SolutionPath = fs::current_path().parent_path();
+    const fs::path LuaFolderPath = SolutionPath / "GameJam/Lua";
+    OutProperties["LuaScriptPath"] = LuaScriptPath.value_or("").lexically_relative(LuaFolderPath).generic_string();
+}
+
+void ALuaActor::SetProperties(const TMap<FString, FString>& InProperties)
+{
+    Super::SetProperties(InProperties);
+
+    namespace fs = std::filesystem;
+    const fs::path SolutionPath = fs::current_path().parent_path();
+    const fs::path LuaFolderPath = SolutionPath / "GameJam/Lua";
+    LuaScriptPath = LuaFolderPath / InProperties["LuaScriptPath"].ToWideString();
+}
+
 void ALuaActor::BeginPlay()
 {
     Super::BeginPlay();
