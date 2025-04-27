@@ -760,6 +760,10 @@ void PropertyEditorPanel::RenderForStaticMesh(UStaticMeshComponent* StaticMeshCo
 
         TArray<UClass*> CompClasses;
         GetChildOfClass(UActorComponent::StaticClass(), CompClasses);
+        CompClasses.Sort([](auto const& Class1, auto const& Class2) -> bool
+        {
+            return Class1->GetName() < Class2->GetName();
+        });
 
         if (ImGui::BeginCombo("##AddComponent", "Components", ImGuiComboFlags_None))
         {
@@ -1153,6 +1157,19 @@ void PropertyEditorPanel::RenderCollisionSection(AActor* PickedActor)
             ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
             if (ImGui::TreeNodeEx("Box Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
             {
+
+                bool bGenerateOverlapEvents = BoxComponent->bGenerateOverlapEvents;
+                if (ImGui::Checkbox("GenerateOverlapEvents", &bGenerateOverlapEvents))
+                {
+                    BoxComponent->bGenerateOverlapEvents = bGenerateOverlapEvents;
+                }
+
+                bool bBlockComponent = BoxComponent->bBlockComponent;
+                if (ImGui::Checkbox("SimulatePhysics", &bBlockComponent))
+                {
+                    BoxComponent->bBlockComponent = bBlockComponent;
+                }
+                
                 BoxExtent = BoxComponent->GetUnscaledBoxExtent();
                 FImGuiWidget::DrawVec3Control("Extent", BoxExtent, 0, 85);
                 BoxComponent->SetBoxExtent(BoxExtent);
@@ -1167,6 +1184,19 @@ void PropertyEditorPanel::RenderCollisionSection(AActor* PickedActor)
             ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
             if (ImGui::TreeNodeEx("Sphere Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
             {
+
+                bool bGenerateOverlapEvents = SphereComponent->bGenerateOverlapEvents;
+                if (ImGui::Checkbox("GenerateOverlapEvents", &bGenerateOverlapEvents))
+                {
+                    SphereComponent->bGenerateOverlapEvents = bGenerateOverlapEvents;
+                }
+
+                bool bBlockComponent = SphereComponent->bBlockComponent;
+                if (ImGui::Checkbox("SimulatePhysics", &bBlockComponent))
+                {
+                    SphereComponent->bBlockComponent = bBlockComponent;
+                }
+                
                 float Radius = SphereComponent->GetUnscaledSphereRadius();
                 ImGui::DragFloat("Radius", &Radius, 0.01f, 0.0f, FLT_MAX);
                 SphereComponent->SetSphereRadius(Radius);
@@ -1181,6 +1211,19 @@ void PropertyEditorPanel::RenderCollisionSection(AActor* PickedActor)
             ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
             if (ImGui::TreeNodeEx("Capsule Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
             {
+
+                bool bGenerateOverlapEvents = CapsuleComponent->bGenerateOverlapEvents;
+                if (ImGui::Checkbox("GenerateOverlapEvents", &bGenerateOverlapEvents))
+                {
+                    CapsuleComponent->bGenerateOverlapEvents = bGenerateOverlapEvents;
+                }
+
+                bool bBlockComponent = CapsuleComponent->bBlockComponent;
+                if (ImGui::Checkbox("SimulatePhysics", &bBlockComponent))
+                {
+                    CapsuleComponent->bBlockComponent = bBlockComponent;
+                }
+                
                 float Radius = CapsuleComponent->GetUnScaledCapsuleRadius();
                 float HalfHeight = CapsuleComponent->GetUnScaledCapsuleHalfHeight();
                 
@@ -1193,6 +1236,7 @@ void PropertyEditorPanel::RenderCollisionSection(AActor* PickedActor)
             }
             ImGui::PopStyleColor();
         }
+        ImGui::Dummy(ImVec2(0, 5)); // Padding
     }
 }
 
