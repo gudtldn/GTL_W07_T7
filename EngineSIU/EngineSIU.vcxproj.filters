@@ -454,6 +454,39 @@
     <Filter Include="Intermediate\Build\x64\Release\EngineSIU.tlog">
       <UniqueIdentifier>{13B914FD-7AC7-4047-A610-04808DC4BBD3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI">
+      <UniqueIdentifier>{6c88061a-8c1b-47bb-a2bf-f41789daccf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source">
+      <UniqueIdentifier>{c6f17ab6-fc69-4b7f-91ce-5a6f4199f547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core">
+      <UniqueIdentifier>{c711d6f3-766f-4239-8fa5-656423824985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger">
+      <UniqueIdentifier>{c484f386-c806-4863-bb71-383c4964aa8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lottie">
+      <UniqueIdentifier>{6ea20f6f-bfdf-43ff-af10-44ae4358e721}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua">
+      <UniqueIdentifier>{b32c4400-480f-4866-95b8-d68bc624eaba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\SVG">
+      <UniqueIdentifier>{a7a177b4-0859-48b6-8300-2faa105e7e9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements">
+      <UniqueIdentifier>{6b643e54-0ebb-4671-a3e1-3b19f6a9157c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault">
+      <UniqueIdentifier>{d257432c-af68-4cc0-ad0f-fb895adf2f8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout">
+      <UniqueIdentifier>{814df71a-3dd2-444a-b49b-d0ab1ae141df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements">
+      <UniqueIdentifier>{aa87f926-2e68-471a-bcc6-150417de0aa8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EngineSIU\LightGridGenerator.cpp">
@@ -1354,8 +1387,727 @@
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaMathTypes.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaObjectTypes.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaUserTypes.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\BoxComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\CapsuleComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\SphereComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\RigidbodyComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\ShapeComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Renderer\CollisionRenderPass.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementForm.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementFormControl.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementFormControlInput.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementFormControlSelect.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementFormControlTextArea.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementImage.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementLabel.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementProgress.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementTabSet.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementTextSelection.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputType.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeButton.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeCheckbox.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeRadio.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeRange.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeSubmit.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeText.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetDropDown.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetSlider.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetTextInput.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetTextInputMultiLine.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetTextInputSingleLine.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetTextInputSingleLinePassword.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\XMLNodeHandlerSelect.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\XMLNodeHandlerTabSet.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\XMLNodeHandlerTextArea.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontEngineInterfaceDefault.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontFace.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontFaceHandleDefault.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontFaceLayer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontFamily.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontProvider.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FreeTypeInterface.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\BlockContainer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\BlockFormattingContext.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\ContainerBox.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\FlexFormattingContext.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\FloatedBoxSpace.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\FormattingContext.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\InlineBox.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\InlineContainer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\InlineLevelBox.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LayoutBox.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LayoutDetails.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LayoutEngine.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LayoutPools.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LineBox.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\ReplacedFormattingContext.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\TableFormattingContext.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\TableFormattingDetails.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\BaseXMLParser.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Box.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\CallbackTexture.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Clock.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\CompiledFilterShader.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ComputedValues.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ComputeProperty.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Context.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ContextInstancer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ContextInstancerDefault.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ConvolutionFilter.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Core.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataController.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataControllerDefault.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataExpression.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataModel.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataModelHandle.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataTypeRegister.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataVariable.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataView.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataViewDefault.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Decorator.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorGradient.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorNinePatch.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorShader.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorText.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiled.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiledBox.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiledHorizontal.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiledImage.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiledVertical.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorUtilities.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DocumentHeader.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\EffectSpecification.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Element.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementAnimation.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementBackgroundBorder.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementDefinition.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementDocument.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementEffects.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementHandle.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementInstancer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementMeta.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementScroll.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementStyle.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementText.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementUtilities.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Event.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\EventDispatcher.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\EventInstancer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\EventInstancerDefault.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\EventListenerInstancer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\EventSpecification.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Factory.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FileInterface.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FileInterfaceDefault.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Filter.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FilterBasic.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FilterBlur.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FilterDropShadow.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffect.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffectBlur.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffectGlow.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffectInstancer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffectOutline.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffectShadow.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineInterface.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Geometry.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\GeometryBackgroundBorder.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\GeometryBoxShadow.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Log.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\LogDefault.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Math.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Memory.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\MeshUtilities.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ObserverPtr.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Plugin.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PluginRegistry.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Profiling.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertiesIteratorView.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Property.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyDefinition.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyDictionary.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserAnimation.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserBoxShadow.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserColorStopList.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserColour.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserDecorator.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserFilter.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserFontEffect.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserKeyword.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserNumber.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserRatio.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserString.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserTransform.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertySpecification.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\RenderInterface.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\RenderInterfaceCompatibility.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\RenderManager.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\RenderManagerAccess.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ScrollController.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Spritesheet.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Stream.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StreamFile.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StreamMemory.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StringUtilities.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheet.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetContainer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetFactory.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetNode.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetParser.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetSelector.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetSpecification.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\SystemInterface.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Template.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TemplateCache.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Texture.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureDatabase.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureLayout.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureLayoutRectangle.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureLayoutRow.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureLayoutTexture.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Traits.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Transform.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TransformPrimitive.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TransformState.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TransformUtilities.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Tween.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TypeConverter.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\URL.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Variant.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\WidgetScroll.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLNodeHandler.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLNodeHandlerBody.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLNodeHandlerDefault.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLNodeHandlerHead.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLNodeHandlerTemplate.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLParser.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLParseTools.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\Debugger.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\DebuggerPlugin.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\DebuggerSystemInterface.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\ElementContextHook.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\ElementDebugDocument.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\ElementInfo.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\ElementLog.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\Geometry.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lottie\LottiePlugin.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lottie</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Colourb.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Colourf.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Context.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ContextDocumentsProxy.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Document.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Element.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementAttributesProxy.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementChildNodesProxy.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementInstancer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementStyleProxy.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementText.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Event.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\EventParametersProxy.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\GlobalLuaFunctions.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Interpreter.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Log.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Lua.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaDataModel.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaDocument.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaDocumentElementInstancer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaElementInstancer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaEventListener.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaEventListenerInstancer.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaPlugin.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaType.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\RmlUi.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\RmlUiContextsProxy.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Utilities.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Vector2f.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Vector2i.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementForm.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementFormControl.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementFormControlInput.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementFormControlSelect.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementFormControlTextArea.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementTabSet.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\SelectOptionsProxy.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\SVG\SVGPlugin.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\SVG</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\SVG\ElementSVG.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\SVG</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lottie\ElementLottie.cpp">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lottie</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="EngineSIU\EngineSIU.natvis" />
@@ -1399,6 +2151,7 @@
       <Filter>EngineSIU\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="EngineSIU\Shaders\VSMGenerationPS.hlsl" />
+    <FxCompile Include="EngineSIU\Shaders\ShaderCollision.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\DirectXTK\Include\DirectXTK\SimpleMath.inl" />
@@ -1426,15 +2179,598 @@
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lualib.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaMathTypes.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaObjectTypes.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindMacros.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindUtils.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\config.hpp" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\forward.hpp" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\sol.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaUserTypes.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaStub.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\StringConv.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Traits\IsCharType.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\BoxComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\CapsuleComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\SphereComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\RigidbodyComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\ShapeComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Renderer\CollisionRenderPass.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementImage.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementLabel.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\ElementTextSelection.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputType.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeButton.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeCheckbox.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeRadio.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeRange.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeSubmit.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\InputTypeText.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetDropDown.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetSlider.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetTextInput.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetTextInputMultiLine.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetTextInputSingleLine.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\WidgetTextInputSingleLinePassword.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\XMLNodeHandlerSelect.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\XMLNodeHandlerTabSet.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\XMLNodeHandlerTextArea.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontEngineInterfaceDefault.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontFace.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontFaceHandleDefault.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontFaceLayer.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontFamily.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontProvider.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FontTypes.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\FreeTypeInterface.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\BlockContainer.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\BlockFormattingContext.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\ContainerBox.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\FlexFormattingContext.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\FloatedBoxSpace.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\FormattingContext.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\InlineBox.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\InlineContainer.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\InlineLevelBox.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\InlineTypes.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LayoutBox.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LayoutDetails.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LayoutEngine.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LayoutPools.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\LineBox.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\ReplacedFormattingContext.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\TableFormattingContext.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\TableFormattingDetails.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Clock.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ComputeProperty.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ContextInstancerDefault.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ControlledLifetimeResource.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataController.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataControllerDefault.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataExpression.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataModel.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataView.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DataViewDefault.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorGradient.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorNinePatch.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorShader.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorText.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiled.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiledBox.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiledHorizontal.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiledImage.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorTiledVertical.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DecoratorUtilities.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\DocumentHeader.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementAnimation.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementBackgroundBorder.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementDefinition.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementEffects.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementHandle.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementMeta.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ElementStyle.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\EventDispatcher.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\EventInstancerDefault.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\EventSpecification.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FileInterfaceDefault.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FilterBasic.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FilterBlur.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FilterDropShadow.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffectBlur.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffectGlow.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffectOutline.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEffectShadow.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\GeometryBackgroundBorder.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\GeometryBoxShadow.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\IdNameMap.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\LogDefault.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Memory.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PluginRegistry.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Pool.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\precompiled.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertiesIterator.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserAnimation.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserBoxShadow.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserColorStopList.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserColour.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserDecorator.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserFilter.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserFontEffect.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserKeyword.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserNumber.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserRatio.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserString.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyParserTransform.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\PropertyShorthandDefinition.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\RenderManagerAccess.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\ScrollController.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StreamFile.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetFactory.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetNode.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetParser.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\StyleSheetSelector.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Template.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TemplateCache.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureDatabase.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureLayout.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureLayoutRectangle.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureLayoutRow.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TextureLayoutTexture.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TransformState.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\TransformUtilities.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\WidgetScroll.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLNodeHandlerBody.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLNodeHandlerDefault.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLNodeHandlerHead.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLNodeHandlerTemplate.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\XMLParseTools.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\BeaconSource.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\CommonSource.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\DebuggerPlugin.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\DebuggerSystemInterface.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\ElementContextHook.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\ElementDebugDocument.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\ElementInfo.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\ElementLog.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\FontSource.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\Geometry.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\InfoSource.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\LogSource.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\MenuSource.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lottie\LottiePlugin.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lottie</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Colourb.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Colourf.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Context.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ContextDocumentsProxy.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Document.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Element.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementAttributesProxy.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementChildNodesProxy.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementInstancer.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementStyleProxy.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\ElementText.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Event.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\EventParametersProxy.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\GlobalLuaFunctions.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Log.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaDataModel.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaDocument.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaDocumentElementInstancer.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaElementInstancer.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaEventListener.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaEventListenerInstancer.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\LuaPlugin.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Pairs.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\RmlUi.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\RmlUiContextsProxy.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Vector2f.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Vector2i.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\As.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementForm.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementFormControl.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementFormControlInput.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementFormControlSelect.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementFormControlTextArea.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\ElementTabSet.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\SelectOptionsProxy.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\SVG\SVGPlugin.h">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\SVG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultPropertySheet.props" />
+    <None Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Pool.inl">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </None>
+    <None Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\.clang-format">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </None>
+    <None Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\.clang-format">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements\CMakeLists.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Elements</Filter>
+    </Text>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault\CMakeLists.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\FontEngineDefault</Filter>
+    </Text>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout\CMakeLists.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\Layout</Filter>
+    </Text>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core\CMakeLists.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Core</Filter>
+    </Text>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\CMakeLists.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </Text>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger\LICENSE.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Debugger</Filter>
+    </Text>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lottie\CMakeLists.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lottie</Filter>
+    </Text>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\CMakeLists.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua</Filter>
+    </Text>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements\CMakeLists.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\Lua\Elements</Filter>
+    </Text>
+    <Text Include="EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\SVG\CMakeLists.txt">
+      <Filter>EngineSIU\Engine\Source\ThirdParty\RmlUI\Source\SVG</Filter>
+    </Text>
   </ItemGroup>
 </Project>
