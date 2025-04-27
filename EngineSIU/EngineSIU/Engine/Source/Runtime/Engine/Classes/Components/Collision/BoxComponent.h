@@ -7,11 +7,14 @@ class UBoxComponent : public UShapeComponent
 
 public:
     UBoxComponent();
+    ~UBoxComponent();
 
     virtual UObject* Duplicate(UObject* InOuter) override;
     
     virtual void InitializeComponent() override;
     virtual void TickComponent(float DeltaTime) override;
+
+    bool IntersectCollision(const UPrimitiveComponent* Other) override;
     
 protected:
     FVector BoxExtent;
