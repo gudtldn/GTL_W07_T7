@@ -19,6 +19,9 @@ public:
 
     virtual UObject* Duplicate(UObject* InOuter) override;
 
+    virtual void GetProperties(TMap<FString, FString>& OutProperties) const {}
+    virtual void SetProperties(const TMap<FString, FString>& InProperties) {}
+
     /** Actor가 게임에 배치되거나 스폰될 때 호출됩니다. */
     virtual void BeginPlay();
 
