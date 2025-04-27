@@ -67,7 +67,7 @@ FORCEINLINE void UCapsuleComponent::SetCapsuleHalfHeight(float InHalfHeight)
 
 FORCEINLINE float UCapsuleComponent::GetScaledCapsuleHalfHeight() const
 {
-    return CapsuleRadius * GetShapeScale();
+    return CapsuleHalfHeight * GetShapeScale();
 }
 
 FORCEINLINE float UCapsuleComponent::GetScaledCapsuleRadius() const
