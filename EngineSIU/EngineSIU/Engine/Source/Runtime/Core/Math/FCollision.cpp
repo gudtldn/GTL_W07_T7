@@ -1,4 +1,4 @@
-﻿#include "FCollision.h"
+#include "FCollision.h"
 
 #include <sstream>
 
@@ -95,36 +95,73 @@ bool FCollision::CheckOverlapBoxToSphere(const UBoxComponent& Box1, const USpher
 
 bool FCollision::CheckOverlapBoxToCapsule(const UBoxComponent& Box1, const UCapsuleComponent& Capsule1)
 {
-    FVector P0 = Capsule1.GetWorldLocation() + Capsule1.GetWorldRotation().ToQuaternion().RotateVector(FVector::UpVector) * Capsule1.GetScaledCapsuleHalfHeight();
-    FVector P1 = Capsule1.GetWorldLocation() - Capsule1.GetWorldRotation().ToQuaternion().RotateVector(FVector::UpVector) * Capsule1.GetScaledCapsuleHalfHeight();
+    // 1) 캡슐 축 끝점 P0, P1 계산 (월드 공간)
+    const FVector center = Capsule1.GetWorldLocation();
+    const FQuat   q = Capsule1.GetWorldRotation().ToQuaternion();
+    // UpVector은 (0,0,1) 이라고 가정
+    const FVector up = q.RotateVector(FVector::UpVector);
+    const float   halfH = Capsule1.GetScaledCapsuleHalfHeight();
+    const float   radius = Capsule1.GetScaledCapsuleRadius();
 
-    const FVector BoxMin = Box1.GetWorldLocation() - Box1.GetScaledBoxExtent();
-    const FVector BoxMax = Box1.GetWorldLocation() + Box1.GetScaledBoxExtent();
+    const FVector P0 = center + up * halfH;
+    const FVector P1 = center - up * halfH;
 
-    FVector d = { P1.X - P0.X, P1.Y - P0.Y, P1.Z - P0.Z };
+    // 2) AABB 구하기 (월드 공간) 및 반지름만큼 확장
+    const FVector boxCenter = Box1.GetWorldLocation();
+    const FVector extents = Box1.GetScaledBoxExtent();
+
+    const FVector boxMin = {
+        boxCenter.X - extents.X - radius,
+        boxCenter.Y - extents.Y - radius,
+        boxCenter.Z - extents.Z - radius
+    };
+    const FVector boxMax = {
+        boxCenter.X + extents.X + radius,
+        boxCenter.Y + extents.Y + radius,
+        boxCenter.Z + extents.Z + radius
+    };
+
+    // 3) 선분 P0→P1 에 대한 방향 벡터 d 와 파라메터 t 범위
+    const FVector d = { P1.X - P0.X, P1.Y - P0.Y, P1.Z - P0.Z };
     float tmin = 0.0f, tmax = 1.0f;
+    const float eps = 1e-6f;
 
-    for (int i = 0; i < 3; i++)
+    // 4) 슬래브 기법: X, Y, Z 축별로 교차 파라미터 범위를 좁혀간다
+    for (int i = 0; i < 3; ++i)
     {
-        float a = (&P0.X)[i], b = (&P1.Y)[i];
-        float mn = (&BoxMin.X)[i], mx = (&BoxMax.X)[i];
-        float di = (&d.X)[i];
+        // i 번째 축 성분을 꺼낸다
+        float a, mn, mx, di;
+        if (i == 0) { a = P0.X; mn = boxMin.X; mx = boxMax.X; di = d.X; }
+        else if (i == 1) { a = P0.Y; mn = boxMin.Y; mx = boxMax.Y; di = d.Y; }
+        else { a = P0.Z; mn = boxMin.Z; mx = boxMax.Z; di = d.Z; }
 
-        if (fabs(di) < 1e-6f)
+        // 평행(거의 움직임 없음) 판정
+        if (std::fabs(di) < eps)
         {
-            if (a < mn || a > mx) return false;
+            // 시작점 a 가 슬래브 밖이면 교차 없음
+            if (a < mn || a > mx)
+                return false;
         }
         else
         {
-            float ood = 1.0f /di;
+            // t1, t2 계산: a + di * t = mn 또는 mx
+            float ood = 1.0f / di;
             float t1 = (mn - a) * ood;
             float t2 = (mx - a) * ood;
+            // t1 ≤ t2 보장
             if (t1 > t2) std::swap(t1, t2);
-            tmin = t1 > tmin ? t1 : tmin;
-            tmax = t2 < tmax ? t2 : tmax;
-            if (tmin > tmax) return false;
+
+            // 기존 [tmin, tmax] 와 교차(intersect)
+            tmin = std::max(tmin, t1);
+            tmax = std::min(tmax, t2);
+
+            // 교차 구간이 없으면 실패
+            if (tmin > tmax)
+                return false;
         }
     }
+
+    // 모든 축에서 교차 구간이 존재 → true
     return true;
 }
 
