@@ -187,14 +187,26 @@ void LuaTypes::FBindLua<FVector>::Bind(sol::table& Table)
         LUA_BIND_STATIC(FVector::ZAxisVector),
 
         // Operators
-        sol::meta_function::addition, &FVector::operator+,
-        sol::meta_function::subtraction, [](const FVector& A, const FVector& B) { return A - B; },
+        sol::meta_function::addition, LUA_BIND_OVERLOAD_WITHOUT_NAME2(\
+            &FVector::operator+,
+            FVector(const FVector&) const,
+            FVector(float) const
+        ),
+        sol::meta_function::subtraction, LUA_BIND_OVERLOAD_WITHOUT_NAME2(
+            &FVector::operator-,
+            FVector(const FVector&) const,
+            FVector(float) const
+        ),
         sol::meta_function::multiplication, LUA_BIND_OVERLOAD_WITHOUT_NAME2(
             &FVector::operator*,
             FVector(const FVector&) const,
             FVector(float) const
         ),
-        sol::meta_function::division, [](const FVector& A, const FVector& B) { return A / B; },
+        sol::meta_function::division, LUA_BIND_OVERLOAD_WITHOUT_NAME2(
+            &FVector::operator/,
+            FVector(const FVector&) const,
+            FVector(float) const
+        ),
         sol::meta_function::equal_to, &FVector::operator==,
 
         // 연산자 메서드
