@@ -18,4 +18,10 @@ public:
 
     /** Only show this component if the actor is selected */
     bool bDrawOnlyIfSelected;
+
+    /**
+     * [Original Property]
+     * If true, registered this collision in collision subsystem.
+     */
+    bool bRegisterCollision;
 };

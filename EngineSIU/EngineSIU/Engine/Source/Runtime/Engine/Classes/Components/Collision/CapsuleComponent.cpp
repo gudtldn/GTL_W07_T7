@@ -1,8 +1,10 @@
 ﻿#include "CapsuleComponent.h"
 #include "BoxComponent.h"
 #include "SphereComponent.h"
+#include "Engine/Engine.h"
 #include "Math/FCollision.h"
 #include "UObject/Casts.h"
+#include "World/World.h"
 
 UCapsuleComponent::UCapsuleComponent()
 {
@@ -14,7 +16,10 @@ UCapsuleComponent::UCapsuleComponent()
 
 UCapsuleComponent::~UCapsuleComponent()
 {
-    GEngineLoop.GetCollisionSubsystem()->UnregisterComponent(this);
+    if (bRegisterCollision)
+    {
+        GEngineLoop.GetCollisionSubsystem()->UnregisterComponent(this);
+    }
 }
 
 UObject* UCapsuleComponent::Duplicate(UObject* InOuter)
@@ -30,8 +35,17 @@ UObject* UCapsuleComponent::Duplicate(UObject* InOuter)
 void UCapsuleComponent::InitializeComponent()
 {
     Super::InitializeComponent();
+}
 
-    GEngineLoop.GetCollisionSubsystem()->RegisterComponent(this);
+void UCapsuleComponent::BeginPlay()
+{
+    Super::BeginPlay();
+
+    if (GEngine->ActiveWorld->WorldType == EWorldType::PIE)
+    {
+        GEngineLoop.GetCollisionSubsystem()->RegisterComponent(this);
+        bRegisterCollision = true;
+    }
 }
 
 void UCapsuleComponent::TickComponent(float DeltaTime)

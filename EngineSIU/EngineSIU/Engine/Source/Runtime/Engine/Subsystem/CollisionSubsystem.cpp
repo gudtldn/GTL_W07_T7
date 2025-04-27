@@ -33,6 +33,9 @@ void FCollisionSubsystem::Tick()
         if (!CurrentlyOverlapping.Contains(P))
         {
             auto [A, B] = P;
+            
+            if (A->IsPendingKill() || B->IsPendingKill()) continue;
+            
             A->BeginComponentOverlap(B);
             B->BeginComponentOverlap(A);
         }
@@ -43,6 +46,9 @@ void FCollisionSubsystem::Tick()
         if (!NewOverlap.Contains(P))
         {
             auto [A, B] = P;
+
+            if (A->IsPendingKill() || B->IsPendingKill()) continue;
+            
             A->EndComponentOverlap(B);
             B->EndComponentOverlap(A);
         }
