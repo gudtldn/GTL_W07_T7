@@ -28,7 +28,7 @@ void ALuaActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    CallLuaFunction("Tick", DeltaTime);
+    (void)CallLuaFunction("Tick", DeltaTime);
 }
 
 void ALuaActor::Destroyed()
@@ -40,7 +40,7 @@ void ALuaActor::Destroyed()
 
 void ALuaActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-    CallLuaFunction("EndPlay", EEndPlayReason::ToString(EndPlayReason));
+    (void)CallLuaFunction("EndPlay", EEndPlayReason::ToString(EndPlayReason));
     CleanupLuaState();
 
     if (LuaScriptPath.has_value())
