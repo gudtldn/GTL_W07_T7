@@ -27,13 +27,13 @@ void LuaTypes::FBindLua<FColor>::Bind(sol::table& Table)
         sol::meta_function::equal_to, &FColor::operator==,
 
         // 정적 상수 (읽기 전용 속성으로 바인딩)
-        LUA_BIND_VAR(FColor::White),
-        LUA_BIND_VAR(FColor::Black),
-        LUA_BIND_VAR(FColor::Transparent),
-        LUA_BIND_VAR(FColor::Red),
-        LUA_BIND_VAR(FColor::Green),
-        LUA_BIND_VAR(FColor::Blue),
-        LUA_BIND_VAR(FColor::Yellow)
+        LUA_BIND_STATIC(FColor::White),
+        LUA_BIND_STATIC(FColor::Black),
+        LUA_BIND_STATIC(FColor::Transparent),
+        LUA_BIND_STATIC(FColor::Red),
+        LUA_BIND_STATIC(FColor::Green),
+        LUA_BIND_STATIC(FColor::Blue),
+        LUA_BIND_STATIC(FColor::Yellow)
     );
 }
 
@@ -57,13 +57,13 @@ void LuaTypes::FBindLua<FLinearColor>::Bind(sol::table& Table)
         sol::meta_function::addition, &FLinearColor::operator+,
 
         // Static constants
-        LUA_BIND_VAR(FLinearColor::White),
-        LUA_BIND_VAR(FLinearColor::Black),
-        LUA_BIND_VAR(FLinearColor::Transparent),
-        LUA_BIND_VAR(FLinearColor::Red),
-        LUA_BIND_VAR(FLinearColor::Green),
-        LUA_BIND_VAR(FLinearColor::Blue),
-        LUA_BIND_VAR(FLinearColor::Yellow)
+        LUA_BIND_STATIC(FLinearColor::White),
+        LUA_BIND_STATIC(FLinearColor::Black),
+        LUA_BIND_STATIC(FLinearColor::Transparent),
+        LUA_BIND_STATIC(FLinearColor::Red),
+        LUA_BIND_STATIC(FLinearColor::Green),
+        LUA_BIND_STATIC(FLinearColor::Blue),
+        LUA_BIND_STATIC(FLinearColor::Yellow)
     );
 }
 
@@ -73,7 +73,11 @@ void LuaTypes::FBindLua<FVector>::Bind(sol::table& Table)
         FVector,
 
         // Constructors
-        sol::constructors<FVector(), FVector(float, float, float)>(),
+        sol::constructors<
+            FVector(),
+            FVector(float, float, float),
+            FVector(float)
+        >(),
 
         // Member variables
         LUA_BIND_MEMBER(&FVector::X),
@@ -96,11 +100,17 @@ void LuaTypes::FBindLua<FVector>::Bind(sol::table& Table)
         LUA_BIND_MEMBER(&FVector::CrossProduct),
 
         // Static properties
-        LUA_BIND_VAR(FVector::ZeroVector),
-        LUA_BIND_VAR(FVector::OneVector),
-        LUA_BIND_VAR(FVector::UpVector),
-        LUA_BIND_VAR(FVector::ForwardVector),
-        LUA_BIND_VAR(FVector::RightVector)
+        LUA_BIND_STATIC(FVector::ZeroVector),
+        LUA_BIND_STATIC(FVector::OneVector),
+        LUA_BIND_STATIC(FVector::UpVector),
+        LUA_BIND_STATIC(FVector::DownVector),
+        LUA_BIND_STATIC(FVector::ForwardVector),
+        LUA_BIND_STATIC(FVector::BackwardVector),
+        LUA_BIND_STATIC(FVector::RightVector),
+        LUA_BIND_STATIC(FVector::LeftVector),
+        LUA_BIND_STATIC(FVector::XAxisVector),
+        LUA_BIND_STATIC(FVector::YAxisVector),
+        LUA_BIND_STATIC(FVector::ZAxisVector)
     );
 }
 
@@ -131,8 +141,8 @@ void LuaTypes::FBindLua<FVector2D>::Bind(sol::table& Table)
         // LUA_BIND_MEMBER(&FVector2D::DotProduct),
 
         // Static properties
-        LUA_BIND_VAR(FVector2D::ZeroVector)
-        // LUA_BIND_VAR(FVector2D::UnitVector)
+        LUA_BIND_STATIC(FVector2D::ZeroVector)
+        // LUA_BIND_STATIC(FVector2D::UnitVector)
     );
 }
 
@@ -177,7 +187,7 @@ void LuaTypes::FBindLua<FRotator>::Bind(sol::table& Table)
         // LUA_BIND_MEMBER(&FRotator::GetInverse),
 
         // Static properties
-        // LUA_BIND_VAR(FRotator::ZeroRotator)
+        // LUA_BIND_STATIC(FRotator::ZeroRotator)
     );
 }
 
@@ -204,7 +214,7 @@ void LuaTypes::FBindLua<FQuat>::Bind(sol::table& Table)
         // LUA_BIND_MEMBER(&FQuat::GetAxisZ),
 
         // Static functions
-        // LUA_BIND_VAR(FQuat::Identity)
+        // LUA_BIND_STATIC(FQuat::Identity)
     );
 }
 
@@ -224,7 +234,7 @@ void LuaTypes::FBindLua<FMatrix>::Bind(sol::table& Table)
         // LUA_BIND_MEMBER(&FMatrix::TransformPosition),
 
         // Static functions
-        LUA_BIND_VAR(FMatrix::Identity)
+        LUA_BIND_STATIC(FMatrix::Identity)
     );
 }
 
