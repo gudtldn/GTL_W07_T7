@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Components/ShapeComponent.h"
 
 class UCapsuleComponent : public UShapeComponent
@@ -51,6 +51,8 @@ public:
     FORCEINLINE float GetUnScaledCapsuleRadius() const;
 
     FORCEINLINE float GetShapeScale() const;
+
+    FORCEINLINE void UpdateAABB();
 };
 
 // ********** INLINES **********
@@ -88,4 +90,13 @@ FORCEINLINE float UCapsuleComponent::GetUnScaledCapsuleRadius() const
 FORCEINLINE float UCapsuleComponent::GetShapeScale() const
 {
     return GetWorldScale3D().GetAbsMin();
+}
+
+FORCEINLINE void UCapsuleComponent::UpdateAABB()
+{
+    FBoundingBox newBox;
+    newBox.min = FVector(-1.0f * CapsuleRadius, -1.0f * CapsuleRadius, -1.0f * (CapsuleRadius + CapsuleHalfHeight));
+    newBox.max = FVector(CapsuleRadius, CapsuleRadius, CapsuleRadius + CapsuleHalfHeight);
+
+    SetBoundingBox(newBox);
 }

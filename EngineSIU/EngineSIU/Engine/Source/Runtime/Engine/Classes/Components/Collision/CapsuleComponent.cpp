@@ -1,4 +1,4 @@
-﻿#include "CapsuleComponent.h"
+#include "CapsuleComponent.h"
 #include "BoxComponent.h"
 #include "SphereComponent.h"
 #include "Engine/Engine.h"
@@ -13,8 +13,7 @@ UCapsuleComponent::UCapsuleComponent()
     CapsuleRadius = 2.0f;
     CapsuleHalfHeight = 4.0f;
     
-    AABB.max = {1.0f, 1.0f, 1.0f };
-    AABB.min = { -1.f, -1.f, -1.f };
+    UpdateAABB();
 }
 
 UCapsuleComponent::~UCapsuleComponent()
