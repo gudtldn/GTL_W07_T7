@@ -1354,8 +1354,15 @@
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaMathTypes.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaObjectTypes.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaUserTypes.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Core\Math\FCollision.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\BoxComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\CapsuleComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\SphereComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\RigidbodyComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\ShapeComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Subsystem\CollisionSubsystem.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Renderer\CollisionRenderPass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="EngineSIU\EngineSIU.natvis" />
@@ -1399,6 +1406,7 @@
       <Filter>EngineSIU\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="EngineSIU\Shaders\VSMGenerationPS.hlsl" />
+    <FxCompile Include="EngineSIU\Shaders\ShaderCollision.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\DirectXTK\Include\DirectXTK\SimpleMath.inl" />
@@ -1426,13 +1434,23 @@
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lualib.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaMathTypes.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaObjectTypes.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindMacros.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindUtils.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\config.hpp" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\forward.hpp" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\sol.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaUserTypes.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaStub.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\StringConv.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\FCollision.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Traits\IsCharType.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\BoxComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\CapsuleComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\Collision\SphereComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\RigidbodyComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\ShapeComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Subsystem\CollisionSubsystem.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Renderer\CollisionRenderPass.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultPropertySheet.props" />
