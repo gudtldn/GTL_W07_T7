@@ -1,4 +1,4 @@
-﻿#include "Quat.h"
+#include "Quat.h"
 
 #include "Vector.h"
 #include "Matrix.h"
@@ -75,6 +75,16 @@ FQuat FQuat::operator*(const FQuat& Other) const
             W * Other.Y - X * Other.Z + Y * Other.W + Z * Other.X,
             W * Other.Z + X * Other.Y - Y * Other.X + Z * Other.W
         );
+}
+
+FQuat FQuat::operator*(const float& value) const
+{
+    return FQuat(W * value, X * value, Y * value, Z * value);
+}
+
+FQuat FQuat::operator+(const FQuat& Other) const
+{
+    return FQuat(W + Other.W, X + Other.X, Y + Other.Y, Z + Other.Z);
 }
 
 FVector FQuat::RotateVector(const FVector& Vec) const

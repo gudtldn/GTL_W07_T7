@@ -181,6 +181,25 @@ struct FPoint
     float x, y;
 };
 
+struct FPlane
+{
+    FVector Normal;  // 단위 노멀
+    float   D;       // 상수항
+
+    /// @param InNormal 노멀(자동 정규화됨)
+    /// @param InD      방정식 상수항
+    FPlane(const FVector& InNormal, float InD)
+        : Normal(InNormal.GetSafeNormal()), D(InD) {
+    }
+
+    /// @param InNormal 노멀(자동 정규화됨)
+    /// @param PointOnPlane 평면 위의 한 점
+    FPlane(const FVector& InNormal, const FVector& PointOnPlane)
+        : Normal(InNormal.GetSafeNormal())
+        , D(Normal.Dot(PointOnPlane) * -1.0f)
+    { }
+};
+
 struct FBoundingBox
 {
     FBoundingBox() = default;
@@ -265,6 +284,35 @@ struct FBoundingBox
         return true;
     }
 
+    bool IntersectPlane(
+        const FPlane& plane,
+        float& outPenetration,
+        float& outDistance,
+        FVector& outContact) const
+    {
+        // 1) 중심 & extents
+        FVector center = (min + max) * 0.5f;
+        FVector extents = (max - min) * 0.5f;
+
+        // 2) signed distance c = n·center + D
+        float c = plane.Normal.Dot(center) + plane.D;
+
+        // 3) 투영 반경 r = Σ extents_i * |n_i|
+        float r = extents.X * FMath::Abs(plane.Normal.X)
+            + extents.Y * FMath::Abs(plane.Normal.Y)
+            + extents.Z * FMath::Abs(plane.Normal.Z);
+
+        // 4) |c| ≤ r 이면 충돌
+        if (FMath::Abs(c) > r)
+            return false;
+
+        // 5) 결과 계산
+        outPenetration = r - FMath::Abs(c);
+        outDistance = c;
+        outContact = center - plane.Normal * c;
+        return true;
+    }
+
 
     FBoundingBox TransformWorld(const FMatrix& worldMatrix) const
     {
@@ -312,7 +360,6 @@ struct FBoundingBox
             (index & 4) ? max.Z : min.Z
         );
     }
-
 };
 
 struct FCone
