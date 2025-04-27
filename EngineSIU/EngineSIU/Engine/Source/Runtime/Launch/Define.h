@@ -477,3 +477,46 @@ struct FFogConstants
     float padding1;
     float padding2;
 };
+
+/*
+ *************************
+ * For Collision         *
+ *************************
+ */
+struct FCollisionBox
+{
+    FVector Center;
+    float Pad0;
+
+    FVector Extent;
+    float Pad1;
+
+    FLinearColor Color;
+};
+
+struct FCollisionSphere
+{
+    FVector Center;
+    float Radius;
+
+    FLinearColor Color;
+};
+
+struct FCollisionCapsule
+{
+    FVector Center;
+    float Radius;
+
+    float HalfHeight;
+    FVector Pad0;
+
+    FLinearColor Color;
+};
+
+struct alignas(16) FCollisionCountConstants
+{
+    int BoxCount;
+    int SphereCount;
+    int CapsuleCount;
+    int Pad0;
+};

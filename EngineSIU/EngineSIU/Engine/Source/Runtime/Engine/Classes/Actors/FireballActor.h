@@ -1,6 +1,9 @@
 #pragma once
 #include"GameFramework/Actor.h"
 
+class UCapsuleComponent;
+class USphereComponent;
+class UBoxComponent;
 class UProjectileMovementComponent;
 class UPointLightComponent;
 class USphereComp;
@@ -16,11 +19,17 @@ public:
 
 protected:
     UPROPERTY
-    (UProjectileMovementComponent*, ProjectileMovementComponent, = nullptr);
+    (UProjectileMovementComponent*, ProjectileMovementComponent, = nullptr)
 
     UPROPERTY
-    (UPointLightComponent*, PointLightComponent, = nullptr);
+    (UPointLightComponent*, PointLightComponent, = nullptr)
 
     UPROPERTY
-    (USphereComp*, SphereComp, = nullptr);
+    (USphereComp*, SphereComp, = nullptr)
+
+    UPROPERTY(UBoxComponent*, BoxComponent, = nullptr)
+
+    UPROPERTY(USphereComponent*, SphereComponent, = nullptr)
+
+    UPROPERTY(UCapsuleComponent*, CapsuleComponent, = nullptr)
 };
