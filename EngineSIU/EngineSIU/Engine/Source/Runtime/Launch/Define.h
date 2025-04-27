@@ -341,6 +341,42 @@ struct FBoundingBox
 
         return FBoundingBox(worldCenter - worldExtents, worldCenter + worldExtents);
     }
+
+    // 위의 TransformWorld의 경우 Rotation에서 오류가 나는 것으로 보임
+    // 따라서 기존 AABB 그리는 로직과 동일한 아래 코드를 적용 
+    FBoundingBox TransformWorldIteration(const FVector& Center, const FMatrix& worldMatrix)
+    {
+        FVector LocalVertices[8] = {
+        { min.X, min.Y, min.Z },
+        { max.X, min.Y, min.Z },
+        { min.X, max.Y, min.Z },
+        { max.X, max.Y, min.Z },
+        { min.X, min.Y, max.Z },
+        { max.X, min.Y, max.Z },
+        { min.X, max.Y, max.Z },
+        { max.X, max.Y, max.Z }
+        };
+
+        FVector WorldVertices[8];
+        WorldVertices[0] = Center + FMatrix::TransformVector(LocalVertices[0], worldMatrix);
+
+        FVector Min = WorldVertices[0], Max = WorldVertices[0];
+
+        for (int i = 1; i < 8; ++i)
+        {
+            WorldVertices[i] = Center + FMatrix::TransformVector(LocalVertices[i], worldMatrix);
+            Min.X = (WorldVertices[i].X < Min.X) ? WorldVertices[i].X : Min.X;
+            Min.Y = (WorldVertices[i].Y < Min.Y) ? WorldVertices[i].Y : Min.Y;
+            Min.Z = (WorldVertices[i].Z < Min.Z) ? WorldVertices[i].Z : Min.Z;
+            Max.X = (WorldVertices[i].X > Max.X) ? WorldVertices[i].X : Max.X;
+            Max.Y = (WorldVertices[i].Y > Max.Y) ? WorldVertices[i].Y : Max.Y;
+            Max.Z = (WorldVertices[i].Z > Max.Z) ? WorldVertices[i].Z : Max.Z;
+        }
+        FBoundingBox newBoundingBox;
+        newBoundingBox.min = Min;
+        newBoundingBox.max = Max;
+        return newBoundingBox;
+    }
     void Expand(const FVector& point)
     {
         min.X = std::min(min.X, point.X);
