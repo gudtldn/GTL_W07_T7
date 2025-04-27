@@ -7,7 +7,7 @@ class UCapsuleComponent : public UShapeComponent
 
 public:
     UCapsuleComponent();
-    ~UCapsuleComponent();
+    ~UCapsuleComponent() override;
 
     virtual UObject* Duplicate(UObject* InOuter) override;
     

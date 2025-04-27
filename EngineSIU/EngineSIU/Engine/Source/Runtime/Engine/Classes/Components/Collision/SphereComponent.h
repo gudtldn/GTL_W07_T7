@@ -7,7 +7,7 @@ class USphereComponent : public UShapeComponent
 
 public:
     USphereComponent();
-    ~USphereComponent();
+    ~USphereComponent() override;
     
     virtual UObject* Duplicate(UObject* InOuter) override;
     

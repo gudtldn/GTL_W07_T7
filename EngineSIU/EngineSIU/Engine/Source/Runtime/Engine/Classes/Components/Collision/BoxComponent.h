@@ -7,7 +7,7 @@ class UBoxComponent : public UShapeComponent
 
 public:
     UBoxComponent();
-    ~UBoxComponent();
+    ~UBoxComponent() override;
 
     virtual UObject* Duplicate(UObject* InOuter) override;
     
