@@ -221,5 +221,6 @@ void FLuaManager::Initialize()
 
     bInitialized = true;
 
-    generateStubs(LuaState);
+    // 현재는 정상적으로 작동하지 않음
+    //generateStubs(LuaState);
 }
