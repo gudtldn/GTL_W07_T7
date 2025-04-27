@@ -10,8 +10,11 @@ UCapsuleComponent::UCapsuleComponent()
 {
     ShapeColor = FColor(223, 149, 157, 255);
 
-    CapsuleRadius = 22.0f;
-    CapsuleHalfHeight = 44.0f;
+    CapsuleRadius = 2.0f;
+    CapsuleHalfHeight = 4.0f;
+    
+    AABB.max = {1.0f, 1.0f, 1.0f };
+    AABB.min = { -1.f, -1.f, -1.f };
 }
 
 UCapsuleComponent::~UCapsuleComponent()

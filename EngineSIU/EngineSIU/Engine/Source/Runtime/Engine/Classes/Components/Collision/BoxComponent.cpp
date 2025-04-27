@@ -10,6 +10,9 @@
 UBoxComponent::UBoxComponent()
 {
     BoxExtent = FVector(1.f, 1.f, 1.f);
+
+    AABB.max = {1.0f, 1.0f, 1.0f };
+    AABB.min = { -1.f, -1.f, -1.f };
 }
 
 UBoxComponent::~UBoxComponent()

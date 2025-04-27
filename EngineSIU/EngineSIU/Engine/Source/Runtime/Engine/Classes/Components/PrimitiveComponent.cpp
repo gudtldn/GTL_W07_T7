@@ -166,6 +166,7 @@ void UPrimitiveComponent::BeginComponentOverlap(UPrimitiveComponent* OverlappedC
 
         if (!IsPendingKill())
         {
+            UE_LOG(ELogLevel::Display, "%s: BeginOverlap", *this->GetName());
             OnComponentBeginOverlap.Broadcast(OtherActor, OverlappedComponent);
         }
 
@@ -190,6 +191,7 @@ void UPrimitiveComponent::EndComponentOverlap(UPrimitiveComponent* OverlappedCom
 
         if (OverlappedComponent->IsActive())
         {
+            UE_LOG(ELogLevel::Display, "%s: EndOverlap", *this->GetName());
             OverlappedComponent->OnComponentEndOverlap.Broadcast(MyActor, this);
         }
     }

@@ -11,6 +11,9 @@ USphereComponent::USphereComponent()
 {
     SphereRadius = 1.0f;
     ShapeColor = FColor(255, 0, 0, 255);
+    
+    AABB.max = {1.0f, 1.0f, 1.0f };
+    AABB.min = { -1.f, -1.f, -1.f };
 }
 
 USphereComponent::~USphereComponent()

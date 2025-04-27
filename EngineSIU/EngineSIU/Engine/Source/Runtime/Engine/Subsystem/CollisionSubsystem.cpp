@@ -65,13 +65,13 @@ TArray<TPair<UPrimitiveComponent*, UPrimitiveComponent*>> FCollisionSubsystem::B
     for (int32 i = 0; i < Comps.Num(); i++)
     {
         auto* A = Comps[i];
-        FBoundingBox AABB = A->GetBoundingBox().TransformWorld(A->GetWorldMatrix());
+        FBoundingBox AABB = A->GetBoundingBox().TransformWorldIteration(A->GetWorldLocation(), A->GetWorldMatrix());
 
         for (int32 j = i + 1; j < Comps.Num(); j++)
         {
             auto* B = Comps[j];
 
-            if (AABB.Intersect(B->GetBoundingBox().TransformWorld(B->GetWorldMatrix())))
+            if (AABB.Intersect(B->GetBoundingBox().TransformWorldIteration(B->GetWorldLocation(), B->GetWorldMatrix())))
             {
                 Results.Add(MakePair(A, B));
             }
