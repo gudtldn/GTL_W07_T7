@@ -7,11 +7,14 @@ class UCapsuleComponent : public UShapeComponent
 
 public:
     UCapsuleComponent();
+    ~UCapsuleComponent();
 
     virtual UObject* Duplicate(UObject* InOuter) override;
     
     virtual void InitializeComponent() override;
     virtual void TickComponent(float DeltaTime) override;
+
+    virtual bool IntersectCollision(const UPrimitiveComponent* Other) override;
     
 protected:
     /** Half-height, i.e. from center of capsule to end of top or bottom hemisphere. */

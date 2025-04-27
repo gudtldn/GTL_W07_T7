@@ -64,6 +64,9 @@ public:
     /** Component가 현재 활성화 중인지 여부를 반환합니다. */
     bool IsActive() const { return bIsActive; }
 
+    /** If true, this component will be pending kill.*/
+    bool IsPendingKill() const { return bIsBeingDestroyed; }
+    
     void Activate();
     void Deactivate();
 

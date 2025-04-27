@@ -236,7 +236,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\DirectionalLightActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\FireballActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\HeightFogActor.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\LightActor.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\LightActor.cpp" />  
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\Player.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\PointLightActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\SpotLightActor.cpp" />

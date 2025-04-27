@@ -24,7 +24,7 @@ bool FCollision::CheckOverlapBoxToBox(const UBoxComponent& Box1, const UBoxCompo
 
 bool FCollision::CheckOverlapSphereToSphere(const USphereComponent& Sphere1, const USphereComponent& Sphere2)
 {
-    const float Dist = (Sphere1.GetWorldLocation() - Sphere2.GetWorldLocation()).LengthSquared();
+    const float Dist = (Sphere1.GetWorldLocation() - Sphere2.GetWorldLocation()).SquaredLength();
     const float Rad = Sphere1.GetScaledSphereRadius() + Sphere2.GetScaledSphereRadius();
     return Dist <= Rad * Rad; // distance of between s1 to s2 <= (r1 + r2)
 }
@@ -75,7 +75,7 @@ bool FCollision::CheckOverlapCapsuleToCapsule(const UCapsuleComponent& Capsule1,
     FVector cQ = C2P0 + v * t;
     
     float RSum = Capsule1.GetScaledCapsuleRadius() + Capsule2.GetScaledCapsuleRadius();
-    float Dist2 = (cP - cQ).LengthSquared();
+    float Dist2 = (cP - cQ).SquaredLength();
     return Dist2 <= RSum * RSum;
 }
 
@@ -89,7 +89,7 @@ bool FCollision::CheckOverlapBoxToSphere(const UBoxComponent& Box1, const USpher
     Closet.Y = FMath::Max(BoxMin.Y, FMath::Min(Sphere1.GetWorldLocation().Y, BoxMax.Y));
     Closet.Z = FMath::Max(BoxMin.Z, FMath::Min(Sphere1.GetWorldLocation().Z, BoxMax.Z));
 
-    float Dist = (Closet - Sphere1.GetWorldLocation()).LengthSquared();
+    float Dist = (Closet - Sphere1.GetWorldLocation()).SquaredLength();
     return Dist <= Sphere1.GetScaledSphereRadius() * Sphere1.GetScaledSphereRadius();
 }
 
@@ -137,7 +137,7 @@ bool FCollision::CheckOverlapSphereToCapsule(const USphereComponent& Sphere1, co
     FVector Closet;
     
     FVector AB = P1 - P0;
-    float ABLengthSq = AB.LengthSquared();
+    float ABLengthSq = AB.SquaredLength();
     if (ABLengthSq == 0.0f)
     {
         Closet = P0;
@@ -149,5 +149,5 @@ bool FCollision::CheckOverlapSphereToCapsule(const USphereComponent& Sphere1, co
         Closet = P0 + AB * t;
     }
 
-    return (Closet - Sphere1.GetWorldLocation()).LengthSquared() <= Capsule1.GetScaledCapsuleRadius() * Capsule1.GetScaledCapsuleRadius();
+    return (Closet - Sphere1.GetWorldLocation()).SquaredLength() <= Capsule1.GetScaledCapsuleRadius() * Capsule1.GetScaledCapsuleRadius();
 }

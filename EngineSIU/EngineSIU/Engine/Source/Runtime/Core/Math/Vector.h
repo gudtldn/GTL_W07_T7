@@ -171,7 +171,7 @@ public:
     float Length() const;
     float SquaredLength() const;
     float SizeSquared() const;
-
+    
     bool Normalize(float Tolerance = SMALL_NUMBER);
 
     FVector GetUnsafeNormal() const;
