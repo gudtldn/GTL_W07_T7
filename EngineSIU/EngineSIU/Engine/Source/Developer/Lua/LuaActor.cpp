@@ -1,6 +1,8 @@
-﻿#include "LuaActor.h"
+#include "LuaActor.h"
 
 #include "LuaManager.h"
+#include "Engine/Classes/Components/PrimitiveComponent.h"
+#include "Engine/Source/Runtime/Core/Delegates/Delegate.h"
 
 ALuaActor::ALuaActor()
     : LuaScriptPath(std::nullopt)
@@ -22,6 +24,19 @@ void ALuaActor::BeginPlay()
     Super::BeginPlay();
 
     (void)CallLuaFunction("BeginPlay");
+
+    for (UActorComponent* iter : GetComponents()) 
+    {
+        if (iter == GetRootComponent()) 
+        {
+            continue;
+        }
+
+        if (UPrimitiveComponent* prim = Cast<UPrimitiveComponent>(iter)) 
+        {
+            prim->OnComponentBeginOverlap.AddDynamic(this, &ALuaActor::OnOverlap);
+        }
+    }
 }
 
 void ALuaActor::Tick(float DeltaTime)
@@ -49,6 +64,11 @@ void ALuaActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
     }
 
     Super::EndPlay(EndPlayReason);
+}
+
+void ALuaActor::OnOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp)
+{
+    CallLuaFunction("OnOverlap", OtherActor);
 }
 
 void ALuaActor::HandleScriptReload(const sol::protected_function& NewFactory)

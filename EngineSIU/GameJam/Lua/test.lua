@@ -28,7 +28,7 @@ function ALuaActor:Tick(delta_time)
     self.cpp_actor:SetActorLocation(
         self.cpp_actor:GetActorLocation()
         + self.cpp_actor:GetActorForwardVector()
-        * FVector.new(100, 100, 100)  -- TODO: 나중에 sol::overload로 오버로드 필요
+        * FVector.new(1, 1, 1)  -- TODO: 나중에 sol::overload로 오버로드 필요
         * FVector.new(delta_time, delta_time, delta_time)
     )
 end
@@ -36,6 +36,11 @@ end
 
 -- 충돌 시 호출되는 함수
 function ALuaActor:OnOverlap(other_actor)
+    self.cpp_actor:SetActorLocation(
+        self.cpp_actor:GetActorLocation()
+        + self.cpp_actor:GetActorForwardVector()
+        + FVector.new(0, 0, 10)
+    )
     print("[OnOverlap]", other_actor)
 end
 
