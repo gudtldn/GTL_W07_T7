@@ -86,7 +86,9 @@ struct FActorSaveData
     FString RootComponentID;               // 이 액터의 루트 컴포넌트 ID (아래 Components 리스트 내 ID 참조)
     TArray<FComponentSaveData> Components; // 이 액터가 소유한 컴포넌트 목록
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(FActorSaveData, ActorID, ActorClass, ActorLabel, RootComponentID, Components)
+    TMap<FString, FString> Properties;
+
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(FActorSaveData, ActorID, ActorClass, ActorLabel, RootComponentID, Components, Properties)
 };
 
 struct FSceneData
@@ -199,6 +201,7 @@ FSceneData SceneManager::WorldToSceneData(const UWorld& InWorld)
         actorData.ActorID = Actor->GetName();
         actorData.ActorClass = Actor->GetClass()->GetName();
         actorData.ActorLabel = Actor->GetActorLabel();
+        Actor->GetProperties(actorData.Properties);
 
         USceneComponent* RootComp = Actor->GetRootComponent();
         actorData.RootComponentID = (RootComp != nullptr) ? RootComp->GetName() : TEXT(""); // 루트 없으면 빈 문자열
@@ -249,6 +252,7 @@ bool SceneManager::LoadWorldFromData(const FSceneData& sceneData, UWorld* target
         UClass* classAActor = UClass::FindClass(FName(actorData.ActorClass));
         
         AActor* SpawnedActor = targetWorld->SpawnActor(classAActor, FName(actorData.ActorID));
+        SpawnedActor->SetProperties(actorData.Properties);
 
         // if (actorData.ActorClass == AActor::StaticClass()->GetName())
         // {
