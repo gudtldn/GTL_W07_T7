@@ -3,6 +3,7 @@
 #include "Engine/ResourceMgr.h"
 #include "LevelEditor/SlateAppMessageHandler.h"
 #include "Renderer/Renderer.h"
+#include "Subsystem/CollisionSubsystem.h"
 #include "UnrealEd/PrimitiveDrawBatch.h"
 
 
@@ -56,6 +57,7 @@ private:
     SLevelEditor* LevelEditor;
     UnrealEd* UnrealEditor;
     FDXDBufferManager* BufferManager; //TODO: UEngine으로 옮겨야함.
+    FCollisionSubsystem* CollisionSubsystem;
 
     bool bIsExit = false;
     int32 TargetFPS = 60;
@@ -63,6 +65,7 @@ private:
 public:
     SLevelEditor* GetLevelEditor() const { return LevelEditor; }
     UnrealEd* GetUnrealEditor() const { return UnrealEditor; }
+    FCollisionSubsystem* GetCollisionSubsystem() const { return CollisionSubsystem; }
 
     FSlateAppMessageHandler* GetAppMessageHandler() const { return AppMessageHandler.get(); }
 };

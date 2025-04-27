@@ -1,5 +1,4 @@
 ﻿#include "ShapeComponent.h"
-
 #include "UObject/Casts.h"
 
 UShapeComponent::UShapeComponent()

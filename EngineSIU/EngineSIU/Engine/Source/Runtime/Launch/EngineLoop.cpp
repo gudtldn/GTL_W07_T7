@@ -44,6 +44,7 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     UIMgr = new UImGuiManager;
     AppMessageHandler = std::make_unique<FSlateAppMessageHandler>();
     LevelEditor = new SLevelEditor();
+    CollisionSubsystem = new FCollisionSubsystem();
 
     UnrealEditor->Initialize();
     GraphicDevice.Initialize(AppWnd);
@@ -128,6 +129,7 @@ void FEngineLoop::Tick()
         }
 
         GEngine->Tick(DeltaTime);
+        CollisionSubsystem->Tick();
         LevelEditor->Tick(DeltaTime);
         Render();
         UIMgr->BeginFrame();

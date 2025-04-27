@@ -81,6 +81,24 @@ public:
 	    };
 	}
 
+    // 비-const 멤버 함수용 AddDynamic
+    template <typename UserClass>
+     void AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...))
+	{
+	    Func = [Obj, InMethod](ParamTypes... args) -> ReturnType {
+	        return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
+	    };
+	}
+
+    // const 멤버 함수용 AddDynamic
+    template <typename UserClass>
+    void AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...) const)
+	{
+	    Func = [Obj, InMethod](ParamTypes... args) -> ReturnType {
+	        return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
+	    };
+	}
+
 	void UnBind()
 	{
 		Func = nullptr;

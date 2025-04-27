@@ -4,7 +4,7 @@
 
 UBoxComponent::UBoxComponent()
 {
-    BoxExtent = FVector(32.f, 32.f, 32.f);
+    BoxExtent = FVector(1.f, 1.f, 1.f);
 }
 
 UObject* UBoxComponent::Duplicate(UObject* InOuter)
