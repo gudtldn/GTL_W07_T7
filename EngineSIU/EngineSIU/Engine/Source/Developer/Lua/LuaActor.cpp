@@ -34,7 +34,10 @@ void ALuaActor::SetProperties(const TMap<FString, FString>& InProperties)
     namespace fs = std::filesystem;
     const fs::path SolutionPath = fs::current_path().parent_path();
     const fs::path LuaFolderPath = SolutionPath / "GameJam/Lua";
-    LuaScriptPath = LuaFolderPath / InProperties["LuaScriptPath"].ToWideString();
+    const fs::path SavedPath = fs::path(InProperties["LuaScriptPath"].ToWideString());
+    LuaScriptPath = SavedPath.empty()
+        ? std::nullopt
+        : std::optional(LuaFolderPath / SavedPath);
 }
 
 void ALuaActor::BeginPlay()
