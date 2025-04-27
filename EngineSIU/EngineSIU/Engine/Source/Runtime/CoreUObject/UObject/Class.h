@@ -32,6 +32,7 @@ public:
         static TMap<FName, UClass*> ClassMap;
         return ClassMap;
     }
+
     static UClass* FindClass(const FName& ClassName)
     {
         auto It = GetClassMap().Find(ClassName);

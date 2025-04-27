@@ -13,6 +13,11 @@ void UEngine::Init()
     FLuaManager::Get().Initialize();
 }
 
+void UEngine::Tick(float DeltaTime)
+{
+    FLuaManager::Get().CheckForScriptChanges();
+}
+
 FWorldContext* UEngine::GetWorldContextFromWorld(const UWorld* InWorld)
 {
     for (FWorldContext* WorldContext : WorldList)

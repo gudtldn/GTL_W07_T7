@@ -5,7 +5,23 @@
 #include "ImGUI/imgui.h"
 #include "PropertyEditor/IWindowToggleable.h"
 
-#define UE_LOG FConsole::GetInstance().AddLog
+static consteval const char* GetFileName(const char* Path)
+{
+    const char* Name = Path;
+    while (*Path)
+    {
+        if (*Path == '/' || *Path == '\\')
+        {
+            Name = Path + 1;
+        }
+        Path++;
+    }
+    return Name;
+}
+
+#define __FILENAME__ GetFileName(__FILE__)
+
+#define UE_LOG(Level, Fmt, ...) FConsole::GetInstance().AddLog(Level, "[%s:%d]" Fmt, __FILENAME__, __LINE__, __VA_ARGS__)
 
 
 enum class ELogLevel : uint8

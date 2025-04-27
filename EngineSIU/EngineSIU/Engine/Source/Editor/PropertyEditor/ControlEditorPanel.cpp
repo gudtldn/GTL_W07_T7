@@ -30,6 +30,7 @@
 #include "Actors/DirectionalLightActor.h"
 #include "Actors/SpotLightActor.h"
 #include "Actors/AmbientLightActor.h"
+#include "Developer/Lua/LuaActor.h"
 
 void ControlEditorPanel::Render()
 {
@@ -287,7 +288,8 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
             { .label= "Particle",  .obj= OBJ_PARTICLE },
             { .label= "Text",      .obj= OBJ_TEXT },
             { .label= "Fireball",  .obj = OBJ_FIREBALL},
-            { .label= "Fog",       .obj= OBJ_FOG }
+            { .label= "Fog",       .obj= OBJ_FOG },
+            { .label= "LuaActor",       .obj= OBJ_LUA_ACTOR }
         };
 
         for (const auto& primitive : primitives)
@@ -376,6 +378,12 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                 {
                     SpawnedActor = World->SpawnActor<AHeightFogActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_FOG"));
+                    break;
+                }
+                case OBJ_LUA_ACTOR:
+                {
+                    SpawnedActor = World->SpawnActor<ALuaActor>();
+                    SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_ACTOR"));
                     break;
                 }
                 case OBJ_TRIANGLE:

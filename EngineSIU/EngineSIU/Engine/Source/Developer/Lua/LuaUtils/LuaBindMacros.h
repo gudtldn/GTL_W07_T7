@@ -8,6 +8,8 @@
  */
 #define Lua_NewUserType(TypeName, ...) new_usertype<TypeName>(#TypeName, __VA_ARGS__)
 
+// TODO: 참고: https://www.perplexity.ai/search/sol-varyi-sayongbeob-IrR1v4nCQXyMo8ebRmGzxA
+
 #define LUA_BIND_MEMBER(MemberName) LuaBindUtils::GetMemberName(#MemberName, true), MemberName
 
-#define LUA_BIND_VAR(MemberName) LuaBindUtils::GetMemberName(#MemberName, false), sol::var(MemberName)
+#define LUA_BIND_STATIC(MemberName) LuaBindUtils::GetMemberName(#MemberName, false), sol::var(MemberName)
