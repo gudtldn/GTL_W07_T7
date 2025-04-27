@@ -12,6 +12,8 @@ function ALuaActor:new(cpp_actor)
 
     instance.test = 1;
 
+    instance.acc_time = 0
+
     return instance
 end
 
@@ -25,12 +27,25 @@ end
 -- 매 프레임마다 호출되는 함수
 function ALuaActor:Tick(delta_time)
     -- print("[Tick]", delta_time)
-    self.cpp_actor:SetActorLocation(
-        self.cpp_actor:GetActorLocation()
-        + self.cpp_actor:GetActorForwardVector()
-        * FVector.new(100, 100, 100)  -- TODO: 나중에 sol::overload로 오버로드 필요
-        * FVector.new(delta_time, delta_time, delta_time)
+    -- self.cpp_actor:SetActorLocation(
+    --     self.cpp_actor:GetActorLocation()
+    --     + self.cpp_actor:GetActorForwardVector()
+    --     * FVector(100, 100, 100)  -- TODO: 나중에 sol::overload로 오버로드 필요
+    --     * FVector(delta_time, delta_time, delta_time)
+    -- )
+
+    self.cpp_actor:SetActorRotation(
+        self.cpp_actor:GetActorRotation()
+        + FRotator(0, 175, 0)  -- TODO: 나중에 sol::overload로 오버로드 필요
+        * delta_time
     )
+
+    self.acc_time = self.acc_time + delta_time
+
+    local offset = math.sin(self.acc_time) * 500  -- sin 함수를 이용한 좌우 이동
+    local new_location = self.cpp_actor:GetActorLocation()
+    new_location.X = new_location.X + offset
+    self.cpp_actor:SetActorLocation(new_location * delta_time)
 end
 
 
