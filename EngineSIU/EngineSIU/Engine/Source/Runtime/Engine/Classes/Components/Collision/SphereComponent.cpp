@@ -57,6 +57,11 @@ void USphereComponent::TickComponent(float DeltaTime)
 void USphereComponent::SetSphereRadius(float InRadius)
 {
     SphereRadius = InRadius;
+
+    FBoundingBox BoundingBox;
+    BoundingBox.min = {-SphereRadius, -SphereRadius, -SphereRadius};
+    BoundingBox.max = {SphereRadius, SphereRadius, SphereRadius};
+    SetBoundingBox(BoundingBox);
 }
 
 bool USphereComponent::IntersectCollision(const UPrimitiveComponent* Other)

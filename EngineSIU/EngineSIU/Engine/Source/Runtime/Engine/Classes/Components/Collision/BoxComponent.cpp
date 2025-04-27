@@ -56,6 +56,11 @@ void UBoxComponent::TickComponent(float DeltaTime)
 void UBoxComponent::SetBoxExtent(FVector InBoxExtent)
 {
     BoxExtent = InBoxExtent;
+
+    FBoundingBox BoundingBox;
+    BoundingBox.min = { -BoxExtent.X, -BoxExtent.Y, -BoxExtent.Z };
+    BoundingBox.max = { BoxExtent.X, BoxExtent.Y, BoxExtent.Z };
+    SetBoundingBox(BoundingBox);
 }
 
 bool UBoxComponent::IntersectCollision(const UPrimitiveComponent* Other)

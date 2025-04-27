@@ -59,6 +59,8 @@ void UCapsuleComponent::SetCapsuleSize(float InRadius, float InHalfHeight)
 {
     CapsuleHalfHeight = FMath::Max(InHalfHeight, InRadius);
     CapsuleRadius = InRadius;
+
+    UpdateAABB();
 }
 
 bool UCapsuleComponent::IntersectCollision(const UPrimitiveComponent* Other)
