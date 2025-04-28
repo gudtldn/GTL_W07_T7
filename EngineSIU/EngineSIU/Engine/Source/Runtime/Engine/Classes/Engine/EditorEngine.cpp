@@ -7,6 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "Classes/Engine/AssetManager.h"
 #include "Components/Light/DirectionalLightComponent.h"
+#include "Editor/LevelEditor/SLevelEditor.h"
 
 namespace PrivateEditorSelection
 {
@@ -118,6 +119,8 @@ void UEditorEngine::StartPIE()
     PIEWorld->BeginPlay();
     // 여기서 Actor들의 BeginPlay를 해줄지 안에서 해줄 지 고민.
     WorldList.Add(GetWorldContextFromWorld(PIEWorld));
+
+    GEngineLoop.GetLevelEditor()->SetEditorBlockInput(true);
 }
 
 void UEditorEngine::EndPIE()
@@ -136,6 +139,7 @@ void UEditorEngine::EndPIE()
     }
     // 다시 EditorWorld로 돌아옴.
     ActiveWorld = EditorWorld;
+    GEngineLoop.GetLevelEditor()->SetEditorBlockInput(false);
 }
 
 FWorldContext& UEditorEngine::GetEditorWorldContext(/*bool bEnsureIsGWorld*/)

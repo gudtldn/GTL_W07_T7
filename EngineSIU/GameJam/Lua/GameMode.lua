@@ -33,7 +33,7 @@ end
 
 -- 플레이어 턴 넘기기
 function ALuaGameMode:NextTurn()
-    self.CurrentPlayerIndex = self.CurrentPlayerIndex % self.PlayerNum + 1
+    self.CurrentPlayerIndex = self.CurrentPlayerIndex  % self.PlayerNum + 1
     -- C++ HUD 업데이트 알림
     -- self.cpp_actor:UpdateCurrentPlayer(self.CurrentPlayer)
 end

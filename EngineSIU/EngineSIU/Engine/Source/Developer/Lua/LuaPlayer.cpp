@@ -62,6 +62,9 @@ void ALuaPlayer::BeginPlay()
     Super::BeginPlay();
     (void)CallLuaFunction("BeginPlay");
 
+    if (GEngine->ActiveWorld->WorldType == EWorldType::Editor)
+        return;
+
     FSlateAppMessageHandler* Handler = GEngineLoop.GetAppMessageHandler();
     Handler->OnMouseDownDelegate.AddUObject(this, &ALuaPlayer::OnLeftMouseDown);
     Handler->OnMouseUpDelegate.AddUObject(this, &ALuaPlayer::OnLeftMouseUp);
@@ -104,15 +107,17 @@ void ALuaPlayer::OnLeftMouseDown(const FPointerEvent& InMouseEvent)
     
     if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
         (void)CallLuaFunction("OnLeftMouseDown");
+    
 }
 
 void ALuaPlayer::OnLeftMouseUp(const FPointerEvent& InMouseEvent)
 {
     if (GEngine->ActiveWorld->WorldType == EWorldType::Editor)
         return;
-    
+
     if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
         (void)CallLuaFunction("OnLeftMouseUp");
+    UE_LOG(ELogLevel::Display, "OnLeftMouseUp %s", *GetName());
 }
 
 FVector ALuaPlayer::GetAimDirection()

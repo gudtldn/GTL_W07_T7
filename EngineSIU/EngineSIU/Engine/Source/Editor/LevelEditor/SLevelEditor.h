@@ -25,12 +25,17 @@ public:
     void SetEnableMultiViewport(bool bIsEnable);
     bool IsMultiViewport() const;
 
+    void SetEditorBlockInput(bool BlockInput) { bEditorBlockInput = BlockInput; }
+    bool GetEditorBlockInput() { return bEditorBlockInput; }
+
 private:
     SSplitterH* HSplitter;
     SSplitterV* VSplitter;
     
     std::shared_ptr<FEditorViewportClient> ViewportClients[4];
     std::shared_ptr<FEditorViewportClient> ActiveViewportClient;
+
+    bool bEditorBlockInput = false;
 
 private:
     // Input 관련 변수들
