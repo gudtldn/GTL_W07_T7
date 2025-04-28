@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include "Core/Container/Map.h"
+#include "UObject/SafeObjectPtr.h"
 
 #define FUNC_DECLARE_DELEGATE(DelegateName, ReturnType, ...) \
 	using DelegateName = TDelegate<ReturnType(__VA_ARGS__)>;
@@ -74,40 +75,48 @@ public:
 	template <typename FunctorType>
 	void BindLambda(FunctorType&& InFunctor)
 	{
-	    Func = [Func = std::forward<FunctorType>(InFunctor)](ParamTypes... Params)
+	    Func = [Func = std::forward<FunctorType>(InFunctor)](ParamTypes... Params) mutable
 	    {
 	        return Func(std::forward<ParamTypes>(Params)...);
 	    };
 	}
 
-    // 비-const 멤버 함수용 AddDynamic
-    template <typename UserClass>
-     void AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...))
-	{
-	    Func = [Obj, InMethod](ParamTypes... args) -> ReturnType {
-	        return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
-	    };
-	}
+    template <typename UserClass, typename FunctorType>
+        requires std::derived_from<UserClass, UObject>
+    void BindWeakLambda(UserClass* InUserObject, FunctorType&& InFunctor)
+    {
+        Func = [
+                SafeObject = TSafeObjectPtr<UserClass>(InUserObject),
+                Func = std::forward<FunctorType>(InFunctor)
+            ](ParamTypes... Params) mutable
+            {
+                if (SafeObject.IsValid())
+                {
+                    return Func(std::forward<ParamTypes>(Params)...);
+                }
 
-    // const 멤버 함수용 AddDynamic
-    template <typename UserClass>
-    void AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...) const)
-	{
-	    Func = [Obj, InMethod](ParamTypes... args) -> ReturnType {
-	        return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
-	    };
-	}
+                UE_LOG(ELogLevel::Warning, "TDelegate executing on invalid object. Returning default value.");
+                return ReturnType{};
+            };
+    }
 
-    template <typename T>
-    void BindDynamic(T* Instance, void (T::*Func)(ParamTypes...))
-	{
-	    this->Func = [Instance, Func](ParamTypes... args)
-	    {
-	        (Instance->*Func)(std::forward<ParamTypes>(args)...);
-	    };
-	}
+    template <typename UserClass, typename MethodType>
+        requires std::derived_from<UserClass, UObject> && std::is_member_function_pointer_v<MethodType>
+    void BindUObject(UserClass* Obj, MethodType InMethod)
+    {
+        Func = [SafeObj = TSafeObjectPtr<UserClass>(Obj), InMethod](ParamTypes... Params) mutable
+        {
+            if (SafeObj.IsValid())
+            {
+                return (SafeObj->*InMethod)(std::forward<ParamTypes>(Params)...);
+            }
 
-	void UnBind()
+            UE_LOG(ELogLevel::Warning, "TDelegate executing on invalid object. Returning default value.");
+            return ReturnType{};
+        };
+    }
+
+    void UnBind()
 	{
 		Func = nullptr;
 	}
@@ -142,50 +151,62 @@ class TMulticastDelegate<ReturnType(ParamTypes...)>
     // TODO: std::function 사용 안하고 직접 TFunction 구현하기
 	using FuncType = std::function<ReturnType(ParamTypes...)>;
     TMap<FDelegateHandle, FuncType> DelegateHandles;
-    TMap<const char*, FDelegateHandle> DelegateHandlesByName;
-    
+
 public:
-	template <typename FunctorType>
-	FDelegateHandle AddLambda(const char* FuncName, FunctorType&& InFunctor)
-	{
-		FDelegateHandle DelegateHandle = FDelegateHandle::CreateHandle();
-        
+    template <typename FunctorType>
+    FDelegateHandle AddLambda(FunctorType&& InFunctor)
+    {
+        FDelegateHandle Handle = FDelegateHandle::CreateHandle();
         DelegateHandles.Add(
-            DelegateHandle,
+            Handle,
             [Func = std::forward<FunctorType>(InFunctor)](ParamTypes... Params) mutable
             {
                 Func(std::forward<ParamTypes>(Params)...);
             }
         );
-	    DelegateHandlesByName.Add(FuncName, DelegateHandle);
-		return DelegateHandle;
-	}
+        return Handle;
+    }
 
-    // 비-const 멤버 함수 바인딩
-    template <typename UserClass>
-    FDelegateHandle AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...))
+    template <typename UserClass, typename FunctorType>
+        requires std::derived_from<UserClass, UObject>
+    FDelegateHandle AddWeakLambda(UserClass* InUserObject, FunctorType&& InFunctor)
     {
-        // 새로운 핸들 생성
         FDelegateHandle Handle = FDelegateHandle::CreateHandle();
-        // 멤버 함수 호출 람다 저장
         DelegateHandles.Add(
             Handle,
-            [Obj, InMethod](ParamTypes... args) -> ReturnType {
-                return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
+            [
+                SafeObject = TSafeObjectPtr<UserClass>(InUserObject),
+                Func = std::forward<FunctorType>(InFunctor)
+            ](ParamTypes... Params) mutable
+            {
+                if (SafeObject.IsValid())
+                {
+                    return Func(std::forward<ParamTypes>(Params)...);
+                }
+
+                UE_LOG(ELogLevel::Warning, "TDelegate executing on invalid object. Returning default value.");
+                return ReturnType{};
             }
         );
         return Handle;
     }
 
-    // const 멤버 함수 바인딩
-    template <typename UserClass>
-    FDelegateHandle AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...) const)
+    template <typename UserClass, typename MethodType>
+        requires std::derived_from<UserClass, UObject> && std::is_member_function_pointer_v<MethodType>
+    FDelegateHandle AddUObject(UserClass* InUserObject, MethodType InMethod)
     {
         FDelegateHandle Handle = FDelegateHandle::CreateHandle();
         DelegateHandles.Add(
             Handle,
-            [Obj, InMethod](ParamTypes... args) -> ReturnType {
-                return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
+            [SafeObj = TSafeObjectPtr<UserClass>(InUserObject), InMethod](ParamTypes... Params)
+            {
+                if (SafeObj.IsValid())
+                {
+                    return (SafeObj->*InMethod)(std::forward<ParamTypes>(Params)...);
+                }
+    
+                UE_LOG(ELogLevel::Warning, "TMulticastDelegate executing on invalid object. Returning default value.");
+                return ReturnType{};
             }
         );
         return Handle;
@@ -201,21 +222,12 @@ public:
 	    return false;
 	}
 
-    void RemoveByName(const char* Name)
-	{
-	    if (const FDelegateHandle* HandlePtr = DelegateHandlesByName.Find(Name))
-	    {
-	        DelegateHandles.Remove(*HandlePtr);
-	        DelegateHandlesByName.Remove(Name);
-	    }
-	}
-
 	void Broadcast(ParamTypes... Params) const
 	{
 		auto CopyDelegates = DelegateHandles;
 		for (const auto& [Handle, Delegate] : CopyDelegates)
 		{
-			Delegate(std::forward<ParamTypes>(Params)...);  // NOLINT(bugprone-use-after-move)
+			Delegate(std::forward<ParamTypes>(Params)...);
 		}
 	}
 };

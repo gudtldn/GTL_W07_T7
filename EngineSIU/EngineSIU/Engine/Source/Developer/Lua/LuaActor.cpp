@@ -57,7 +57,7 @@ void ALuaActor::BeginPlay()
 
         if (UPrimitiveComponent* prim = Cast<UPrimitiveComponent>(iter)) 
         {
-            prim->OnComponentBeginOverlap.AddDynamic(this, &ALuaActor::OnOverlap);
+            prim->OnComponentBeginOverlap.AddUObject(this, &ALuaActor::OnOverlap);
         }
     }
 }
