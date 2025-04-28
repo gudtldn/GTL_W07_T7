@@ -21,6 +21,7 @@ UPrimitiveDrawBatch FEngineLoop::PrimitiveDrawBatch;
 FResourceMgr FEngineLoop::ResourceManager;
 uint32 FEngineLoop::TotalAllocationBytes = 0;
 uint32 FEngineLoop::TotalAllocationCount = 0;
+bool FEngineLoop::bIsGameMode = false;
 
 FEngineLoop::FEngineLoop()
     : AppWnd(nullptr)
@@ -139,7 +140,7 @@ void FEngineLoop::Tick()
         Render();
 
         UIMgr->BeginFrame();
-        UnrealEditor->Render();
+        UnrealEditor->Render(bIsGameMode);
         FConsole::GetInstance().Draw();
         if (GEngine->ActiveWorld->WorldType != EWorldType::Editor)
             FLuaManager::Get().RenderImGuiFromLua();
@@ -242,6 +243,25 @@ LRESULT CALLBACK FEngineLoop::AppWndProc(HWND hWnd, uint32 Msg, WPARAM wParam, L
         }
         GEngineLoop.UpdateUI();
         break;
+
+    case WM_SYSKEYDOWN:
+        if (wParam == VK_RETURN && (GetAsyncKeyState(VK_MENU) & 0x8000))
+        {
+            GraphicDevice.ToggleFullScreen(hWnd);
+            return 0;
+        }
+        break;
+    case WM_KEYDOWN:
+        if (wParam == VK_F5 && (GetAsyncKeyState(VK_F5) & 0x8000))
+        {
+            if (bIsGameMode) return 0;
+            
+            bIsGameMode = true;
+            GraphicDevice.ToggleFullScreen(hWnd);
+            FConsole::GetInstance().bWasOpen = false;
+            
+            return 0;
+        }
     default:
         GEngineLoop.AppMessageHandler->ProcessMessage(hWnd, Msg, wParam, lParam);
         return DefWindowProc(hWnd, Msg, wParam, lParam);

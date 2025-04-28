@@ -11,7 +11,7 @@ public:
     ~UnrealEd() = default;
     void Initialize();
     
-     void Render() const;
+     void Render(bool bGameMode = false) const;
      void OnResize(HWND hWnd) const;
     
     void AddEditorPanel(const FString& PanelId, const std::shared_ptr<UEditorPanel>& EditorPanel);
@@ -19,4 +19,5 @@ public:
 
 private:
     TMap<FString, std::shared_ptr<UEditorPanel>> Panels;
+    TMap<FString, std::shared_ptr<UEditorPanel>> GamePanels;
 };

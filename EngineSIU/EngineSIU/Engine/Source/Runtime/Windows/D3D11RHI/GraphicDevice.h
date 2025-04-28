@@ -57,6 +57,7 @@ public:
     
     ID3D11RasterizerState* GetCurrentRasterizer() const { return CurrentRasterizer; }
 
+    void ToggleFullScreen(HWND hWindow);
     /*
     uint32 GetPixelUUID(POINT pt) const;
     uint32 DecodeUUIDColor(FVector4 UUIDColor) const;
@@ -78,5 +79,9 @@ private:
 
     const DXGI_FORMAT BackBufferFormat = DXGI_FORMAT_B8G8R8A8_UNORM;
     const DXGI_FORMAT BackBufferRTVFormat = DXGI_FORMAT_B8G8R8A8_UNORM_SRGB;
+
+    // Fullscreen
+    bool IsBorderlessFullScreen = false;
+    RECT BeforeFullScreen = {};
 };
 

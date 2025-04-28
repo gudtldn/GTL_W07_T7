@@ -45,7 +45,9 @@ public:
     static FResourceMgr ResourceManager;
     static uint32 TotalAllocationBytes;
     static uint32 TotalAllocationCount;
-
+    
+    static bool bIsGameMode;
+    
     HWND AppWnd;
     bool bIsEnableShaderHotReload = true; // TODO: ImGui에서 변경가능하게 설정하기
 
