@@ -5,6 +5,7 @@
 #include "Math/Rotator.h"
 
 class UStaticMeshComponent;
+class URigidbodyComponent;
 
 // 헬퍼 함수 예시
 template<typename Getter, typename Setter>
@@ -44,6 +45,8 @@ private:
     void RenderForMaterial(UStaticMeshComponent* StaticMeshComp);
     void RenderMaterialView(UMaterial* Material);
     void RenderCreateMaterialView();
+
+    void RenderForRigidbody(URigidbodyComponent* RigidbodyComp);
 private:
     float Width = 0, Height = 0;
     FVector Location = FVector(0, 0, 0);

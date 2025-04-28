@@ -185,6 +185,13 @@ public:
     bool IsNearlyZero(float Tolerance = SMALL_NUMBER) const;
     bool IsZero() const;
 
+    /**
+     * Get the absolute minimum of the vectors coordinates.
+     *
+     * @return The absolute minimum of the vectors coordinates.
+     */
+    FORCEINLINE float GetAbsMin() const;
+    
     bool IsNormalized() const;
 
     FString ToString() const;
@@ -406,6 +413,10 @@ inline bool FVector::IsZero() const
     return X==0.f && Y==0.f && Z==0.f;
 }
 
+FORCEINLINE float FVector::GetAbsMin() const
+{
+    return FMath::Min(FMath::Min(FMath::Abs(X),FMath::Abs(Y)),FMath::Abs(Z));
+}
 
 
 inline FArchive& operator<<(FArchive& Ar, FVector2D& V)

@@ -181,6 +181,25 @@ struct FPoint
     float x, y;
 };
 
+struct FPlane
+{
+    FVector Normal;  // 단위 노멀
+    float   D;       // 상수항
+
+    /// @param InNormal 노멀(자동 정규화됨)
+    /// @param InD      방정식 상수항
+    FPlane(const FVector& InNormal, float InD)
+        : Normal(InNormal.GetSafeNormal()), D(InD) {
+    }
+
+    /// @param InNormal 노멀(자동 정규화됨)
+    /// @param PointOnPlane 평면 위의 한 점
+    FPlane(const FVector& InNormal, const FVector& PointOnPlane)
+        : Normal(InNormal.GetSafeNormal())
+        , D(Normal.Dot(PointOnPlane) * -1.0f)
+    { }
+};
+
 struct FBoundingBox
 {
     FBoundingBox() = default;
@@ -265,6 +284,35 @@ struct FBoundingBox
         return true;
     }
 
+    bool IntersectPlane(
+        const FPlane& plane,
+        float& outPenetration,
+        float& outDistance,
+        FVector& outContact) const
+    {
+        // 1) 중심 & extents
+        FVector center = (min + max) * 0.5f;
+        FVector extents = (max - min) * 0.5f;
+
+        // 2) signed distance c = n·center + D
+        float c = plane.Normal.Dot(center) + plane.D;
+
+        // 3) 투영 반경 r = Σ extents_i * |n_i|
+        float r = extents.X * FMath::Abs(plane.Normal.X)
+            + extents.Y * FMath::Abs(plane.Normal.Y)
+            + extents.Z * FMath::Abs(plane.Normal.Z);
+
+        // 4) |c| ≤ r 이면 충돌
+        if (FMath::Abs(c) > r)
+            return false;
+
+        // 5) 결과 계산
+        outPenetration = r - FMath::Abs(c);
+        outDistance = c;
+        outContact = center - plane.Normal * c;
+        return true;
+    }
+
 
     FBoundingBox TransformWorld(const FMatrix& worldMatrix) const
     {
@@ -293,6 +341,42 @@ struct FBoundingBox
 
         return FBoundingBox(worldCenter - worldExtents, worldCenter + worldExtents);
     }
+
+    // 위의 TransformWorld의 경우 Rotation에서 오류가 나는 것으로 보임
+    // 따라서 기존 AABB 그리는 로직과 동일한 아래 코드를 적용 
+    FBoundingBox TransformWorldIteration(const FVector& Center, const FMatrix& worldMatrix)
+    {
+        FVector LocalVertices[8] = {
+        { min.X, min.Y, min.Z },
+        { max.X, min.Y, min.Z },
+        { min.X, max.Y, min.Z },
+        { max.X, max.Y, min.Z },
+        { min.X, min.Y, max.Z },
+        { max.X, min.Y, max.Z },
+        { min.X, max.Y, max.Z },
+        { max.X, max.Y, max.Z }
+        };
+
+        FVector WorldVertices[8];
+        WorldVertices[0] = Center + FMatrix::TransformVector(LocalVertices[0], worldMatrix);
+
+        FVector Min = WorldVertices[0], Max = WorldVertices[0];
+
+        for (int i = 1; i < 8; ++i)
+        {
+            WorldVertices[i] = Center + FMatrix::TransformVector(LocalVertices[i], worldMatrix);
+            Min.X = (WorldVertices[i].X < Min.X) ? WorldVertices[i].X : Min.X;
+            Min.Y = (WorldVertices[i].Y < Min.Y) ? WorldVertices[i].Y : Min.Y;
+            Min.Z = (WorldVertices[i].Z < Min.Z) ? WorldVertices[i].Z : Min.Z;
+            Max.X = (WorldVertices[i].X > Max.X) ? WorldVertices[i].X : Max.X;
+            Max.Y = (WorldVertices[i].Y > Max.Y) ? WorldVertices[i].Y : Max.Y;
+            Max.Z = (WorldVertices[i].Z > Max.Z) ? WorldVertices[i].Z : Max.Z;
+        }
+        FBoundingBox newBoundingBox;
+        newBoundingBox.min = Min;
+        newBoundingBox.max = Max;
+        return newBoundingBox;
+    }
     void Expand(const FVector& point)
     {
         min.X = std::min(min.X, point.X);
@@ -312,7 +396,6 @@ struct FBoundingBox
             (index & 4) ? max.Z : min.Z
         );
     }
-
 };
 
 struct FCone
@@ -476,4 +559,47 @@ struct FFogConstants
     float FogDistanceWeight;
     float padding1;
     float padding2;
+};
+
+/*
+ *************************
+ * For Collision         *
+ *************************
+ */
+struct FCollisionBox
+{
+    FVector Center;
+    float Pad0;
+
+    FVector Extent;
+    float Pad1;
+
+    FLinearColor Color;
+};
+
+struct FCollisionSphere
+{
+    FVector Center;
+    float Radius;
+
+    FLinearColor Color;
+};
+
+struct FCollisionCapsule
+{
+    FVector Center;
+    float Radius;
+
+    float HalfHeight;
+    FVector Pad0;
+
+    FLinearColor Color;
+};
+
+struct alignas(16) FCollisionCountConstants
+{
+    int BoxCount;
+    int SphereCount;
+    int CapsuleCount;
+    int Pad0;
 };

@@ -372,7 +372,11 @@ void LuaTypes::FBindLua<FQuat>::Bind(sol::table& Table)
         // LUA_BIND_STATIC(FQuat::Identity)
 
         // Operators
-        sol::meta_function::multiplication, &FQuat::operator*
+        sol::meta_function::multiplication, LUA_BIND_OVERLOAD_WITHOUT_NAME2(
+            &FQuat::operator*,
+            FQuat(const FQuat&) const,
+            FQuat(float) const
+        )
     );
 }
 

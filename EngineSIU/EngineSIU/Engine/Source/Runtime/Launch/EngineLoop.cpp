@@ -2,6 +2,7 @@
 #include "ImGuiManager.h"
 #include "UnrealClient.h"
 #include "D3D11RHI/GraphicDevice.h"
+#include "Developer/Lua/LuaManager.h"
 #include "Engine/EditorEngine.h"
 #include "LevelEditor/SLevelEditor.h"
 #include "PropertyEditor/ViewportTypePanel.h"
@@ -130,11 +131,12 @@ void FEngineLoop::Tick()
         GEngine->Tick(DeltaTime);
         LevelEditor->Tick(DeltaTime);
         Render();
+
         UIMgr->BeginFrame();
         UnrealEditor->Render();
-
         FConsole::GetInstance().Draw();
-
+        if (GEngine->ActiveWorld->WorldType != EWorldType::Editor)
+            FLuaManager::Get().RenderImGuiFromLua();
         UIMgr->EndFrame();
 
         // Pending 처리된 오브젝트 제거

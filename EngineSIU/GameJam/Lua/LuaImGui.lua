@@ -1,0 +1,11 @@
+function EngineSIU.LuaImGui()
+    ImGui.SetNextWindowPos(30, 100)
+    ImGui.SetNextWindowSize(300, 200)
+    ImGui.Begin("Game Property")
+    ImGui.Text("Coach1 Love : ")
+    ImGui.Text("Coach2 Love : ")
+    ImGui.Text("Coach3 Love : ")
+    ImGui.Separator()
+    ImGui.Text("This Turn Player : ")
+    ImGui.End()
+end

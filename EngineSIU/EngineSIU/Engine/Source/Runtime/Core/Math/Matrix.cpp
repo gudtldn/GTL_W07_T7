@@ -331,6 +331,27 @@ FMatrix FMatrix::GetRotationMatrix(const FQuat& InRotation)
     return Result;
 }
 
+FMatrix FMatrix::ComputeInvInertiaBox(float mass, float width, float height, float depth)
+{
+    // 관성 모멘트
+    float Ixx = mass * (height * height + depth * depth) / 12.0f;
+    float Iyy = mass * (width * width + depth * depth) / 12.0f;
+    float Izz = mass * (width * width + height * height) / 12.0f;
+
+    // 0으로 나누는 상황 방지
+    float InvIxx = (Ixx > 0.0f) ? 1.0f / Ixx : 0.0f;
+    float InvIyy = (Iyy > 0.0f) ? 1.0f / Iyy : 0.0f;
+    float InvIzz = (Izz > 0.0f) ? 1.0f / Izz : 0.0f;
+
+    // 역관성 텐서를 대각 행렬로 채우고, 나머지는 항등 처리
+    return FMatrix{ {
+        { InvIxx, 0.0f,   0.0f,   0.0f },
+        { 0.0f,   InvIyy, 0.0f,   0.0f },
+        { 0.0f,   0.0f,   InvIzz, 0.0f },
+        { 0.0f,   0.0f,   0.0f,   1.0f }
+    } };
+}
+
 FQuat FMatrix::ToQuat(const FMatrix& M) const
 {
     return FQuat(M);

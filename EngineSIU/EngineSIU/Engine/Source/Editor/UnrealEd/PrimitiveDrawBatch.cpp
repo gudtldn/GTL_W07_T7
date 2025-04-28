@@ -294,6 +294,21 @@ void UPrimitiveDrawBatch::AddConeToBatch(const FVector& Center, float Radius, fl
     Cones.Add(Cone);
 }
 
+void UPrimitiveDrawBatch::AddCollisionBoxBatch(const FCollisionBox& Box)
+{
+    CollisionBoxes.Add(Box);
+}
+
+void UPrimitiveDrawBatch::AddCollisionSphereBatch(const FCollisionSphere& Sphere)
+{
+    CollisionSpheres.Add(Sphere);
+}
+
+void UPrimitiveDrawBatch::AddCollisionCapsuleBatch(const FCollisionCapsule& Capsule)
+{
+    CollisionCapsules.Add(Capsule);
+}
+
 // 7. 버퍼 생성 함수들
 void UPrimitiveDrawBatch::CreatePrimitiveBuffers()
 {
@@ -468,4 +483,44 @@ void UPrimitiveDrawBatch::PrepareLineResources() const
         Graphics->DeviceContext->VSSetShaderResources(3, 1, &ConeSRV);
         Graphics->DeviceContext->VSSetShaderResources(4, 1, &OBBSRV);
     }
+}
+
+bool UPrimitiveDrawBatch::IsCollisionBoxOverLimit()
+{
+    if (CollisionBoxes.Num() > AllocatedCollisionBoxCapacity)
+    {
+        AllocatedCollisionBoxCapacity = CollisionBoxes.Num();
+        return true;
+    }
+
+    return false;
+}
+
+bool UPrimitiveDrawBatch::IsCollisionSphereOverLimit()
+{
+    if (CollisionSpheres.Num() > AllocatedCollisionSphereCapacity)
+    {
+        AllocatedCollisionSphereCapacity = CollisionSpheres.Num();
+        return true;
+    }
+
+    return false;
+}
+
+bool UPrimitiveDrawBatch::IsCollisionCapsuleOverLimit()
+{
+    if (CollisionCapsules.Num() > AllocatedCollisionCapsuleCapacity)
+    {
+        AllocatedCollisionCapsuleCapacity = CollisionCapsules.Num();
+        return true;
+    }
+
+    return false;
+}
+
+void UPrimitiveDrawBatch::RemoveCollisionContainers()
+{
+    CollisionBoxes.Empty();
+    CollisionSpheres.Empty();
+    CollisionCapsules.Empty();
 }

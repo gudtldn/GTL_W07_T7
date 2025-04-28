@@ -77,6 +77,16 @@ FQuat FQuat::operator*(const FQuat& Other) const
         );
 }
 
+FQuat FQuat::operator*(float value) const
+{
+    return FQuat(W * value, X * value, Y * value, Z * value);
+}
+
+FQuat FQuat::operator+(const FQuat& Other) const
+{
+    return FQuat(W + Other.W, X + Other.X, Y + Other.Y, Z + Other.Z);
+}
+
 FVector FQuat::RotateVector(const FVector& Vec) const
 {
     // 벡터를 쿼터니언으로 변환

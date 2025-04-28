@@ -35,6 +35,8 @@ public:
         AABB = FBoundingBox(staticMesh->GetRenderData()->BoundingBoxMin, staticMesh->GetRenderData()->BoundingBoxMax);
     }
 
+    FBoundingBox GetWorldAABB();
+
 protected:
     UStaticMesh* staticMesh = nullptr;
     int selectedSubMeshIndex = -1;
