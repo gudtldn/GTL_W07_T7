@@ -12,7 +12,9 @@ ALuaHeartActor::ALuaHeartActor()
     SphereComp->SetSphereRadius(2.0f);
 
     UStaticMeshComponent* StaticMeshComp = Cast<UStaticMeshComponent>(RootComponent);
-    StaticMeshComp->SetStaticMesh(FManagerOBJ::GetStaticMesh(L"Contents/Sphere.obj"));
+    StaticMeshComp->SetStaticMesh(FManagerOBJ::GetStaticMesh(L"Contents/GameJam/NewHeart.obj"));
+
+    StaticMeshComp->SetRelativeRotation(FRotator(0, 90, 0));
 
 
     std::filesystem::path LuaFolderPath = std::filesystem::current_path().parent_path() / "GameJam" / "Lua";

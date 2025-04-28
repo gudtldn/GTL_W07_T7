@@ -136,5 +136,5 @@ void ALuaPlayer::SpawnHeart(FVector pos, FVector dir, float chargeForce, int pla
     SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_HEART_ACTOR"));
 
     SpawnedActor->SetActorLocation(pos);
-    SpawnedActor->RigidbodyComp->ApplyForceAtPoint(dir * chargeForce, FVector(0, 0, 0.3f));
+    SpawnedActor->RigidbodyComp->ApplyForceAtPoint(dir * chargeForce, FVector(0, 0, 0.0f));
 }
