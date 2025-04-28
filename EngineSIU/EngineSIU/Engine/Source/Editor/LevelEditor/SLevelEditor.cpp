@@ -80,7 +80,7 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
 
     FSlateAppMessageHandler* Handler = GEngineLoop.GetAppMessageHandler();
 
-    Handler->OnMouseDownDelegate.AddLambda("OnMouseDown", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnMouseDownDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
         if (ImGui::GetIO().WantCaptureMouse) return;
 
@@ -141,7 +141,7 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnMouseMoveDelegate.AddLambda("OnMouseMove", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnMouseMoveDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
         if (ImGui::GetIO().WantCaptureMouse) return;
 
@@ -201,7 +201,7 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnMouseUpDelegate.AddLambda("OnMouseUp", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnMouseUpDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
         if (ImGui::GetIO().WantCaptureMouse) return;
 
@@ -236,7 +236,7 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnRawMouseInputDelegate.AddLambda("OnRawMouse", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnRawMouseInputDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
         // Mouse Move 이벤트 일때만 실행
         if (
@@ -348,7 +348,7 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnMouseWheelDelegate.AddLambda("OnMouseWheel", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnMouseWheelDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
         if (ImGui::GetIO().WantCaptureMouse) return;
 
@@ -370,14 +370,14 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnKeyDownDelegate.AddLambda("OnKeyDown", [this](const FKeyEvent& InKeyEvent)
+    Handler->OnKeyDownDelegate.AddLambda([this](const FKeyEvent& InKeyEvent)
     {
         const ImGuiIO& IO = ImGui::GetIO();
         if (IO.WantCaptureKeyboard || IO.WantTextInput) return;
         ActiveViewportClient->InputKey(InKeyEvent);
     });
 
-    Handler->OnKeyUpDelegate.AddLambda("OnKeyUp", [this](const FKeyEvent& InKeyEvent)
+    Handler->OnKeyUpDelegate.AddLambda([this](const FKeyEvent& InKeyEvent)
     {
         ActiveViewportClient->InputKey(InKeyEvent);
     });
