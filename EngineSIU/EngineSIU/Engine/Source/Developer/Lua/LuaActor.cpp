@@ -91,7 +91,20 @@ void ALuaActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void ALuaActor::OnOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp)
 {
-    CallLuaFunction("OnOverlap", OtherActor);
+    if (!OtherActor || OtherActor == this)
+    {
+        return;
+    }
+
+    sol::object LuaArg = sol::lua_nil;
+    ALuaActor* OtherLuaActor = Cast<ALuaActor>(OtherActor);
+    if (OtherLuaActor && OtherLuaActor->SelfTable.valid())
+    {
+        // 캐스팅 성공 및 상대방의 SelfTable이 유효하면 그것을 전달
+        LuaArg = OtherLuaActor->SelfTable;
+    }
+
+    CallLuaFunction("OnOverlap", LuaArg);
 }
 
 void ALuaActor::HandleScriptReload(const sol::protected_function& NewFactory)
