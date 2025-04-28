@@ -80,34 +80,17 @@ public:
 	    };
 	}
 
-    // 비-const 멤버 함수용 AddDynamic
-    template <typename UserClass>
-     void AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...))
-	{
-	    Func = [Obj, InMethod](ParamTypes... args) -> ReturnType {
-	        return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
-	    };
-	}
+    template <typename UserClass, typename MethodType>
+        requires std::is_member_function_pointer_v<MethodType>
+    void AddDynamic(UserClass* Obj, MethodType InMethod)
+    {
+        Func = [Obj, InMethod](ParamTypes... Params) -> ReturnType
+        {
+            return (Obj->*InMethod)(std::forward<ParamTypes>(Params)...);
+        };
+    }
 
-    // const 멤버 함수용 AddDynamic
-    template <typename UserClass>
-    void AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...) const)
-	{
-	    Func = [Obj, InMethod](ParamTypes... args) -> ReturnType {
-	        return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
-	    };
-	}
-
-    template <typename T>
-    void BindDynamic(T* Instance, void (T::*Func)(ParamTypes...))
-	{
-	    this->Func = [Instance, Func](ParamTypes... args)
-	    {
-	        (Instance->*Func)(std::forward<ParamTypes>(args)...);
-	    };
-	}
-
-	void UnBind()
+    void UnBind()
 	{
 		Func = nullptr;
 	}
@@ -162,30 +145,16 @@ public:
     }
 
     // 비-const 멤버 함수 바인딩
-    template <typename UserClass>
-    FDelegateHandle AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...))
-    {
-        // 새로운 핸들 생성
-        FDelegateHandle Handle = FDelegateHandle::CreateHandle();
-        // 멤버 함수 호출 람다 저장
-        DelegateHandles.Add(
-            Handle,
-            [Obj, InMethod](ParamTypes... args) -> ReturnType {
-                return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
-            }
-        );
-        return Handle;
-    }
-
-    // const 멤버 함수 바인딩
-    template <typename UserClass>
-    FDelegateHandle AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...) const)
+    template <typename UserClass, typename MethodType>
+        requires std::is_member_function_pointer_v<MethodType>
+    FDelegateHandle AddDynamic(UserClass* Obj, MethodType InMethod)
     {
         FDelegateHandle Handle = FDelegateHandle::CreateHandle();
         DelegateHandles.Add(
             Handle,
-            [Obj, InMethod](ParamTypes... args) -> ReturnType {
-                return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
+            [Obj, InMethod](ParamTypes... Params) -> ReturnType
+            {
+                return (Obj->*InMethod)(std::forward<ParamTypes>(Params)...);
             }
         );
         return Handle;
