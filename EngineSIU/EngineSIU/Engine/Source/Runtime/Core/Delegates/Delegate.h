@@ -86,18 +86,18 @@ public:
     void BindWeakLambda(UserClass* InUserObject, FunctorType&& InFunctor)
     {
         Func = [
-                SafeObject = TSafeObjectPtr<UserClass>(InUserObject),
-                Func = std::forward<FunctorType>(InFunctor)
-            ](ParamTypes... Params) mutable
+            SafeObject = TSafeObjectPtr<UserClass>(InUserObject),
+            Func = std::forward<FunctorType>(InFunctor)
+        ](ParamTypes... Params) mutable
+        {
+            if (SafeObject.IsValid())
             {
-                if (SafeObject.IsValid())
-                {
-                    return Func(std::forward<ParamTypes>(Params)...);
-                }
+                return Func(std::forward<ParamTypes>(Params)...);
+            }
 
-                UE_LOG(ELogLevel::Warning, "TDelegate executing on invalid object. Returning default value.");
-                return ReturnType{};
-            };
+            UE_LOG(ELogLevel::Warning, "TDelegate executing on invalid object. Returning default value.");
+            return ReturnType{};
+        };
     }
 
     template <typename UserClass, typename MethodType>
@@ -175,6 +175,7 @@ public:
         DelegateHandles.Add(
             Handle,
             [
+                this, Handle,
                 SafeObject = TSafeObjectPtr<UserClass>(InUserObject),
                 Func = std::forward<FunctorType>(InFunctor)
             ](ParamTypes... Params) mutable
@@ -184,7 +185,7 @@ public:
                     return Func(std::forward<ParamTypes>(Params)...);
                 }
 
-                UE_LOG(ELogLevel::Warning, "TDelegate executing on invalid object. Returning default value.");
+                Remove(Handle); // 유효한 포인터가 사라지면 델리게이트에서 제거
                 return ReturnType{};
             }
         );
@@ -198,14 +199,18 @@ public:
         FDelegateHandle Handle = FDelegateHandle::CreateHandle();
         DelegateHandles.Add(
             Handle,
-            [SafeObj = TSafeObjectPtr<UserClass>(InUserObject), InMethod](ParamTypes... Params)
+            [
+                this, Handle,
+                SafeObj = TSafeObjectPtr<UserClass>(InUserObject),
+                InMethod
+            ](ParamTypes... Params)
             {
                 if (SafeObj.IsValid())
                 {
                     return (SafeObj->*InMethod)(std::forward<ParamTypes>(Params)...);
                 }
     
-                UE_LOG(ELogLevel::Warning, "TMulticastDelegate executing on invalid object. Returning default value.");
+                Remove(Handle); // 유효한 포인터가 사라지면 델리게이트에서 제거
                 return ReturnType{};
             }
         );
