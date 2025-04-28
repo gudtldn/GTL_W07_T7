@@ -205,6 +205,16 @@ public:
     {
         return PrivateString[Index];
     }
+    
+    FORCEINLINE bool operator<(const FString& Rhs) const
+    {
+        return GetContainerPrivate() < Rhs.GetContainerPrivate();
+    }
+
+    FORCEINLINE bool operator>(const FString& Rhs) const
+    {
+        return GetContainerPrivate() > Rhs.GetContainerPrivate();
+    }
 public:
     // --- Printf 함수 ---
     /**

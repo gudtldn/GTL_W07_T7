@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Components/ShapeComponent.h"
 
 class UCapsuleComponent : public UShapeComponent
@@ -7,11 +7,15 @@ class UCapsuleComponent : public UShapeComponent
 
 public:
     UCapsuleComponent();
+    ~UCapsuleComponent() override;
 
     virtual UObject* Duplicate(UObject* InOuter) override;
     
     virtual void InitializeComponent() override;
+    virtual void BeginPlay() override;
     virtual void TickComponent(float DeltaTime) override;
+
+    virtual bool IntersectCollision(const UPrimitiveComponent* Other) override;
     
 protected:
     /** Half-height, i.e. from center of capsule to end of top or bottom hemisphere. */
@@ -47,6 +51,8 @@ public:
     FORCEINLINE float GetUnScaledCapsuleRadius() const;
 
     FORCEINLINE float GetShapeScale() const;
+
+    FORCEINLINE void UpdateAABB();
 };
 
 // ********** INLINES **********
@@ -63,7 +69,7 @@ FORCEINLINE void UCapsuleComponent::SetCapsuleHalfHeight(float InHalfHeight)
 
 FORCEINLINE float UCapsuleComponent::GetScaledCapsuleHalfHeight() const
 {
-    return CapsuleRadius * GetShapeScale();
+    return CapsuleHalfHeight * GetShapeScale();
 }
 
 FORCEINLINE float UCapsuleComponent::GetScaledCapsuleRadius() const
@@ -84,4 +90,13 @@ FORCEINLINE float UCapsuleComponent::GetUnScaledCapsuleRadius() const
 FORCEINLINE float UCapsuleComponent::GetShapeScale() const
 {
     return GetWorldScale3D().GetAbsMin();
+}
+
+FORCEINLINE void UCapsuleComponent::UpdateAABB()
+{
+    FBoundingBox newBox;
+    newBox.min = FVector(-1.0f * CapsuleRadius, -1.0f * CapsuleRadius, -1.0f * (CapsuleRadius + CapsuleHalfHeight));
+    newBox.max = FVector(CapsuleRadius, CapsuleRadius, CapsuleRadius + CapsuleHalfHeight);
+
+    SetBoundingBox(newBox);
 }

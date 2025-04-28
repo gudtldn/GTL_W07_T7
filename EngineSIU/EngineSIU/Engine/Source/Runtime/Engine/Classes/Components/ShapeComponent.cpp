@@ -1,11 +1,11 @@
 ﻿#include "ShapeComponent.h"
-
 #include "UObject/Casts.h"
 
 UShapeComponent::UShapeComponent()
 {
     ShapeColor = FColor(223, 149, 157, 255);
     bDrawOnlyIfSelected = true;
+    bRegisterCollision = false;
 }
 
 UObject* UShapeComponent::Duplicate(UObject* InOuter)

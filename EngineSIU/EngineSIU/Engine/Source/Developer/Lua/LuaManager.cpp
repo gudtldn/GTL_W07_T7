@@ -1,4 +1,4 @@
-﻿#include "LuaManager.h"
+#include "LuaManager.h"
 
 #include "LuaActor.h"
 #include "LuaTypes/LuaUserTypes.h"

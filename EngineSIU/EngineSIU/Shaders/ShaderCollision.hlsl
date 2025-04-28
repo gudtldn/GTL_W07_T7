@@ -13,6 +13,8 @@ static const uint CapsuleEdgeCount = 68; // 4 + Segments * 4
 
 struct FCollisionBox
 {
+    row_major matrix WorldMatrix;
+    
     float3 Center;
     float Pad0;
     
@@ -24,6 +26,8 @@ struct FCollisionBox
 
 struct FCollisionSphere
 {
+    row_major matrix WorldMatrix;
+    
     float3 Center;
     float Radius;
 
@@ -32,6 +36,8 @@ struct FCollisionSphere
 
 struct FCollisionCapsule
 {
+    row_major matrix WorldMatrix;
+    
     float3 Center;
     float Radius;
 
@@ -236,6 +242,7 @@ PS_INPUT mainVS(VS_INPUT input)
     PS_INPUT output;
     float3 pos;
     float4 color;
+    row_major matrix WorldMat;
 
     uint BoxLineCount = BoxCount * BoxEdgeCount;
     uint SphereLineCount = SphereCount * SphereEdgeCount;
@@ -246,6 +253,7 @@ PS_INPUT mainVS(VS_INPUT input)
 
         uint BoxIndex = input.InstanceID / BoxEdgeCount;
         color = CollisionBoxSB[BoxIndex].Color;
+        WorldMat = CollisionBoxSB[BoxIndex].WorldMatrix;
     }
     else if (input.InstanceID < BoxLineCount + SphereLineCount)
     {
@@ -254,6 +262,7 @@ PS_INPUT mainVS(VS_INPUT input)
 
         uint SphereIndex = Rel / SphereEdgeCount;
         color = CollisionSphereSB[SphereIndex].Color;
+        WorldMat = CollisionSphereSB[SphereIndex].WorldMatrix;
     }
     else
     {
@@ -262,11 +271,12 @@ PS_INPUT mainVS(VS_INPUT input)
 
         uint CapsuleIndex = Rel / CapsuleEdgeCount;
         color = CollisionCapsuleSB[CapsuleIndex].Color;
+        WorldMat = CollisionCapsuleSB[CapsuleIndex].WorldMatrix;
     }
 
     /** Transform **/ 
     output.Position = float4(pos, 1.f);
-    output.Position = mul(output.Position, WorldMatrix);
+    output.Position = mul(output.Position, WorldMat);
     output.WorldPosition = output.Position;
     
     output.Position = mul(output.Position, ViewMatrix);

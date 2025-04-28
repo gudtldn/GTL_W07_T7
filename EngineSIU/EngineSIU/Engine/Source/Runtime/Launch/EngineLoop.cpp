@@ -3,6 +3,7 @@
 #include "UnrealClient.h"
 #include "D3D11RHI/GraphicDevice.h"
 #include "Developer/Lua/LuaManager.h"
+#include "Developer/FMOD/SoundManager.h"
 #include "Engine/EditorEngine.h"
 #include "LevelEditor/SLevelEditor.h"
 #include "PropertyEditor/ViewportTypePanel.h"
@@ -45,6 +46,7 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     UIMgr = new UImGuiManager;
     AppMessageHandler = std::make_unique<FSlateAppMessageHandler>();
     LevelEditor = new SLevelEditor();
+    CollisionSubsystem = new FCollisionSubsystem();
 
     UnrealEditor->Initialize();
     GraphicDevice.Initialize(AppWnd);
@@ -62,6 +64,9 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     GEngine = FObjectFactory::ConstructObject<UEditorEngine>(nullptr);
     GEngine->Init();
 
+    FSoundManager::Get().Initialize();
+    FSoundManager::Get().PlaySound("Contents\\Sound\\background.mp3", FSoundManager::Get().MainChannel, true);
+    
     UpdateUI();
 
     return 0;
@@ -129,6 +134,7 @@ void FEngineLoop::Tick()
         }
 
         GEngine->Tick(DeltaTime);
+        CollisionSubsystem->Tick();
         LevelEditor->Tick(DeltaTime);
         Render();
 
@@ -143,6 +149,8 @@ void FEngineLoop::Tick()
         GUObjectArray.ProcessPendingDestroyObjects();
 
         GraphicDevice.SwapBuffer();
+
+        FSoundManager::Get().Update();
 
 #if _DEBUG
         if (bIsEnableShaderHotReload)
@@ -176,6 +184,7 @@ void FEngineLoop::Exit()
     ResourceManager.Release(&Renderer);
     Renderer.Release();
     GraphicDevice.Release();
+    FSoundManager::Get().Release();
 
     delete UnrealEditor;
     delete BufferManager;

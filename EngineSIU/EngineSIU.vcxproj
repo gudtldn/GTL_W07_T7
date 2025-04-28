@@ -81,10 +81,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)Binaries\$(Platform)\$(ProjectName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\Build\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <LibraryPath>$(ProjectDir)EngineSIU\Engine\Source\ThirdParty\fmod\lib\x64;$(ProjectDir)EngineSIU\Engine\Source\ThirdParty\fmod\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)EngineSIU\Engine\Source\ThirdParty\fmod\inc;$(ProjectDir)EngineSIU\Engine\Source\ThirdParty\fmod;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)Binaries\$(Platform)\$(ProjectName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)Intermediate\Build\$(Platform)\$(ProjectName)\$(Configuration)\</IntDir>
+    <LibraryPath>$(ProjectDir)EngineSIU\Engine\Source\ThirdParty\fmod\lib\x64;$(ProjectDir)EngineSIU\Engine\Source\ThirdParty\fmod\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)EngineSIU\Engine\Source\ThirdParty\fmod\inc;$(ProjectDir)EngineSIU\Engine\Source\ThirdParty\fmod;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -149,7 +153,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\DirectXTK\Lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\lib\$(Configuration);$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DirectXTK.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTK.lib;lua.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Configuration)\lua.dll" "$(OutDir)"
@@ -175,7 +179,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\DirectXTK\Lib\$(PlatformTarget)\$(Configuration);$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\lib\$(Configuration);$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>DirectXTK.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTK.lib;lua.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Configuration)\lua.dll" "$(OutDir)"
@@ -183,6 +187,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\FMOD\SoundManager.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaUserTypes.cpp" />
@@ -192,6 +197,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileUtility.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderFileMetadata.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Core\Math\FCollision.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\AmbientLightActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Editor\LevelEditor\SlateAppMessageHandler.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Editor\LevelEditor\SLevelEditor.cpp" />
@@ -236,7 +242,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\DirectionalLightActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\FireballActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\HeightFogActor.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\LightActor.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\LightActor.cpp" />  
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\Player.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\PointLightActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\SpotLightActor.cpp" />
@@ -274,6 +280,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Engine\StaticMeshActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Actor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Level.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Subsystem\CollisionSubsystem.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\UnrealClient.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\UserInterface\Console.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\World\World.cpp" />
@@ -323,6 +330,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClCompile Include="EngineSIU\LightGridGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\FMOD\SoundManager.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaUserTypes.h" />
@@ -338,6 +346,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\Queue.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\StringConv.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\TSafeQueue.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\FCollision.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Traits\IsCharType.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\AmbientLightActor.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Editor\LevelEditor\SlateAppMessageHandler.h" />
@@ -440,6 +449,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Engine\Texture.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Actor.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Level.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Subsystem\CollisionSubsystem.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\UnrealClient.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\UserInterface\Console.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\ViewportClient.h" />
@@ -511,6 +521,14 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\DirectXTK\Include\DirectXTK\VertexTypes.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\DirectXTK\Include\DirectXTK\WICTextureLoader.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\DirectXTK\Include\DirectXTK\XboxDDSTextureLoader.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_codec.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_common.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_dsp.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_errors.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_output.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\ImGui\include\ImGui\imconfig.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\ImGui\include\ImGui\imgui.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\ImGui\include\ImGui\imgui_impl_dx11.h" />
@@ -649,6 +667,20 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
   </ItemGroup>
   <ItemGroup>
     <Content Include="EngineSIU\.editorconfig" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\arm64\fmod.dll" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\arm64\fmodL.dll" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\arm64\fmodL_vc.lib" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\arm64\fmod_vc.lib" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x64\fmod.dll" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x64\fmodL.dll" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x64\fmodL_vc.lib" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x64\fmod_vc.lib" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x86\fmod.dll" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x86\fmodL.dll" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x86\fmodL_vc.lib" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x86\fmod_vc.lib" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x86\libfmod.a" />
+    <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\x86\libfmodL.a" />
     <Natvis Include="EngineSIU\EngineSIU.natvis" />
     <Natvis Include="EngineSIU\Engine\Source\ThirdParty\sol2\sol2.natvis" />
   </ItemGroup>
@@ -657,6 +689,11 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\Lua\bin\$(Con
   </ItemGroup>
   <ItemGroup>
     <Folder Include="GameJam\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod.cs" />
+    <Compile Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_dsp.cs" />
+    <Compile Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_errors.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

@@ -396,6 +396,24 @@ struct FBoundingBox
             (index & 4) ? max.Z : min.Z
         );
     }
+
+    bool Intersect(const FBoundingBox& Other) const
+    {
+        // X축: [min.X, max.X] 구간이 Other 의 [min.X, max.X] 구간과 겹치는가?
+        if (max.X < Other.min.X || min.X > Other.max.X)
+            return false;
+
+        // Y축
+        if (max.Y < Other.min.Y || min.Y > Other.max.Y)
+            return false;
+
+        // Z축
+        if (max.Z < Other.min.Z || min.Z > Other.max.Z)
+            return false;
+
+        // 모든 축에서 겹치므로 true
+        return true;
+    }
 };
 
 struct FCone
@@ -568,6 +586,8 @@ struct FFogConstants
  */
 struct FCollisionBox
 {
+    FMatrix WorldMatrix;
+    
     FVector Center;
     float Pad0;
 
@@ -579,6 +599,8 @@ struct FCollisionBox
 
 struct FCollisionSphere
 {
+    FMatrix WorldMatrix;
+    
     FVector Center;
     float Radius;
 
@@ -587,6 +609,8 @@ struct FCollisionSphere
 
 struct FCollisionCapsule
 {
+    FMatrix WorldMatrix;
+    
     FVector Center;
     float Radius;
 
@@ -602,4 +626,15 @@ struct alignas(16) FCollisionCountConstants
     int SphereCount;
     int CapsuleCount;
     int Pad0;
+};
+
+struct FHitResult
+{
+    bool bBlockingHit;
+
+    FVector Location;
+    FVector ImpactPoint;
+    
+    FVector Normal;
+    FVector ImpactNormal;
 };

@@ -21,6 +21,9 @@
 #include "Components/HeightFogComponent.h"
 #include "Components/ProjectileMovementComponent.h"
 #include "Components/RigidbodyComponent.h"
+#include "Components/Collision/BoxComponent.h"
+#include "Components/Collision/CapsuleComponent.h"
+#include "Components/Collision/SphereComponent.h"
 #include "Developer/Lua/LuaActor.h"
 #include "GameFramework/Actor.h"
 #include "Engine/AssetManager.h"
@@ -509,6 +512,8 @@ void PropertyEditorPanel::Render()
         }
     }
 
+    RenderCollisionSection(PickedActor);
+
     // TODO: 추후에 RTTI를 이용해서 프로퍼티 출력하기
     if (PickedActor)
         if (UTextComponent* textOBj = Cast<UTextComponent>(PickedActor->GetRootComponent()))
@@ -756,6 +761,10 @@ void PropertyEditorPanel::RenderForStaticMesh(UStaticMeshComponent* StaticMeshCo
 
         TArray<UClass*> CompClasses;
         GetChildOfClass(UActorComponent::StaticClass(), CompClasses);
+        CompClasses.Sort([](auto const& Class1, auto const& Class2) -> bool
+        {
+            return Class1->GetName() < Class2->GetName();
+        });
 
         if (ImGui::BeginCombo("##AddComponent", "Components", ImGuiComboFlags_None))
         {
@@ -1138,6 +1147,98 @@ void PropertyEditorPanel::RenderForRigidbody(URigidbodyComponent* RigidbodyComp)
         ImGui::TreePop();
     }
     ImGui::PopStyleColor();
+}
+
+void PropertyEditorPanel::RenderCollisionSection(AActor* PickedActor)
+{
+    if (PickedActor)
+    {
+        if (UBoxComponent* BoxComponent = Cast<UBoxComponent>(PickedActor->GetComponentByClass<UBoxComponent>()))
+        {
+            ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+            if (ImGui::TreeNodeEx("Box Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+            {
+
+                bool bGenerateOverlapEvents = BoxComponent->bGenerateOverlapEvents;
+                if (ImGui::Checkbox("GenerateOverlapEvents", &bGenerateOverlapEvents))
+                {
+                    BoxComponent->bGenerateOverlapEvents = bGenerateOverlapEvents;
+                }
+
+                bool bBlockComponent = BoxComponent->bBlockComponent;
+                if (ImGui::Checkbox("SimulatePhysics", &bBlockComponent))
+                {
+                    BoxComponent->bBlockComponent = bBlockComponent;
+                }
+                
+                BoxExtent = BoxComponent->GetUnscaledBoxExtent();
+                FImGuiWidget::DrawVec3Control("Extent", BoxExtent, 0, 85);
+                BoxComponent->SetBoxExtent(BoxExtent);
+                
+                ImGui::TreePop();
+            }
+            ImGui::PopStyleColor();
+        }
+
+        if (USphereComponent* SphereComponent = Cast<USphereComponent>(PickedActor->GetComponentByClass<USphereComponent>()))
+        {
+            ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+            if (ImGui::TreeNodeEx("Sphere Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+            {
+
+                bool bGenerateOverlapEvents = SphereComponent->bGenerateOverlapEvents;
+                if (ImGui::Checkbox("GenerateOverlapEvents", &bGenerateOverlapEvents))
+                {
+                    SphereComponent->bGenerateOverlapEvents = bGenerateOverlapEvents;
+                }
+
+                bool bBlockComponent = SphereComponent->bBlockComponent;
+                if (ImGui::Checkbox("SimulatePhysics", &bBlockComponent))
+                {
+                    SphereComponent->bBlockComponent = bBlockComponent;
+                }
+                
+                float Radius = SphereComponent->GetUnscaledSphereRadius();
+                ImGui::DragFloat("Radius", &Radius, 0.01f, 0.0f, FLT_MAX);
+                SphereComponent->SetSphereRadius(Radius);
+                
+                ImGui::TreePop();
+            }
+            ImGui::PopStyleColor();
+        }
+
+        if (UCapsuleComponent* CapsuleComponent = Cast<UCapsuleComponent>(PickedActor->GetComponentByClass<UCapsuleComponent>()))
+        {
+            ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+            if (ImGui::TreeNodeEx("Capsule Component", ImGuiTreeNodeFlags_Framed | ImGuiTreeNodeFlags_DefaultOpen))
+            {
+
+                bool bGenerateOverlapEvents = CapsuleComponent->bGenerateOverlapEvents;
+                if (ImGui::Checkbox("GenerateOverlapEvents", &bGenerateOverlapEvents))
+                {
+                    CapsuleComponent->bGenerateOverlapEvents = bGenerateOverlapEvents;
+                }
+
+                bool bBlockComponent = CapsuleComponent->bBlockComponent;
+                if (ImGui::Checkbox("SimulatePhysics", &bBlockComponent))
+                {
+                    CapsuleComponent->bBlockComponent = bBlockComponent;
+                }
+                
+                float Radius = CapsuleComponent->GetUnScaledCapsuleRadius();
+                float HalfHeight = CapsuleComponent->GetUnScaledCapsuleHalfHeight();
+                
+                ImGui::DragFloat("Radius", &Radius, 0.01f, 0.0f, FLT_MAX);
+                ImGui::DragFloat("Half Height", &HalfHeight, 0.01f, 0.0f, FLT_MAX);
+
+                CapsuleComponent->SetCapsuleSize(Radius, HalfHeight);
+                
+                ImGui::TreePop();
+            }
+            ImGui::PopStyleColor();
+        }
+        ImGui::Dummy(ImVec2(0, 5)); // Padding
+    }
 }
 
 void PropertyEditorPanel::OnResize(HWND hWnd)

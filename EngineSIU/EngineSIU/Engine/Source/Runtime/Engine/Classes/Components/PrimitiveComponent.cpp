@@ -142,3 +142,91 @@ bool UPrimitiveComponent::IsZeroExtent() const
 {
     return false;
 }
+
+bool UPrimitiveComponent::IntersectCollision(const UPrimitiveComponent* Other)
+{
+    return false;
+}
+
+void UPrimitiveComponent::BeginComponentOverlap(UPrimitiveComponent* OverlappedComponent)
+{
+    if (OverlappedComponent)
+    {
+        if (IsOverlappingComponent(OverlappedComponent))
+        {
+            // Already processed component.
+            return;
+        }
+
+        OverlappingComponents.Add(OverlappedComponent);
+
+        AActor* const MyActor = GetOwner();
+        
+        AActor* const OtherActor = OverlappedComponent->GetOwner();
+
+        if (!IsPendingKill())
+        {
+            UE_LOG(ELogLevel::Display, "%s: BeginOverlap", *this->GetName());
+            OnComponentBeginOverlap.Broadcast(OtherActor, OverlappedComponent);
+        }
+
+        if (!OverlappedComponent->IsPendingKill())
+        {
+            OverlappedComponent->OnComponentBeginOverlap.Broadcast(MyActor, this);
+        }
+    }
+}
+
+void UPrimitiveComponent::EndComponentOverlap(UPrimitiveComponent* OverlappedComponent)
+{
+    AActor* const OtherActor = OverlappedComponent ? OverlappedComponent->GetOwner() : nullptr;
+    AActor* const MyActor = GetOwner();
+
+    if ( (OtherActor != nullptr) && IsOverlappingComponent(OverlappedComponent) && (MyActor != nullptr))
+    {
+        if (IsActive())
+        {
+            OnComponentEndOverlap.Broadcast(OtherActor, OverlappedComponent);
+        }
+
+        if (OverlappedComponent->IsActive())
+        {
+            UE_LOG(ELogLevel::Display, "%s: EndOverlap", *this->GetName());
+            OverlappedComponent->OnComponentEndOverlap.Broadcast(MyActor, this);
+        }
+    }
+
+    int32 OverlapIndex = OverlappingComponents.Find(OverlappedComponent);
+    if (OverlapIndex != -1)
+    {
+        OverlappingComponents.RemoveAt(OverlapIndex);
+    }
+
+    if (OverlappedComponent)        
+    {
+        int32 OtherOverlapIndex = OverlappedComponent->OverlappingComponents.Find(this);
+        if (OtherOverlapIndex != -1)
+        {
+            OverlappedComponent->OverlappingComponents.RemoveAt(OtherOverlapIndex);
+        }
+    }
+}
+
+bool UPrimitiveComponent::IsOverlappingActor(AActor* Other) const
+{
+    return false;
+}
+
+bool UPrimitiveComponent::IsOverlappingComponent(UPrimitiveComponent* Other) const
+{
+    for (int32 i = 0; i < OverlappingComponents.Num(); i++)
+    {
+        if (OverlappingComponents[i] == Other) { return true; }
+    }
+    return false;
+}
+
+const TArray<UPrimitiveComponent*>& UPrimitiveComponent::GetOverlappingComponents() const
+{
+    return OverlappingComponents;
+}
