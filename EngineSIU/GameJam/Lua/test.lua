@@ -51,6 +51,11 @@ end
 
 -- 충돌 시 호출되는 함수
 function ALuaActor:OnOverlap(other_actor)
+    self.cpp_actor:SetActorLocation(
+        self.cpp_actor:GetActorLocation()
+        + self.cpp_actor:GetActorForwardVector()
+        + FVector.new(0, 0, 10)
+    )
     print("[OnOverlap]", other_actor)
 end
 

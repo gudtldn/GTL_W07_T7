@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <optional>
 #include <filesystem>
 
@@ -21,6 +21,8 @@ public:
     virtual void Tick(float DeltaTime) override;
     virtual void Destroyed() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+    void OnOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp);
 
     /** Lua Script에 변경사항이 생겼을 때 Manager에서 호출되는 함수 */
     void HandleScriptReload(const sol::protected_function& NewFactory);

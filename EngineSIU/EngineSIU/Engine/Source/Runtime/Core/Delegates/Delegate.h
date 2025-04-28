@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <functional>
 #include "Core/Container/Map.h"
 
@@ -161,22 +161,37 @@ public:
 		return DelegateHandle;
 	}
 
-    template <typename T>
-    FDelegateHandle AddDynamic(const char* FuncName, T* Instance, void (T::*Func)(ParamTypes...))
-	{
-	    FDelegateHandle Handle = FDelegateHandle::CreateHandle();
-	    DelegateHandles.Add(
-	        Handle,
-	        [Instance, Func](ParamTypes... args)
-	        {
-	            (Instance->*Func)(std::forward<ParamTypes>(args)...);
-	        }
-	    );
-	    DelegateHandlesByName.Add(FuncName, Handle);
-	    return Handle;
-	}
+    // 비-const 멤버 함수 바인딩
+    template <typename UserClass>
+    FDelegateHandle AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...))
+    {
+        // 새로운 핸들 생성
+        FDelegateHandle Handle = FDelegateHandle::CreateHandle();
+        // 멤버 함수 호출 람다 저장
+        DelegateHandles.Add(
+            Handle,
+            [Obj, InMethod](ParamTypes... args) -> ReturnType {
+                return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
+            }
+        );
+        return Handle;
+    }
 
-    bool Remove(FDelegateHandle Handle)
+    // const 멤버 함수 바인딩
+    template <typename UserClass>
+    FDelegateHandle AddDynamic(UserClass* Obj, ReturnType(UserClass::* InMethod)(ParamTypes...) const)
+    {
+        FDelegateHandle Handle = FDelegateHandle::CreateHandle();
+        DelegateHandles.Add(
+            Handle,
+            [Obj, InMethod](ParamTypes... args) -> ReturnType {
+                return (Obj->*InMethod)(std::forward<ParamTypes>(args)...);
+            }
+        );
+        return Handle;
+    }
+
+	bool Remove(FDelegateHandle Handle)
 	{
 	    if (Handle.IsValid())
 	    {

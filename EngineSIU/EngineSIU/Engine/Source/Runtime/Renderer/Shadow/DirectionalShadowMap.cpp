@@ -414,5 +414,10 @@ void FDirectionalShadowMap::PrepareRender(const std::shared_ptr<FEditorViewportC
 
 ID3D11ShaderResourceView* FDirectionalShadowMap::GetShadowViewSRV(int index)
 {
+    if (DirectionalShadowResources.Num() - 1 < index) 
+    {
+        return nullptr;
+    }
+
     return DirectionalShadowResources[index].ShadowSRV;
 }
