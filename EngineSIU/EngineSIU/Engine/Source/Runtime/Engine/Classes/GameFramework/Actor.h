@@ -19,6 +19,9 @@ public:
 
     virtual UObject* Duplicate(UObject* InOuter) override;
 
+    virtual void GetProperties(TMap<FString, FString>& OutProperties) const {}
+    virtual void SetProperties(const TMap<FString, FString>& InProperties) {}
+
     /** Actor가 게임에 배치되거나 스폰될 때 호출됩니다. */
     virtual void BeginPlay();
 
@@ -41,10 +44,10 @@ public:
     virtual bool Destroy();
 
     /** 현재 Actor가 제거중인지 여부를 반환합니다. */
-    bool IsActorBeingDestroyed() const
-    {
-        return bActorIsBeingDestroyed;
-    }
+    bool IsActorBeingDestroyed() const { return bActorIsBeingDestroyed; }
+
+    /** 현재 Actor가 플레이 중인지 여부를 반환합니다. */
+    bool HasActorBegunPlay() const { return bHasActorBegunPlay; }
 
     /**
      * Actor에 컴포넌트를 새로 추가합니다.
@@ -105,6 +108,9 @@ private:
 
     /** 현재 Actor가 삭제 처리중인지 여부 */
     uint8 bActorIsBeingDestroyed : 1 = false;
+
+    /** 현재 Actor가 플레이 중인지 여부 */
+    uint8 bHasActorBegunPlay : 1 = false;
 
 #if 1 // TODO: WITH_EDITOR 추가
 public:

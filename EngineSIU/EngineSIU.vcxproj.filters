@@ -1352,6 +1352,10 @@
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileUtility.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderFileMetadata.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaMathTypes.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaObjectTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="EngineSIU\EngineSIU.natvis" />
@@ -1420,9 +1424,15 @@
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lua.hpp" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\luaconf.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\Lua\include\lualib.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol2\config.hpp" />
-    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol2\forward.hpp" />
-    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol2\sol.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaManager.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaActor.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaMathTypes.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaTypes\LuaObjectTypes.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindMacros.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindUtils.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\config.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\forward.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\sol2\include\sol\sol.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultPropertySheet.props" />

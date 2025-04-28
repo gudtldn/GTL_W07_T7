@@ -52,6 +52,8 @@ void UEditorEngine::Init()
 
 void UEditorEngine::Tick(float DeltaTime)
 {
+    Super::Tick(DeltaTime);
+
     for (FWorldContext* WorldContext : WorldList)
     {
         if (WorldContext->WorldType == EWorldType::Editor)

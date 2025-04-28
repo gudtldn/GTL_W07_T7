@@ -70,7 +70,8 @@ void UStaticMeshComponent::SetProperties(const TMap<FString, FString>& InPropert
         }
         else // 값이 "None"이면
         {
-            SetStaticMesh(nullptr); // 명시적으로 메시 없음 설정
+            // BUG: 내부에서 nullptr을 역참조해서 주석처리
+            // SetStaticMesh(nullptr); // 명시적으로 메시 없음 설정
             UE_LOG(ELogLevel::Display, TEXT("Set StaticMesh to None for %s"), *GetName());
         }
     }

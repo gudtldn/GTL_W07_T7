@@ -35,6 +35,24 @@ bool FVector2D::InitFromString(const FString& InSourceString)
 }
 
 
+FVector FVector::operator+(float Scalar) const
+{
+    return FVector{
+        X + Scalar,
+        Y + Scalar,
+        Z + Scalar
+    };
+}
+
+FVector FVector::operator-(float Scalar) const
+{
+    return FVector{
+        X - Scalar,
+        Y - Scalar,
+        Z - Scalar
+    };
+}
+
 float FVector::SizeSquared() const
 {
     return SquaredLength();
