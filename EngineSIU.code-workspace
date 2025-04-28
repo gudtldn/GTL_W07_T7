@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		// stub 디렉터리를 workspace library로 추가
+		"Lua.workspace.library": [
+			"${workspaceFolder}/EngineSIU/EngineSIU/Engine/Source/Developer/Lua/LuaStubs"
+		  ],
+	}
+}
