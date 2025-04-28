@@ -192,13 +192,15 @@ void ALuaActor::SetScriptPath(const std::optional<std::filesystem::path>& Path)
             }
             else
             {
-                /* 오류 처리 */
+                // Log an error if the factory function result is invalid or not a table
+                UE_LOG(ELogLevel::Error, "Lua factory function for script '%s' returned an invalid result or non-table type.", LuaScriptPath.value().generic_string().c_str());
                 SelfTable = sol::lua_nil;
             }
         }
         else
         {
-            /* 오류 처리 */
+            // Log an error if the factory function itself is invalid
+            UE_LOG(ELogLevel::Error, "Lua factory function for script '%s' is invalid.", LuaScriptPath.value().generic_string().c_str());
             SelfTable = sol::lua_nil;
         }
     }
