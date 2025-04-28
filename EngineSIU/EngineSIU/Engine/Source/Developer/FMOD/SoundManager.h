@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <filesystem>
 #include <iostream>
 #include <unordered_map>
@@ -6,7 +6,7 @@
 #include "fmod.hpp"
 #include "fmod_errors.h"
 
-using namespace std;
+
 
 class FSoundManager
 {
@@ -24,20 +24,20 @@ public:
     void Initialize();
     void Release() const;
 
-    bool CreateSound(const string& SoundName, bool bLoop = false);
+    bool CreateSound(const std::string& SoundName, bool bLoop = false);
     
     /** Update FMOD system, in loop-statement */
     void Update() const;
 
-    FMOD::Channel* PlaySound(const string& SoundName, bool bLoop);
-    void PlaySound(const string& SoundName, FMOD::Channel* Channel, bool bLoop);
+    FMOD::Channel* PlaySound(const std::string& SoundName, bool bLoop);
+    void PlaySound(const std::string& SoundName, FMOD::Channel* Channel, bool bLoop);
     
-    void StopSound(const string& ChannelName);
-    void PauseSound(const string& ChannelName) const;
-    void ResumeSound(const string& ChannelName) const;
+    void StopSound(const std::string& ChannelName);
+    void PauseSound(const std::string& ChannelName) const;
+    void ResumeSound(const std::string& ChannelName) const;
 
-    FMOD::Sound* GetSound(const string& SoundName) const;
-    FMOD::Channel* GetChannel(const string& ChannelName) const;
+    FMOD::Sound* GetSound(const std::string& SoundName) const;
+    FMOD::Channel* GetChannel(const std::string& ChannelName) const;
 
     inline FMOD::System* GetSystem() const;
     inline unsigned int GetVersion() const;
@@ -56,7 +56,7 @@ private:
      */
     static inline bool ErrorCheck(FMOD_RESULT);
 
-    static inline filesystem::path GetPath(const string& SoundPath);
+    static inline std::filesystem::path GetPath(const std::string& SoundPath);
     
 private:
     static FSoundManager* Instance;

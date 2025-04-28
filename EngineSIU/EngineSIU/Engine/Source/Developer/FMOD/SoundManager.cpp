@@ -1,4 +1,4 @@
-﻿#include "SoundManager.h"
+#include "SoundManager.h"
 #include <cassert>
 
 FSoundManager* FSoundManager::Instance = nullptr;
@@ -57,9 +57,9 @@ void FSoundManager::Release() const
     }
 }
 
-bool FSoundManager::CreateSound(const string& SoundName, bool bLoop)
+bool FSoundManager::CreateSound(const std::string& SoundName, bool bLoop)
 {
-    const string FullPath = GetPath(SoundName).string();
+    const std::string FullPath = GetPath(SoundName).string();
     
     FMOD::Sound* Sound = nullptr;
     FMOD_RESULT FmodResult = System->createSound(FullPath.c_str(), bLoop ? FMOD_DEFAULT | FMOD_LOOP_NORMAL : FMOD_DEFAULT, nullptr, &Sound);
@@ -81,7 +81,7 @@ void FSoundManager::Update() const
     }
 }
 
-FMOD::Channel* FSoundManager::PlaySound(const string& SoundName, bool bLoop)
+FMOD::Channel* FSoundManager::PlaySound(const std::string& SoundName, bool bLoop)
 {
     FMOD::Sound* Sound = GetSound(SoundName);
     if (!Sound)
@@ -100,7 +100,7 @@ FMOD::Channel* FSoundManager::PlaySound(const string& SoundName, bool bLoop)
     return Channel;
 }
 
-void FSoundManager::PlaySound(const string& SoundName, FMOD::Channel* Channel, bool bLoop)
+void FSoundManager::PlaySound(const std::string& SoundName, FMOD::Channel* Channel, bool bLoop)
 {
     FMOD::Sound* Sound = GetSound(SoundName);
     if (!Sound)
@@ -114,7 +114,7 @@ void FSoundManager::PlaySound(const string& SoundName, FMOD::Channel* Channel, b
     ErrorCheck(FmodResult);
 }
 
-void FSoundManager::StopSound(const string& ChannelName)
+void FSoundManager::StopSound(const std::string& ChannelName)
 {
     if (FMOD::Channel* Channel = GetChannel(ChannelName))
     {
@@ -123,7 +123,7 @@ void FSoundManager::StopSound(const string& ChannelName)
     }
 }
 
-void FSoundManager::PauseSound(const string& ChannelName) const
+void FSoundManager::PauseSound(const std::string& ChannelName) const
 {
     if (FMOD::Channel* Channel = GetChannel(ChannelName))
     {
@@ -131,7 +131,7 @@ void FSoundManager::PauseSound(const string& ChannelName) const
     }
 }
 
-void FSoundManager::ResumeSound(const string& ChannelName) const
+void FSoundManager::ResumeSound(const std::string& ChannelName) const
 {
     if (FMOD::Channel* Channel = GetChannel(ChannelName))
     {
@@ -139,20 +139,20 @@ void FSoundManager::ResumeSound(const string& ChannelName) const
     }
 }
 
-FMOD::Sound* FSoundManager::GetSound(const string& SoundName) const
+FMOD::Sound* FSoundManager::GetSound(const std::string& SoundName) const
 {
     auto It = SoundMap.find(SoundName);
     return (It != SoundMap.end()) ? It->second : nullptr;
 }
 
-FMOD::Channel* FSoundManager::GetChannel(const string& ChannelName) const
+FMOD::Channel* FSoundManager::GetChannel(const std::string& ChannelName) const
 {
     auto It = ChannelMap.find(ChannelName);
     return (It != ChannelMap.end()) ? It->second : nullptr;
 }
 
-filesystem::path FSoundManager::GetPath(const string& SoundPath)
+std::filesystem::path FSoundManager::GetPath(const std::string& SoundPath)
 {
-    std::filesystem::path Path = filesystem::current_path() / SoundPath;
+    std::filesystem::path Path = std::filesystem::current_path() / SoundPath;
     return Path;
 }
