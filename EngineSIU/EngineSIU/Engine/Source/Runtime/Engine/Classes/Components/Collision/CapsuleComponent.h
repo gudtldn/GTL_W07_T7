@@ -7,7 +7,7 @@ class UCapsuleComponent : public UShapeComponent
 
 public:
     UCapsuleComponent();
-    ~UCapsuleComponent();
+    ~UCapsuleComponent() override;
 
     virtual UObject* Duplicate(UObject* InOuter) override;
     
@@ -69,7 +69,7 @@ FORCEINLINE void UCapsuleComponent::SetCapsuleHalfHeight(float InHalfHeight)
 
 FORCEINLINE float UCapsuleComponent::GetScaledCapsuleHalfHeight() const
 {
-    return CapsuleRadius * GetShapeScale();
+    return CapsuleHalfHeight * GetShapeScale();
 }
 
 FORCEINLINE float UCapsuleComponent::GetScaledCapsuleRadius() const

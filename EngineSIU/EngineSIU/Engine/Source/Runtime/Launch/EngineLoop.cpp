@@ -2,6 +2,8 @@
 #include "ImGuiManager.h"
 #include "UnrealClient.h"
 #include "D3D11RHI/GraphicDevice.h"
+#include "Developer/Lua/LuaManager.h"
+#include "Developer/FMOD/SoundManager.h"
 #include "Engine/EditorEngine.h"
 #include "LevelEditor/SLevelEditor.h"
 #include "PropertyEditor/ViewportTypePanel.h"
@@ -62,6 +64,9 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     GEngine = FObjectFactory::ConstructObject<UEditorEngine>(nullptr);
     GEngine->Init();
 
+    FSoundManager::Get().Initialize();
+    FSoundManager::Get().PlaySound("Contents\\Sound\\background.mp3", FSoundManager::Get().MainChannel, true);
+    
     UpdateUI();
 
     return 0;
@@ -132,17 +137,20 @@ void FEngineLoop::Tick()
         CollisionSubsystem->Tick();
         LevelEditor->Tick(DeltaTime);
         Render();
+
         UIMgr->BeginFrame();
         UnrealEditor->Render();
-
         FConsole::GetInstance().Draw();
-
+        if (GEngine->ActiveWorld->WorldType != EWorldType::Editor)
+            FLuaManager::Get().RenderImGuiFromLua();
         UIMgr->EndFrame();
 
         // Pending 처리된 오브젝트 제거
         GUObjectArray.ProcessPendingDestroyObjects();
 
         GraphicDevice.SwapBuffer();
+
+        FSoundManager::Get().Update();
 
 #if _DEBUG
         if (bIsEnableShaderHotReload)
@@ -176,6 +184,7 @@ void FEngineLoop::Exit()
     ResourceManager.Release(&Renderer);
     Renderer.Release();
     GraphicDevice.Release();
+    FSoundManager::Get().Release();
 
     delete UnrealEditor;
     delete BufferManager;

@@ -27,7 +27,7 @@ struct FQuat
     // 쿼터니언의 곱셈 연산 (회전 결합)
     FQuat operator*(const FQuat& Other) const;
     // 쿼터니언의 곱셈 연산 (float 계산)
-    FQuat operator*(const float& value) const;
+    FQuat operator*(float value) const;
 
     // 쿼터니언의 덧셈 연산
     FQuat operator+(const FQuat& Other) const;
