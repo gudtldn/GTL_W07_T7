@@ -21,8 +21,8 @@ public:
     virtual void Tick(float DeltaTime) override;
     virtual void Destroyed() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-    void OnOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp);
+    
+    virtual void OnOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp);
 
     /** Lua Script에 변경사항이 생겼을 때 Manager에서 호출되는 함수 */
     void HandleScriptReload(const sol::protected_function& NewFactory);
@@ -40,7 +40,7 @@ protected:
 protected:
     sol::table SelfTable = sol::lua_nil;
 
-private:
+//private:
     // TODO: .scene에 저장을 어떻게 하지?
     std::optional<std::filesystem::path> LuaScriptPath;
 };

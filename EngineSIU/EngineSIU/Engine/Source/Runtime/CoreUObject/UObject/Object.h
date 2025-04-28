@@ -46,6 +46,7 @@ public:
 
     FName GetFName() const { return NamePrivate; }
     FString GetName() const { return NamePrivate.ToString(); }
+    std::string GetNameStr() const { return NamePrivate.ToString().ToAnsiString(); }
 
     uint32 GetUUID() const { return UUID; }
     uint32 GetInternalIndex() const { return InternalIndex; }

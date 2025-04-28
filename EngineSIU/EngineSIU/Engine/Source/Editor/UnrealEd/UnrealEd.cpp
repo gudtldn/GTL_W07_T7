@@ -4,6 +4,7 @@
 #include "PropertyEditor/ControlEditorPanel.h"
 #include "PropertyEditor/OutlinerEditorPanel.h"
 #include "PropertyEditor/PropertyEditorPanel.h"
+#include "PropertyEditor/GameLobbyPanel.h"
 
 void UnrealEd::Initialize()
 {
@@ -15,13 +16,26 @@ void UnrealEd::Initialize()
     
     auto PropertyPanel = std::make_shared<PropertyEditorPanel>();
     Panels["PropertyPanel"] = PropertyPanel;
+
+    auto GameLobbyPanel = std::make_shared<class GameLobbyPanel>();
+    GamePanels["GameLobbyPanel"] = GameLobbyPanel;
 }
 
-void UnrealEd::Render() const
+void UnrealEd::Render(bool bGameMode) const
 {
-    for (const auto& Panel : Panels)
+    if (bGameMode)
     {
-        Panel.Value->Render();
+        for (const auto& Panel : GamePanels)
+        {
+            Panel.Value->Render();
+        }
+    }
+    else
+    {
+        for (const auto& Panel : Panels)
+        {
+            Panel.Value->Render();
+        }
     }
 }
 
@@ -33,6 +47,11 @@ void UnrealEd::AddEditorPanel(const FString& PanelId, const std::shared_ptr<UEdi
 void UnrealEd::OnResize(HWND hWnd) const
 {
     for (auto& Panel : Panels)
+    {
+        Panel.Value->OnResize(hWnd);
+    }
+
+    for (auto& Panel : GamePanels)
     {
         Panel.Value->OnResize(hWnd);
     }

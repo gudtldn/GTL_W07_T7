@@ -203,6 +203,12 @@ void FEditorViewportClient::InputKey(const FKeyEvent& InKeyEvent)
                 EdPlayer->SetMode(CM_SCALE);
                 break;
             }
+            case 0x0000001B:
+            {
+                FEngineLoop::GameState = Lobby;
+                break;
+            }
+                
             default:
                 break;
             }

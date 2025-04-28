@@ -40,6 +40,14 @@ void FResourceMgr::Initialize(FRenderer* renderer, FGraphicsDevice* device)
     LoadTextureFromFile(device->Device, device->DeviceContext, L"Assets/Editor/Icon/AtmosphericFog_64.png");
     LoadTextureFromFile(device->Device, device->DeviceContext, L"Assets/Editor/Icon/AmbientLight_64x.png");
 
+    // Coach
+    LoadTextureFromFile(device->Device, device->DeviceContext, L"Assets/Texture/lcg.png");
+    LoadTextureFromFile(device->Device, device->DeviceContext, L"Assets/Texture/bsh.png");
+    LoadTextureFromFile(device->Device, device->DeviceContext, L"Assets/Texture/ksw.png");
+    LoadTextureFromFile(device->Device, device->DeviceContext, L"Assets/Texture/jungle.png");
+    LoadTextureFromFile(device->Device, device->DeviceContext, L"Assets/Texture/logo.png");
+    LoadTextureFromFile(device->Device, device->DeviceContext, L"Assets/Texture/titledesc.png");
+
 }
 
 void FResourceMgr::Release(FRenderer* renderer) {

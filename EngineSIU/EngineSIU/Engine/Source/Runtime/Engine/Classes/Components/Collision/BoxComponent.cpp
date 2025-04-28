@@ -1,4 +1,4 @@
-﻿#include "BoxComponent.h"
+#include "BoxComponent.h"
 #include "SphereComponent.h"
 #include "CapsuleComponent.h"
 #include "Engine/Engine.h"
@@ -51,6 +51,28 @@ void UBoxComponent::BeginPlay()
 void UBoxComponent::TickComponent(float DeltaTime)
 {
     Super::TickComponent(DeltaTime);
+}
+
+void UBoxComponent::GetProperties(TMap<FString, FString>& OutProperties) const
+{
+    Super::GetProperties(OutProperties);
+    OutProperties.Add(TEXT("BoxExtent"), BoxExtent.ToString());
+}
+
+void UBoxComponent::SetProperties(const TMap<FString, FString>& InProperties)
+{
+
+    Super::SetProperties(InProperties);
+
+    const FString* TempStr = nullptr;
+
+    // --- PrimitiveComponent 고유 속성 복원 ---
+
+    TempStr = InProperties.Find(TEXT("BoxExtent"));
+    if (TempStr)
+    {
+        BoxExtent.InitFromString(*TempStr); 
+    }
 }
 
 void UBoxComponent::SetBoxExtent(FVector InBoxExtent)

@@ -292,6 +292,10 @@ void FPointLightShadowMap::DeletePointLightShadowCube(int num)
 
 void FPointLightShadowMap::RenderLinearDepth(int lightIndex, UPointLightComponent* pointLightComp)
 {
+    if (PointLightShadowCubes.Num() - 1 < lightIndex) 
+    {
+        lightIndex = 0;
+    }
 
     if (PointLightShadowCubes[lightIndex].DepthCube == nullptr) return;
 

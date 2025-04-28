@@ -5,6 +5,9 @@
 #define __ICON_FONT_INDEX__
 #define DEFAULT_FONT		0
 #define	FEATHER_FONT		1
+#define DEFAULT_FONT_24     2
+#define DEFAULT_FONT_32     3
+#define DEFAULT_FONT_48     4
 
 #endif // !__ICON_FONT_INDEX__
 

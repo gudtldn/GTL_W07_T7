@@ -3,14 +3,14 @@
 
 FSoundManager* FSoundManager::Instance = nullptr;
 
-FSoundManager& FSoundManager::Get()
+FSoundManager* FSoundManager::Get()
 {
     if (!Instance)
     {
         Instance = new FSoundManager();
         Instance->Initialize();
     }
-    return *Instance;
+    return Instance;
 }
 
 void FSoundManager::Initialize()
@@ -39,6 +39,8 @@ void FSoundManager::Initialize()
         &ExInfo,
         &SilentSound
     );
+
+    CreateSound("Contents\\Sound\\shoot.wav", false);
     
     System->playSound(SilentSound, nullptr, true, &MainChannel);
 }

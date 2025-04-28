@@ -21,6 +21,8 @@ UPrimitiveDrawBatch FEngineLoop::PrimitiveDrawBatch;
 FResourceMgr FEngineLoop::ResourceManager;
 uint32 FEngineLoop::TotalAllocationBytes = 0;
 uint32 FEngineLoop::TotalAllocationCount = 0;
+bool FEngineLoop::bIsGameMode = false;
+EGameState FEngineLoop::GameState = None;
 
 FEngineLoop::FEngineLoop()
     : AppWnd(nullptr)
@@ -48,13 +50,14 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     LevelEditor = new SLevelEditor();
     CollisionSubsystem = new FCollisionSubsystem();
 
-    UnrealEditor->Initialize();
+    
     GraphicDevice.Initialize(AppWnd);
     BufferManager->Initialize(GraphicDevice.Device, GraphicDevice.DeviceContext);
     Renderer.Initialize(&GraphicDevice, BufferManager);
     PrimitiveDrawBatch.Initialize(&GraphicDevice);
     UIMgr->Initialize(AppWnd, GraphicDevice.Device, GraphicDevice.DeviceContext);
     ResourceManager.Initialize(&Renderer, &GraphicDevice);
+    UnrealEditor->Initialize();
     
     uint32 ClientWidth = 0;
     uint32 ClientHeight = 0;
@@ -64,8 +67,8 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     GEngine = FObjectFactory::ConstructObject<UEditorEngine>(nullptr);
     GEngine->Init();
 
-    FSoundManager::Get().Initialize();
-    FSoundManager::Get().PlaySound("Contents\\Sound\\background.mp3", FSoundManager::Get().MainChannel, true);
+    FSoundManager::Get()->Initialize();
+    // FSoundManager::Get()->PlaySound("Contents\\Sound\\background.mp3", FSoundManager::Get().MainChannel, true);
     
     UpdateUI();
 
@@ -139,7 +142,7 @@ void FEngineLoop::Tick()
         Render();
 
         UIMgr->BeginFrame();
-        UnrealEditor->Render();
+        UnrealEditor->Render(bIsGameMode);
         FConsole::GetInstance().Draw();
         if (GEngine->ActiveWorld->WorldType != EWorldType::Editor)
             FLuaManager::Get().RenderImGuiFromLua();
@@ -150,7 +153,7 @@ void FEngineLoop::Tick()
 
         GraphicDevice.SwapBuffer();
 
-        FSoundManager::Get().Update();
+        FSoundManager::Get()->Update();
 
 #if _DEBUG
         if (bIsEnableShaderHotReload)
@@ -184,7 +187,7 @@ void FEngineLoop::Exit()
     ResourceManager.Release(&Renderer);
     Renderer.Release();
     GraphicDevice.Release();
-    FSoundManager::Get().Release();
+    FSoundManager::Get()->Release();
 
     delete UnrealEditor;
     delete BufferManager;
@@ -242,6 +245,27 @@ LRESULT CALLBACK FEngineLoop::AppWndProc(HWND hWnd, uint32 Msg, WPARAM wParam, L
         }
         GEngineLoop.UpdateUI();
         break;
+
+    case WM_SYSKEYDOWN:
+        if (wParam == VK_RETURN && (GetAsyncKeyState(VK_MENU) & 0x8000))
+        {
+            GraphicDevice.ToggleFullScreen(hWnd);
+            return 0;
+        }
+        break;
+    case WM_KEYDOWN:
+        if (wParam == VK_F5 && (GetAsyncKeyState(VK_F5) & 0x8000))
+        {
+            if (bIsGameMode) return 0;
+            
+            bIsGameMode = true;
+            GraphicDevice.ToggleFullScreen(hWnd);
+            FConsole::GetInstance().bWasOpen = false;
+            GameState = Lobby;
+            FSoundManager::Get()->MainChannel = FSoundManager::Get()->PlaySound("Contents\\Sound\\lobby.mp3", true);
+            
+            return 0;
+        }
     default:
         GEngineLoop.AppMessageHandler->ProcessMessage(hWnd, Msg, wParam, lParam);
         return DefWindowProc(hWnd, Msg, wParam, lParam);
