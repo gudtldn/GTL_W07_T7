@@ -218,16 +218,17 @@ void FLuaManager::Initialize()
 
     // Globals
     Ns["log_error"] = [](const std::string& Message)
+    Ns["LOG_ERROR"] = [](const std::string& Message)
     {
         UE_LOG(ELogLevel::Error, "[LuaScript] %s", Message.c_str());
     };
 
-    Ns["log_warning"] = [](const std::string& Message)
+    Ns["LOG_WARNING"] = [](const std::string& Message)
     {
         UE_LOG(ELogLevel::Warning, "[LuaScript] %s", Message.c_str());
     };
 
-    Ns["log_info"] = [](const std::string& Message)
+    Ns["LOG_INFO"] = [](const std::string& Message)
     {
         UE_LOG(ELogLevel::Display, "[LuaScript] %s", Message.c_str());
     };
