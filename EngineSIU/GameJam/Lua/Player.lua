@@ -19,6 +19,9 @@ end
 
 function ALuaPlayer:BeginPlay()
     -- 입력 리스너 등록 (C++ 쪽에서 MouseDown/Up 이벤트를 Lua로 디스패치)
+    local pos = self.cpp_actor:GetActorLocation()
+    SetCameraLocation(pos)
+
 end
 
 function ALuaPlayer:Tick(delta_time)
@@ -41,9 +44,10 @@ end
 function ALuaPlayer:OnLeftMouseUp()
     if not self.IsCharging then return end
     self.IsCharging = false
-    local dir   = self.cpp_actor:GetAimDirection()
+    local dir   = GetCameraForwardVector()
+    local pos = self.cpp_actor:GetActorLocation()
     -- Heart 액터 스폰 (C++ 팩토리 함수)
-    self.cpp_actor:SpawnHeart(color, dir, self.ChargeForce, GameMode.CurrentPlayerIndex)
+    self.cpp_actor:SpawnHeart(pos, dir, self.ChargeForce, GameMode.CurrentPlayerIndex)
     GameMode:NextTurn()
     print("[OnLeftMouseUp]")
 end

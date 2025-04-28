@@ -145,7 +145,7 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
 
     Handler->OnMouseMoveDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
-        if (bEditorBlockInput) return;
+        
 
         if (ImGui::GetIO().WantCaptureMouse) return;
 
@@ -244,7 +244,7 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
 
     Handler->OnRawMouseInputDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
-        if (bEditorBlockInput) return;
+        
 
         // Mouse Move 이벤트 일때만 실행
         if (

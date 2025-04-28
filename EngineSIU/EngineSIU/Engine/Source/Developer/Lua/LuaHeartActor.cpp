@@ -1,6 +1,8 @@
 #include "LuaHeartActor.h"
 #include "Engine/Classes/Components/RigidbodyComponent.h"
 #include "Engine/Classes/Components/Collision/SphereComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/FLoaderOBJ.h"
 
 ALuaHeartActor::ALuaHeartActor()
 {
@@ -8,6 +10,10 @@ ALuaHeartActor::ALuaHeartActor()
     SphereComp = AddComponent<USphereComponent>(TEXT("SphereComponent"));
     SphereComp->SetupAttachment(RootComponent);
     SphereComp->SetSphereRadius(2.0f);
+
+    UStaticMeshComponent* StaticMeshComp = Cast<UStaticMeshComponent>(RootComponent);
+    StaticMeshComp->SetStaticMesh(FManagerOBJ::GetStaticMesh(L"Contents/Sphere.obj"));
+
 
     std::filesystem::path LuaFolderPath = std::filesystem::current_path().parent_path() / "GameJam" / "Lua";
     std::filesystem::path heartScript = LuaFolderPath / "Heart.lua";

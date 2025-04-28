@@ -6,6 +6,8 @@
 #include "World/WorldType.h"
 #include "Engine/Engine.h"
 #include "World/World.h"
+#include "LuaHeartActor.h"
+#include "Engine/Classes/Components/RigidbodyComponent.h"
 
 ALuaPlayer::ALuaPlayer()
 {
@@ -126,7 +128,13 @@ FVector ALuaPlayer::GetAimDirection()
     return FVector(0.0f, 0.0f, 0.0f);
 }
 
-void ALuaPlayer::SpawnHeart()
+void ALuaPlayer::SpawnHeart(FVector pos, FVector dir, float chargeForce, int playerIndex)
 {
     UE_LOG(ELogLevel::Display, TEXT("SpawnHeart"));
+
+    ALuaHeartActor* SpawnedActor = GetWorld()->SpawnActor<ALuaHeartActor>();
+    SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_HEART_ACTOR"));
+
+    SpawnedActor->SetActorLocation(pos);
+    SpawnedActor->RigidbodyComp->ApplyForceAtPoint(dir * chargeForce, FVector(0, 0, 0.3f));
 }

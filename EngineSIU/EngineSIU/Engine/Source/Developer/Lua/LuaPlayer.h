@@ -39,5 +39,5 @@ protected:
     void OnLeftMouseUp(const FPointerEvent& InMouseEvent);
 public:
     FVector GetAimDirection();
-    void SpawnHeart();
+    void SpawnHeart(FVector pos, FVector dir, float chargeForce, int playerIndex);
 };
