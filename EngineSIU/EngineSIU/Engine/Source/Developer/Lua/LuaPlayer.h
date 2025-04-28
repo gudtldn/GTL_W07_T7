@@ -39,7 +39,5 @@ protected:
     void OnLeftMouseUp(const FPointerEvent& InMouseEvent);
 public:
     FVector GetAimDirection();
-    FVector4 GetSelectedColor();
     void SpawnHeart();
-
 };

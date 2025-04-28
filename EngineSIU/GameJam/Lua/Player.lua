@@ -24,7 +24,6 @@ end
 function ALuaPlayer:Tick(delta_time)
     if self.IsCharging then
         self.ChargeForce = self.ChargeForce + delta_time * 50
-        self.cpp_actor:UpdateChargeVisual(self.ChargeForce)
     end
 end
 
@@ -43,7 +42,6 @@ function ALuaPlayer:OnLeftMouseUp()
     if not self.IsCharging then return end
     self.IsCharging = false
     local dir   = self.cpp_actor:GetAimDirection()
-    local color = self.cpp_actor:GetSelectedColor()
     -- Heart 액터 스폰 (C++ 팩토리 함수)
     self.cpp_actor:SpawnHeart(color, dir, self.ChargeForce, GameMode.CurrentPlayerIndex)
     GameMode:NextTurn()

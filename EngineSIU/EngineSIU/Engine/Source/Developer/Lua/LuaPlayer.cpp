@@ -3,6 +3,9 @@
 #include "GameFramework/Actor.h"
 #include "Components/PrimitiveComponent.h"
 #include "LuaManager.h"
+#include "World/WorldType.h"
+#include "Engine/Engine.h"
+#include "World/World.h"
 
 ALuaPlayer::ALuaPlayer()
 {
@@ -60,8 +63,8 @@ void ALuaPlayer::BeginPlay()
     (void)CallLuaFunction("BeginPlay");
 
     FSlateAppMessageHandler* Handler = GEngineLoop.GetAppMessageHandler();
-    Handler->OnMouseDownDelegate.AddDynamic(this, &ALuaPlayer::OnLeftMouseDown);
-    Handler->OnMouseUpDelegate.AddDynamic(this, &ALuaPlayer::OnLeftMouseUp);
+    Handler->OnMouseDownDelegate.AddUObject(this, &ALuaPlayer::OnLeftMouseDown);
+    Handler->OnMouseUpDelegate.AddUObject(this, &ALuaPlayer::OnLeftMouseUp);
 }
 
 void ALuaPlayer::Tick(float DeltaTime)
@@ -96,12 +99,18 @@ void ALuaPlayer::HandleScriptReload(const sol::protected_function& NewFactory)
 
 void ALuaPlayer::OnLeftMouseDown(const FPointerEvent& InMouseEvent)
 {
+    if (GEngine->ActiveWorld->WorldType == EWorldType::Editor)
+        return;
+    
     if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
         (void)CallLuaFunction("OnLeftMouseDown");
 }
 
 void ALuaPlayer::OnLeftMouseUp(const FPointerEvent& InMouseEvent)
 {
+    if (GEngine->ActiveWorld->WorldType == EWorldType::Editor)
+        return;
+    
     if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
         (void)CallLuaFunction("OnLeftMouseUp");
 }
@@ -110,12 +119,6 @@ FVector ALuaPlayer::GetAimDirection()
 {
     UE_LOG(ELogLevel::Display, TEXT("GetAimDirection"));
     return FVector(0.0f, 0.0f, 0.0f);
-}
-
-FVector4 ALuaPlayer::GetSelectedColor()
-{
-    UE_LOG(ELogLevel::Display, TEXT("GetSelectedColor"));
-    return FVector4(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void ALuaPlayer::SpawnHeart()

@@ -476,7 +476,6 @@ void LuaTypes::FBindLua<ALuaPlayer>::Bind(sol::table& Table)
         ALuaPlayer,
         sol::base_classes, sol::bases<ALuaActor>(),
         LUA_BIND_FUNC(&ALuaPlayer::GetAimDirection),
-        LUA_BIND_FUNC(&ALuaPlayer::GetSelectedColor),
         LUA_BIND_FUNC(&ALuaPlayer::SpawnHeart)
     );
 }
