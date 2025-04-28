@@ -17,6 +17,7 @@ enum OBJECTS : uint8
     OBJ_PLAYER,
     OBJ_FOG,
     OBJ_LUA_ACTOR,
+    OBJ_LUA_COACH_ACTOR,
     OBJ_END
 };
 

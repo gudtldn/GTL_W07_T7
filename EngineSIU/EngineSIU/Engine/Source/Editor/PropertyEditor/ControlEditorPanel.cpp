@@ -31,6 +31,7 @@
 #include "Actors/SpotLightActor.h"
 #include "Actors/AmbientLightActor.h"
 #include "Developer/Lua/LuaActor.h"
+#include "Developer/Lua/LuaCoachActor.h"
 
 void ControlEditorPanel::Render()
 {
@@ -289,7 +290,8 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
             { .label= "Text",      .obj= OBJ_TEXT },
             { .label= "Fireball",  .obj = OBJ_FIREBALL},
             { .label= "Fog",       .obj= OBJ_FOG },
-            { .label= "LuaActor",       .obj= OBJ_LUA_ACTOR }
+            { .label= "LuaActor",       .obj= OBJ_LUA_ACTOR },
+            { .label = "LuaCoachActor",       .obj = OBJ_LUA_COACH_ACTOR }
         };
 
         for (const auto& primitive : primitives)
@@ -364,7 +366,7 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                     TextComponent->SetTexture(L"Assets/Texture/font.png");
                     TextComponent->SetRowColumnCount(106, 106);
                     TextComponent->SetText(L"안녕하세요 Jungle 1");
-                    
+
                     break;
                 }
                 case OBJ_FIREBALL:
@@ -384,6 +386,12 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                 {
                     SpawnedActor = World->SpawnActor<ALuaActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_ACTOR"));
+                    break;
+                }
+                case OBJ_LUA_COACH_ACTOR:
+                {
+                    SpawnedActor = World->SpawnActor<ALuaCoachActor>();
+                    SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_COACH_ACTOR"));
                     break;
                 }
                 case OBJ_TRIANGLE:
