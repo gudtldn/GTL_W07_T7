@@ -1,9 +1,14 @@
 #include "LuaManager.h"
 
 #include "LuaActor.h"
+#include "Engine/EditorEngine.h"
+#include "Engine/Engine.h"
+#include "LevelEditor/SLevelEditor.h"
 #include "LuaTypes/LuaUserTypes.h"
 #include "UserInterface/Console.h"
 #include "LuaUtils/LuaBindImGui.h"
+#include "UnrealEd/EditorViewportClient.h"
+#include "World/World.h"
 
 FLuaManager& FLuaManager::Get()
 {
@@ -217,19 +222,65 @@ void FLuaManager::Initialize()
     sol::table Ns = LuaState.create_named_table("EngineSIU");
 
     // Globals
-    Ns["log_error"] = [](const std::string& Message)
+    Ns["SpawnActor"] = [](const std::string& ClassName)
+    {
+        if (UClass** Class = UClass::GetClassMap().Find(ClassName.c_str()))
+        {
+            return GEngine->ActiveWorld->SpawnActor(*Class);
+        }
+        UE_LOG(ELogLevel::Error, "[LuaManager] Class not found: '%s'", ClassName.c_str());
+        return static_cast<AActor*>(nullptr);
+    };
+
+    Ns["LOG_ERROR"] = [](const std::string& Message)
     {
         UE_LOG(ELogLevel::Error, "[LuaScript] %s", Message.c_str());
     };
 
-    Ns["log_warning"] = [](const std::string& Message)
+    Ns["LOG_WARNING"] = [](const std::string& Message)
     {
         UE_LOG(ELogLevel::Warning, "[LuaScript] %s", Message.c_str());
     };
 
-    Ns["log_info"] = [](const std::string& Message)
+    Ns["LOG_INFO"] = [](const std::string& Message)
     {
         UE_LOG(ELogLevel::Display, "[LuaScript] %s", Message.c_str());
+    };
+
+    FViewportCamera& Camera = GEngineLoop.GetLevelEditor()->GetActiveViewportClient()->PerspectiveCamera;
+    Ns["GetCameraLocation"] = [&Camera]()
+    {
+        return Camera.GetLocation();
+    };
+
+    Ns["SetCameraLocation"] = [&Camera](const FVector& Location)
+    {
+        Camera.SetLocation(Location);
+    };
+
+    Ns["GetCameraRotation"] = [&Camera]()
+    {
+        return Camera.GetRotation();
+    };
+
+    Ns["SetCameraRotation"] = [&Camera](const FRotator& Rotation)
+    {
+        Camera.SetRotation(Rotation.ToVector());
+    };
+
+    Ns["GetCameraForwardVector"] = [&Camera]()
+    {
+        return Camera.GetForwardVector();
+    };
+
+    Ns["GetCameraRightVector"] = [&Camera]()
+    {
+        return Camera.GetRightVector();
+    };
+
+    Ns["GetCameraUpVector"] = [&Camera]()
+    {
+        return Camera.GetUpVector();
     };
 
     // Math Types
