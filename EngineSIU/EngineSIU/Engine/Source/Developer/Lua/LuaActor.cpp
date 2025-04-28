@@ -235,3 +235,4 @@ void ALuaActor::CleanupLuaState()
     }
     SelfTable = sol::lua_nil; // 테이블 무효화
 }
+

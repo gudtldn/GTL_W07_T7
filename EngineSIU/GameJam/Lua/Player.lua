@@ -33,12 +33,13 @@ function ALuaPlayer:Destroyed() end
 function ALuaPlayer:EndPlay(reason) end
 
 -- C++에서 호출되는 커스텀 이벤트 핸들러 예시
-function ALuaPlayer:OnMouseDown()
+function ALuaPlayer:OnLeftMouseDown()
     self.IsCharging  = true
     self.ChargeForce = 0
+    print("[OnLeftMouseDown]")
 end
 
-function ALuaPlayer:OnMouseUp()
+function ALuaPlayer:OnLeftMouseUp()
     if not self.IsCharging then return end
     self.IsCharging = false
     local dir   = self.cpp_actor:GetAimDirection()
@@ -46,6 +47,7 @@ function ALuaPlayer:OnMouseUp()
     -- Heart 액터 스폰 (C++ 팩토리 함수)
     self.cpp_actor:SpawnHeart(color, dir, self.ChargeForce, GameMode.CurrentPlayerIndex)
     GameMode:NextTurn()
+    print("[OnLeftMouseUp]")
 end
 
 local function create_actor_instance(cpp_actor)

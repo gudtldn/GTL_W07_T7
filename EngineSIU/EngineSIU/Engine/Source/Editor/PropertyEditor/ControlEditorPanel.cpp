@@ -31,6 +31,7 @@
 #include "Actors/SpotLightActor.h"
 #include "Actors/AmbientLightActor.h"
 #include "Developer/Lua/LuaActor.h"
+#include "Developer/Lua/LuaPlayer.h"
 
 void ControlEditorPanel::Render()
 {
@@ -289,7 +290,8 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
             { .label= "Text",      .obj= OBJ_TEXT },
             { .label= "Fireball",  .obj = OBJ_FIREBALL},
             { .label= "Fog",       .obj= OBJ_FOG },
-            { .label= "LuaActor",       .obj= OBJ_LUA_ACTOR }
+            { .label= "LuaActor",       .obj= OBJ_LUA_ACTOR },
+               { .label= "LuaPlayer",       .obj= OBJ_LUA_PLAYER }
         };
 
         for (const auto& primitive : primitives)
@@ -386,9 +388,15 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                     SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_ACTOR"));
                     break;
                 }
+                case OBJ_LUA_PLAYER:
+                {
+                        SpawnedActor = World->SpawnActor<ALuaPlayer>();
+                        SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_PLAYER"));
+                        CERTSRV_E_BAD_REQUEST_KEY_ARCHIVAL;
+                }
+                    
                 case OBJ_TRIANGLE:
                 case OBJ_CAMERA:
-                case OBJ_PLAYER:
                 case OBJ_END:
                     break;
                 }
@@ -398,6 +406,7 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                     UEditorEngine* Engine = Cast<UEditorEngine>(GEngine);
                     Engine->SelectActor(Engine->GetSelectedActor());
                 }
+                
             }
         }
         ImGui::EndPopup();
