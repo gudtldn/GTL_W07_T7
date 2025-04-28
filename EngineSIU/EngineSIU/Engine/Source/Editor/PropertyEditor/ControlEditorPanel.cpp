@@ -33,6 +33,7 @@
 #include "Developer/Lua/LuaActor.h"
 #include "Developer/Lua/LuaCoachActor.h"
 #include "Developer/Lua/LuaHeartActor.h"
+#include "Developer/Lua/LuaGameModeActor.h"
 
 void ControlEditorPanel::Render()
 {
@@ -293,7 +294,8 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
             { .label= "Fog",       .obj= OBJ_FOG },
             { .label= "LuaActor",       .obj= OBJ_LUA_ACTOR },
             { .label = "LuaCoachActor",       .obj = OBJ_LUA_COACH_ACTOR },
-            { .label = "LuaHeartActor",       .obj = OBJ_LUA_HEART_ACTOR }
+            { .label = "LuaHeartActor",       .obj = OBJ_LUA_HEART_ACTOR },
+            {.label = "LuaGameModeActor",       .obj = OBJ_LUA_GAMEMODE_ACTOR }
         };
 
         for (const auto& primitive : primitives)
@@ -400,6 +402,12 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                 {
                     SpawnedActor = World->SpawnActor<ALuaHeartActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_HEART_ACTOR"));
+                    break;
+                }
+                case OBJ_LUA_GAMEMODE_ACTOR:
+                {
+                    SpawnedActor = World->SpawnActor<ALuaGameModeActor>();
+                    SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_GAMEMODE_ACTOR"));
                     break;
                 }
                 case OBJ_TRIANGLE:
