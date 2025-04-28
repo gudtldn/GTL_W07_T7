@@ -221,7 +221,7 @@ void ALuaActor::SetScriptPath(const std::optional<std::filesystem::path>& Path)
             {
                 SelfTable = Result;
                 SelfTable["cpp_actor"] = this;
-                (void)CallLuaFunction("BeginPlay"); // 경로 변경 시에도 BeginPlay 호출
+                // (void)CallLuaFunction("BeginPlay"); // 경로 변경 시에도 BeginPlay 호출
             }
             else
             {
