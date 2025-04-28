@@ -36,6 +36,10 @@ void UImGuiManager::Initialize(HWND hWnd, ID3D11Device* device, ID3D11DeviceCont
         0 };
 
     io.Fonts->AddFontFromMemoryTTF(FeatherRawData, FontSizeOfFeather, 22.0f, &FeatherFontConfig, IconRanges);
+
+    io.Fonts->AddFontFromFileTTF(R"(Font/Roboto-Regular.ttf)", 24.0f, nullptr, io.Fonts->GetGlyphRangesKorean());
+    io.Fonts->AddFontFromFileTTF(R"(Font/Roboto-Regular.ttf)", 32.0f, nullptr, io.Fonts->GetGlyphRangesKorean());
+    io.Fonts->AddFontFromFileTTF(R"(Font/Roboto-Regular.ttf)", 48.0f, nullptr, io.Fonts->GetGlyphRangesKorean());
     PreferenceStyle();
 }
 

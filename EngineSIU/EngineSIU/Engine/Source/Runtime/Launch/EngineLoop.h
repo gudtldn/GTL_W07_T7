@@ -19,6 +19,13 @@ class SLevelEditor;
 
 class FDXDBufferManager;
 
+enum EGameState : uint8
+{
+    None,
+    Lobby,
+    Play,
+};
+
 class FEngineLoop
 {
 public:
@@ -47,6 +54,7 @@ public:
     static uint32 TotalAllocationCount;
     
     static bool bIsGameMode;
+    static EGameState GameState;
     
     HWND AppWnd;
     bool bIsEnableShaderHotReload = true; // TODO: ImGui에서 변경가능하게 설정하기

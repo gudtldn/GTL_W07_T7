@@ -22,6 +22,7 @@ FResourceMgr FEngineLoop::ResourceManager;
 uint32 FEngineLoop::TotalAllocationBytes = 0;
 uint32 FEngineLoop::TotalAllocationCount = 0;
 bool FEngineLoop::bIsGameMode = false;
+EGameState FEngineLoop::GameState = None;
 
 FEngineLoop::FEngineLoop()
     : AppWnd(nullptr)
@@ -49,13 +50,14 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     LevelEditor = new SLevelEditor();
     CollisionSubsystem = new FCollisionSubsystem();
 
-    UnrealEditor->Initialize();
+    
     GraphicDevice.Initialize(AppWnd);
     BufferManager->Initialize(GraphicDevice.Device, GraphicDevice.DeviceContext);
     Renderer.Initialize(&GraphicDevice, BufferManager);
     PrimitiveDrawBatch.Initialize(&GraphicDevice);
     UIMgr->Initialize(AppWnd, GraphicDevice.Device, GraphicDevice.DeviceContext);
     ResourceManager.Initialize(&Renderer, &GraphicDevice);
+    UnrealEditor->Initialize();
     
     uint32 ClientWidth = 0;
     uint32 ClientHeight = 0;
@@ -259,6 +261,8 @@ LRESULT CALLBACK FEngineLoop::AppWndProc(HWND hWnd, uint32 Msg, WPARAM wParam, L
             bIsGameMode = true;
             GraphicDevice.ToggleFullScreen(hWnd);
             FConsole::GetInstance().bWasOpen = false;
+            GameState = Lobby;
+            FSoundManager::Get()->MainChannel = FSoundManager::Get()->PlaySound("Contents\\Sound\\lobby.mp3", true);
             
             return 0;
         }
