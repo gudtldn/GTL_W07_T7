@@ -30,20 +30,38 @@ function ALuaCoach:Tick(delta_time) end
 function ALuaCoach:Destroyed() end
 function ALuaCoach:EndPlay(reason) end
 
-function ALuaCoach:OnOverlap(heart)
-    local playerIdx = heart.OwnerIndex
-    -- 색상 일치 시 +10, 아니면 -5
-    if heart.Color == self.Color then
-        self.Affection = math.min(self.Affection + 10, self.MaxAffection)
-    else
-        self.Affection = math.max(self.Affection - 5, 0)
-    end
-    self.cpp_actor:SetAffection(self.Affection)
+function ALuaCoach:OnOverlap(other_actor, className)
+    print("[OnOverlap]", className)
 
-    -- 최대에 도달했으면 승리 처리
-    if self.Affection >= self.MaxAffection then
-        GameMode:EndGame(playerIdx)
+    if className == "ALuaHeartActor" then
+        
+        print("[OnHeartActor]", className)
+
+        self.cpp_actor:SetActorLocation(
+        self.cpp_actor:GetActorLocation()
+        + FVector(0, 0, 10)
+        )
+
+        local playerIdx = other_actor.OwnerIndex
+        -- 색상 일치 시 +10, 아니면 -5
+        if other_actor.Color == self.Color then
+            self.Affection = math.min(self.Affection + 10, self.MaxAffection)
+        else
+            self.Affection = math.max(self.Affection - 5, 0)
+        end
+        self.cpp_actor:SetAffection(self.Affection)
+
+        -- 최대에 도달했으면 승리 처리
+        if self.Affection >= self.MaxAffection then
+            GameMode:EndGame(playerIdx)
+        end
+
+        self.cpp_actor:Destroy()
+    else
+        self.cpp_actor:Destroy()
+    
     end
+
 end
 
 local function create_actor_instance(cpp_actor)

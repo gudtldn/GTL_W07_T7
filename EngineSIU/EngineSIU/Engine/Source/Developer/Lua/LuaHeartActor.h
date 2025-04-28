@@ -3,6 +3,7 @@
 #include "LuaActor.h"
 
 class URigidbodyComponent;
+class USphereComponent;
 
 class ALuaHeartActor : public ALuaActor
 {
@@ -11,6 +12,6 @@ class ALuaHeartActor : public ALuaActor
 public:
     ALuaHeartActor();
 
-
+    USphereComponent* SphereComp;
     URigidbodyComponent* RigidbodyComp;
 };

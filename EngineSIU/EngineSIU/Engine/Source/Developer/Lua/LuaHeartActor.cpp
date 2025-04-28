@@ -1,9 +1,13 @@
 #include "LuaHeartActor.h"
 #include "Engine/Classes/Components/RigidbodyComponent.h"
+#include "Engine/Classes/Components/Collision/SphereComponent.h"
 
 ALuaHeartActor::ALuaHeartActor()
 {
     RigidbodyComp = AddComponent<URigidbodyComponent>(TEXT("RigidbodyComponent"));
+    SphereComp = AddComponent<USphereComponent>(TEXT("SphereComponent"));
+    SphereComp->SetupAttachment(RootComponent);
+    SphereComp->SetSphereRadius(2.0f);
 
     std::filesystem::path LuaFolderPath = std::filesystem::current_path().parent_path() / "GameJam" / "Lua";
     std::filesystem::path heartScript = LuaFolderPath / "Heart.lua";

@@ -16,15 +16,14 @@ function ALuaHeart:BeginPlay()
 end
 
 function ALuaHeart:Tick(delta_time)
-    -- C++ 쪽 물리 업데이트
-    self.cpp_actor:Move(delta_time)
+    
 end
 
-function ALuaHeart:OnOverlap(other_actor)
-    -- Coach.lua 쪽 OnOverlap 로 호출
-    other_actor:OnOverlap(self)
-    -- 충돌 후 자신은 제거
-    self.cpp_actor:Destroy()
+function ALuaHeart:OnOverlap(other_actor, className)
+    if className == "ALuaCoachActor" then
+        -- 충돌 후 자신은 제거
+        self.cpp_actor:Destroy()
+    end
 end
 
 function ALuaHeart:Destroyed() end

@@ -91,7 +91,7 @@ void ALuaActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void ALuaActor::OnOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp)
 {
-    CallLuaFunction("OnOverlap", OtherActor);
+    CallLuaFunction("OnOverlap", OtherActor, OtherActor->GetClass()->GetNameStr());
 }
 
 void ALuaActor::HandleScriptReload(const sol::protected_function& NewFactory)
