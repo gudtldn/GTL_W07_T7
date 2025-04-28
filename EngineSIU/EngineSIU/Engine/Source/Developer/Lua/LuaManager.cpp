@@ -216,6 +216,22 @@ void FLuaManager::Initialize()
 
     sol::table Ns = LuaState.create_named_table("EngineSIU");
 
+    // Globals
+    Ns["log_error"] = [](const std::string& Message)
+    {
+        UE_LOG(ELogLevel::Error, "[LuaScript] %s", Message.c_str());
+    };
+
+    Ns["log_warning"] = [](const std::string& Message)
+    {
+        UE_LOG(ELogLevel::Warning, "[LuaScript] %s", Message.c_str());
+    };
+
+    Ns["log_info"] = [](const std::string& Message)
+    {
+        UE_LOG(ELogLevel::Display, "[LuaScript] %s", Message.c_str());
+    };
+
     // Math Types
     LuaTypes::FBindLua<FColor>::Bind(Ns);
     LuaTypes::FBindLua<FLinearColor>::Bind(Ns);
