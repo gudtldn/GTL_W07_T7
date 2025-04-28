@@ -22,7 +22,7 @@ end
 function ALuaHeart:OnOverlap(other_actor)
     if other_actor.cpp_actor:GetClassName() == "ALuaCoachActor" then
         -- 충돌 후 자신은 제거
-        self.cpp_actor:Destroy()
+        self.cpp_actor:SetActorLocation(100, 100, 100)
     end
 end
 
