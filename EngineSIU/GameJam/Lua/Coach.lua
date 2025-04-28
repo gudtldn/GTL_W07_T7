@@ -9,7 +9,7 @@ ALuaCoach.__index = ALuaCoach
 function ALuaCoach:new(cpp_actor)
     local inst = setmetatable({}, ALuaCoach)
     inst.cpp_actor   = cpp_actor
-    inst.ColorNum = 0   -- GameMode에서 색상 지정해줄 것
+    inst.Name = " "
     inst.Affection   = 0
     inst.MaxAffection= 100
 
@@ -17,9 +17,8 @@ function ALuaCoach:new(cpp_actor)
     return inst
 end
 
-function ALuaCoach:SetCoachColor(colorNum)
-    -- 0 == Red 1 == Green 2 == Blue
-    self.ColorNum = colorNum
+function ALuaCoach:SetCoachName(coachName)
+    self.Name = coachName
 end
 
 function ALuaCoach:BeginPlay()
