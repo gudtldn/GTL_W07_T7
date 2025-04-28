@@ -29,3 +29,8 @@ ALuaHeartActor::ALuaHeartActor()
     }
 
 }
+
+void ALuaHeartActor::SetPlayerIndex(int InPlayerIndex)
+{
+    (void)CallLuaFunction("SetPlayerIndex", InPlayerIndex);
+}

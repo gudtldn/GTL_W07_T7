@@ -5,12 +5,11 @@ function EngineSIU.LuaImGui()
     ImGui.SetNextWindowSize(300, 300)
     ImGui.Begin("Game Property")
 
-    for i = 1, 3 do
+    local n = #Coaches
+
+    for i = n-2, n do
         if Coaches[i] then
-            ImGui.Text(Coaches[i].Name)
-            ImGui.Text("'s Love : ")
-            ImGui.SameLine()
-            ImGui.Text(string.format("%d", Coaches[i].Affection))
+            ImGui.Text(string.format("%s's Love : %d", Coaches[i].Name, Coaches[i].cpp_actor:GetAffection()))
         end
     end
 
@@ -33,4 +32,14 @@ function EngineSIU.LuaImGui()
     end)
 
     ImGui.End()
+
+    if (GameMode.GameOver) then
+
+        ImGui.SetCenterPos();
+        ImGui.SetNextWindowSize(300, 100)
+
+        ImGui.Begin("WINNER WINNER CHICKEN DINNER")
+        ImGui.Text(string.format("Winner Player: %d", GameMode.Winner))
+        ImGui.End()
+    end
 end

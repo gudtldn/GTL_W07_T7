@@ -10,8 +10,9 @@ function ALuaGameMode:new(cpp_actor)
     o.Coaches           = {}  
     o.CurrentPlayerIndex     = 1
     o.PlayerNum         = 4
-    o.MaxAffection      = 100
+    o.MaxAffection      = 30
     o.GameOver          = false
+    o.Winner            = 0
     return o
 end
 
@@ -40,9 +41,12 @@ end
 
 -- 승리 처리
 function ALuaGameMode:EndGame(winnerIndex)
-    if self.GameOver then return end
-    self.GameOver = true
-    self.cpp_actor:ShowWinner(winnerIndex)
+    if self.GameOver then 
+        return
+    else
+        self.GameOver = true
+        self.Winner = winnerIndex
+    end
 end
 
 -- 색출 일어나진 않음

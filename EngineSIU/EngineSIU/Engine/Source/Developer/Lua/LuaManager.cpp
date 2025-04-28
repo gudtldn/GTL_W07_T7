@@ -296,6 +296,7 @@ void FLuaManager::Initialize()
     // Object Types
     LuaTypes::FBindLua<ALuaActor>::Bind(Ns);
     LuaTypes::FBindLua<ALuaPlayer>::Bind(Ns);
+    LuaTypes::FBindLua<ALuaCoachActor>::Bind(Ns);
 
     // ImGui
     sol::table ImGuiTable = LuaBindImGui::Bind(Ns);

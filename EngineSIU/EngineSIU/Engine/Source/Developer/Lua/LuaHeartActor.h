@@ -14,4 +14,6 @@ public:
 
     USphereComponent* SphereComp;
     URigidbodyComponent* RigidbodyComp;
+
+    void SetPlayerIndex(int InPlayerIndex);
 };

@@ -19,6 +19,10 @@ function ALuaHeart:Tick(delta_time)
     
 end
 
+function ALuaHeart:SetPlayerIndex(playerIndex)
+    self.OwnerIndex = playerIndex
+end
+
 function ALuaHeart:OnOverlap(other_actor)
     if other_actor.cpp_actor:GetClassName() == "ALuaCoachActor" then
         -- 충돌 후 자신은 제거

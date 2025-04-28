@@ -10,8 +10,6 @@ function ALuaCoach:new(cpp_actor)
     local inst = setmetatable({}, ALuaCoach)
     inst.cpp_actor   = cpp_actor
     inst.Name = " "
-    inst.Affection   = 0
-    inst.MaxAffection= 100
 
     table.insert(_G.Coaches, inst)
     return inst
@@ -27,7 +25,8 @@ end
 
 function ALuaCoach:Tick(delta_time)
     -- 1) 고정 속도 (units/sec)
-    local speed = 7 + self.Affection / 10
+    local affection = self.cpp_actor:GetAffection()
+    local speed = 7 + affection / 10
 
     -- 2) 랜덤 방향(0~2π) 생성
     local angle = math.random() * 2 * math.pi
@@ -62,16 +61,11 @@ function ALuaCoach:OnOverlap(other_actor)
     if other_actor.cpp_actor:GetClassName() == "ALuaHeartActor" then
 
         local playerIdx = other_actor.OwnerIndex
-        -- 색상 일치 시 +10, 아니면 -5
-        if other_actor.Color == self.Color then
-            self.Affection = math.min(self.Affection + 10, self.MaxAffection)
-        else
-            self.Affection = math.max(self.Affection - 5, 0)
-        end
-        self.cpp_actor:SetAffection(self.Affection)
+        local affection = self.cpp_actor:GetAffection()
+        self.cpp_actor:SetAffection(affection + 10)
 
         -- 최대에 도달했으면 승리 처리
-        if self.Affection >= self.MaxAffection then
+        if self.cpp_actor:GetAffection() >= GameMode.MaxAffection then
             GameMode:EndGame(playerIdx)
         end
     end

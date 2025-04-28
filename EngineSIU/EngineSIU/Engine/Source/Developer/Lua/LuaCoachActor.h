@@ -14,4 +14,11 @@ public:
     UBoxComponent* BoxComponent;
 
     virtual void BeginPlay() override;
+
+    void SetAffection(int NewAffection);
+
+    int GetAffection() const;
+    
+private:
+    int Affection;
 };

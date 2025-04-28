@@ -3,6 +3,7 @@
 
 class ALuaActor;
 class ALuaPlayer;
+class ALuaCoachActor;
 struct FMatrix;
 struct FQuat;
 struct FRotator;
@@ -36,4 +37,5 @@ template <> struct FBindLua<FMatrix>      { static void Bind(sol::table& Table);
 // Object Types
 template <> struct FBindLua<ALuaActor>    { static void Bind(sol::table& Table); };
 template <> struct FBindLua<ALuaPlayer>    { static void Bind(sol::table& Table); };
+template <> struct FBindLua<ALuaCoachActor>    { static void Bind(sol::table& Table); };
 }
