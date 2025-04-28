@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <concepts>
-#include "UObjectArray.h"
+
+#include "Object.h"
 #include "HAL/PlatformType.h"
 
 /**
@@ -51,7 +52,7 @@ public:
     {
         if (ObjectPtr)
         {
-            if (GUObjectArray.GetObjectItemArrayUnsafe().Contains(ObjectPtr))
+            if (::IsValid(ObjectPtr))
             {
                 return ObjectPtr;
             }
