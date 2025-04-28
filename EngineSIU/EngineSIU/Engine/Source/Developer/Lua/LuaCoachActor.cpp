@@ -1,5 +1,6 @@
 #include "LuaCoachActor.h"
 #include "Engine/Classes/Components/Collision/BoxComponent.h"
+#include "Classes/Components/StaticMeshComponent.h"
 
 ALuaCoachActor::ALuaCoachActor()
 {
@@ -16,4 +17,26 @@ ALuaCoachActor::ALuaCoachActor()
     else {
         UE_LOG(ELogLevel::Error, "Coach.lua not found: %s", coachScript.generic_string().c_str());
     }
+}
+
+void ALuaCoachActor::BeginPlay()
+{
+    Super::BeginPlay();
+
+    FWString ObjName;
+    UStaticMeshComponent* StaticComp = Cast<UStaticMeshComponent>(RootComponent);
+    if (StaticComp->GetStaticMesh()) 
+    {
+        ObjName = StaticComp->GetStaticMesh()->GetOjbectName();
+    }
+
+    std::string CoachName = "NoneName";
+
+    if (ObjName == L"Contents/GameJam\\LCG\\Shaded/base.obj") 
+    {
+        CoachName = "Changgeun Lim";
+    }
+
+
+    (void)CallLuaFunction("SetCoachName", CoachName);
 }
