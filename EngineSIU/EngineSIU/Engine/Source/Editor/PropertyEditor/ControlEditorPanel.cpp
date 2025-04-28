@@ -32,6 +32,7 @@
 #include "Actors/AmbientLightActor.h"
 #include "Developer/Lua/LuaActor.h"
 #include "Developer/Lua/LuaCoachActor.h"
+#include "Developer/Lua/LuaHeartActor.h"
 
 void ControlEditorPanel::Render()
 {
@@ -291,7 +292,8 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
             { .label= "Fireball",  .obj = OBJ_FIREBALL},
             { .label= "Fog",       .obj= OBJ_FOG },
             { .label= "LuaActor",       .obj= OBJ_LUA_ACTOR },
-            { .label = "LuaCoachActor",       .obj = OBJ_LUA_COACH_ACTOR }
+            { .label = "LuaCoachActor",       .obj = OBJ_LUA_COACH_ACTOR },
+            { .label = "LuaHeartActor",       .obj = OBJ_LUA_HEART_ACTOR }
         };
 
         for (const auto& primitive : primitives)
@@ -392,6 +394,12 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                 {
                     SpawnedActor = World->SpawnActor<ALuaCoachActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_COACH_ACTOR"));
+                    break;
+                }
+                case OBJ_LUA_HEART_ACTOR:
+                {
+                    SpawnedActor = World->SpawnActor<ALuaHeartActor>();
+                    SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_HEART_ACTOR"));
                     break;
                 }
                 case OBJ_TRIANGLE:
