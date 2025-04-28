@@ -17,6 +17,29 @@ UObject* ALuaActor::Duplicate(UObject* InOuter)
     return nullptr;
 }
 
+void ALuaActor::GetProperties(TMap<FString, FString>& OutProperties) const
+{
+    Super::GetProperties(OutProperties);
+
+    namespace fs = std::filesystem;
+    const fs::path SolutionPath = fs::current_path().parent_path();
+    const fs::path LuaFolderPath = SolutionPath / "GameJam/Lua";
+    OutProperties["LuaScriptPath"] = LuaScriptPath.value_or("").lexically_relative(LuaFolderPath).generic_string();
+}
+
+void ALuaActor::SetProperties(const TMap<FString, FString>& InProperties)
+{
+    Super::SetProperties(InProperties);
+
+    namespace fs = std::filesystem;
+    const fs::path SolutionPath = fs::current_path().parent_path();
+    const fs::path LuaFolderPath = SolutionPath / "GameJam/Lua";
+    const fs::path SavedPath = fs::path(InProperties["LuaScriptPath"].ToWideString());
+    LuaScriptPath = SavedPath.empty()
+        ? std::nullopt
+        : std::optional(LuaFolderPath / SavedPath);
+}
+
 void ALuaActor::BeginPlay()
 {
     Super::BeginPlay();
@@ -28,7 +51,7 @@ void ALuaActor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    CallLuaFunction("Tick", DeltaTime);
+    (void)CallLuaFunction("Tick", DeltaTime);
 }
 
 void ALuaActor::Destroyed()
@@ -40,7 +63,7 @@ void ALuaActor::Destroyed()
 
 void ALuaActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-    CallLuaFunction("EndPlay", EEndPlayReason::ToString(EndPlayReason));
+    (void)CallLuaFunction("EndPlay", EEndPlayReason::ToString(EndPlayReason));
     CleanupLuaState();
 
     if (LuaScriptPath.has_value())
@@ -169,13 +192,15 @@ void ALuaActor::SetScriptPath(const std::optional<std::filesystem::path>& Path)
             }
             else
             {
-                /* 오류 처리 */
+                // Log an error if the factory function result is invalid or not a table
+                UE_LOG(ELogLevel::Error, "Lua factory function for script '%s' returned an invalid result or non-table type.", LuaScriptPath.value().generic_string().c_str());
                 SelfTable = sol::lua_nil;
             }
         }
         else
         {
-            /* 오류 처리 */
+            // Log an error if the factory function itself is invalid
+            UE_LOG(ELogLevel::Error, "Lua factory function for script '%s' is invalid.", LuaScriptPath.value().generic_string().c_str());
             SelfTable = sol::lua_nil;
         }
     }

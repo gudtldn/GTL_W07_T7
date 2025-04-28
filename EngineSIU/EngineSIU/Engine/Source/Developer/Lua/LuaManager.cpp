@@ -3,9 +3,7 @@
 #include "LuaActor.h"
 #include "LuaTypes/LuaUserTypes.h"
 #include "UserInterface/Console.h"
-
-namespace fs = std::filesystem;
-
+#include "LuaUtils/LuaBindImGui.h"
 
 FLuaManager& FLuaManager::Get()
 {
@@ -80,6 +78,18 @@ void FLuaManager::CheckForScriptChanges()
     for (const auto& Path : PathsToReload)
     {
         TriggerReloadForPath(Path);
+    }
+
+    // ImGui
+    if (fs::exists(ImGuiScriptPath))
+    {
+        fs::file_time_type CurrentWriteTime = fs::last_write_time(ImGuiScriptPath);
+        if (CurrentWriteTime > ImGuiScriptLastWriteTime)
+        {
+            ImGuiScriptLastWriteTime = CurrentWriteTime;
+            LoadImGuiScript();
+            UE_LOG(ELogLevel::Display, "[LuaManager] Reloaded ImGui script");
+        }
     }
 }
 
@@ -219,8 +229,49 @@ void FLuaManager::Initialize()
     // Object Types
     LuaTypes::FBindLua<ALuaActor>::Bind(Ns);
 
+    // ImGui
+    sol::table ImGuiTable = LuaBindImGui::Bind(Ns);
+    LuaState["ImGui"] = ImGuiTable;
+    
     bInitialized = true;
 
-    // 현재는 정상적으로 작동하지 않음
-    //generateStubs(LuaState);
+    ImGuiScriptPath = fs::current_path().parent_path() / "GameJam" / "Lua" / "LuaImGui.lua";
+    LoadImGuiScript();
+}
+
+void FLuaManager::LoadImGuiScript()
+{
+    if (!fs::exists(ImGuiScriptPath)) {
+        UE_LOG(ELogLevel::Error,
+               "Lua script not found: %s",
+               ImGuiScriptPath.generic_string().c_str());
+        return;
+    }
+
+    LuaState["EngineSIU"]["LuaImGui"] = sol::lua_nil;
+    
+    sol::protected_function_result result =
+        LuaState.script_file(ImGuiScriptPath.generic_string());
+
+    if (!result.valid()) {
+        sol::error err = result;
+        UE_LOG(ELogLevel::Error,
+               "Failed to load %s: %s",
+               ImGuiScriptPath.generic_string().c_str(),
+               err.what());
+    }
+}
+
+void FLuaManager::RenderImGuiFromLua()
+{
+    sol::protected_function RenderFunc = LuaState["EngineSIU"]["LuaImGui"];
+    if (RenderFunc.valid())
+    {
+        sol::protected_function_result Result = RenderFunc();
+        if (!Result.valid())
+        {
+            const sol::error Error = Result;
+            UE_LOG(ELogLevel::Error, "[LuaManager] LuaImGui error: %s", Error.what());
+        }
+    }
 }

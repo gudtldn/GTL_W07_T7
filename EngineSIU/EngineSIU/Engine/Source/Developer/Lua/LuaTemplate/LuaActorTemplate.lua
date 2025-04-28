@@ -11,8 +11,6 @@ function ALuaActor:new(cpp_actor)
     -- instance.health = 100      -- 인스턴스별 상태
     -- instance.mode = "Idle"
 
-    instance.test = 1;
-
     return instance
 end
 

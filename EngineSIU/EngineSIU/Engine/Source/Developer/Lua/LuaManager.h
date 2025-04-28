@@ -7,6 +7,7 @@
 
 #include "Container/Map.h"
 #include "Container/Set.h"
+namespace fs = std::filesystem;
 
 
 class ALuaActor;
@@ -69,15 +70,20 @@ public:
     [[maybe_unused]]
     void NotifyScriptChanged(const std::filesystem::path& ScriptPath);
 
+    // --- ImGui ---
+    void RenderImGuiFromLua();
 private:
     // 내부 헬퍼 함수
     LuaScriptData& LoadOrGetScriptData(const std::filesystem::path& Path);
     void TriggerReloadForPath(const std::filesystem::path& Path);
-
+    void LoadImGuiScript();
+    
 private:
     bool bInitialized = false;
     sol::state LuaState;
+    fs::path ImGuiScriptPath;
 
     TMap<std::filesystem::path, LuaScriptData> ScriptCache;
+    std::filesystem::file_time_type ImGuiScriptLastWriteTime = std::filesystem::file_time_type::min();;
     TMap<std::filesystem::path, TSet<ALuaActor*>> ActorRegistry;
 };
