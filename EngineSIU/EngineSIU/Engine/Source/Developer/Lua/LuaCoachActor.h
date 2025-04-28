@@ -2,7 +2,7 @@
 
 #include "LuaActor.h"
 
-class UCapsuleComponent;
+class UBoxComponent;
 
 class ALuaCoachActor : public ALuaActor
 {
@@ -11,5 +11,5 @@ class ALuaCoachActor : public ALuaActor
 public:
     ALuaCoachActor();
 
-    UCapsuleComponent* CapsuleComponent;
+    UBoxComponent* BoxComponent;
 };

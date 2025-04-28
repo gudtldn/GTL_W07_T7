@@ -19,8 +19,8 @@ function ALuaHeart:Tick(delta_time)
     
 end
 
-function ALuaHeart:OnOverlap(other_actor, className)
-    if className == "ALuaCoachActor" then
+function ALuaHeart:OnOverlap(other_actor)
+    if other_actor.cpp_actor:GetClassName() == "ALuaCoachActor" then
         -- 충돌 후 자신은 제거
         self.cpp_actor:Destroy()
     end

@@ -444,6 +444,7 @@ void LuaTypes::FBindLua<ALuaActor>::Bind(sol::table& Table)
         LUA_BIND_FUNC(&ALuaActor::GetFName),
         LUA_BIND_FUNC(&ALuaActor::GetName),
         LUA_BIND_FUNC(&ALuaActor::GetNameStr),
+        "GetClassName", [](const ALuaActor& Self) { return Self.GetClass()->GetNameStr(); },
         LUA_BIND_FUNC(&ALuaActor::GetOuter),
         LUA_BIND_FUNC(&ALuaActor::GetWorld),
         LUA_BIND_FUNC(&ALuaActor::GetUUID),

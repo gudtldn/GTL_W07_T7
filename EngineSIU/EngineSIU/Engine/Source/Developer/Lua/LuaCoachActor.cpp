@@ -1,10 +1,10 @@
 #include "LuaCoachActor.h"
-#include "Engine/Classes/Components/Collision/CapsuleComponent.h"
+#include "Engine/Classes/Components/Collision/BoxComponent.h"
 
 ALuaCoachActor::ALuaCoachActor()
 {
-    CapsuleComponent = AddComponent<UCapsuleComponent>(TEXT("CapsuleComponent"));
-    CapsuleComponent->AttachToComponent(RootComponent);
+    BoxComponent = AddComponent<UBoxComponent>(TEXT("BoxComponent"));
+    BoxComponent->AttachToComponent(RootComponent);
 
     std::filesystem::path LuaFolderPath = std::filesystem::current_path().parent_path() / "GameJam" / "Lua";
     std::filesystem::path coachScript = LuaFolderPath / "Coach.lua";

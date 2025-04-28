@@ -30,12 +30,9 @@ function ALuaCoach:Tick(delta_time) end
 function ALuaCoach:Destroyed() end
 function ALuaCoach:EndPlay(reason) end
 
-function ALuaCoach:OnOverlap(other_actor, className)
-    print("[OnOverlap]", className)
+function ALuaCoach:OnOverlap(other_actor)
 
-    if className == "ALuaHeartActor" then
-        
-        print("[OnHeartActor]", className)
+    if other_actor.cpp_actor:GetClassName() == "ALuaHeartActor" then
 
         self.cpp_actor:SetActorLocation(
         self.cpp_actor:GetActorLocation()

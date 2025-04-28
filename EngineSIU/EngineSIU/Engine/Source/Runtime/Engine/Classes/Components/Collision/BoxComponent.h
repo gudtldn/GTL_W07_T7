@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Components/ShapeComponent.h"
 
 class UBoxComponent : public UShapeComponent
@@ -14,6 +14,9 @@ public:
     virtual void InitializeComponent() override;
     virtual void BeginPlay() override;
     virtual void TickComponent(float DeltaTime) override;
+
+    virtual void GetProperties(TMap<FString, FString>& OutProperties) const override;
+    virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
 
     bool IntersectCollision(const UPrimitiveComponent* Other) override;
     
