@@ -1,10 +1,19 @@
 function EngineSIU.LuaImGui()
-    ImGui.SetNextWindowPos(30, 100)
-    ImGui.SetNextWindowSize(300, 200)
+    local Coaches = _G.Coaches
+    
+    ImGui.SetNextWindowPos(10, 10)
+    ImGui.SetNextWindowSize(300, 300)
     ImGui.Begin("Game Property")
-    ImGui.Text("Coach1 Love : ")
-    ImGui.Text("Coach2 Love : ")
-    ImGui.Text("Coach3 Love : ")
+
+    for i = 1, 3 do
+        if Coaches[i] then
+            ImGui.Text(Coaches[i].Name)
+            ImGui.Text("'s Love : ")
+            ImGui.SameLine()
+            ImGui.Text(string.format("%d", Coaches[i].Affection))
+        end
+    end
+
     ImGui.Separator()
     
     -- ChargeForce 표시
@@ -17,5 +26,11 @@ function EngineSIU.LuaImGui()
 
     -- 현재 턴 플레이어
     ImGui.Text(string.format("This Turn Player: %d", GameMode.CurrentPlayerIndex))
+    ImGui.Spacing()
+
+    ImGui.Button("Restart", 75, 35, function()
+        ImGui.SetGameMode("Lobby")
+    end)
+
     ImGui.End()
 end

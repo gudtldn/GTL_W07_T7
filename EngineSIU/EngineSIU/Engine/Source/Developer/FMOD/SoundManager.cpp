@@ -39,6 +39,8 @@ void FSoundManager::Initialize()
         &ExInfo,
         &SilentSound
     );
+
+    CreateSound("Contents\\Sound\\shoot.wav", false);
     
     System->playSound(SilentSound, nullptr, true, &MainChannel);
 }

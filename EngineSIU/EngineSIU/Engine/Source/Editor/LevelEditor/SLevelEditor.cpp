@@ -264,6 +264,7 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
             else if (
                 !InMouseEvent.IsMouseButtonDown(EKeys::RightMouseButton)
                 && InMouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton)
+                && !bEditorBlockInput
             )
             {
                 if (const UEditorEngine* EdEngine = Cast<UEditorEngine>(GEngine))

@@ -7,6 +7,7 @@
 #include "Engine/Engine.h"
 #include "World/World.h"
 #include "LuaHeartActor.h"
+#include "Developer/FMOD/SoundManager.h"
 #include "Engine/Classes/Components/RigidbodyComponent.h"
 
 ALuaPlayer::ALuaPlayer()
@@ -118,7 +119,11 @@ void ALuaPlayer::OnLeftMouseUp(const FPointerEvent& InMouseEvent)
         return;
 
     if (InMouseEvent.GetEffectingButton() == EKeys::LeftMouseButton)
+    {
         (void)CallLuaFunction("OnLeftMouseUp");
+        FSoundManager::Get()->PlaySound("Contents\\Sound\\shoot.wav", ShootChannel, false);
+    }
+    
     UE_LOG(ELogLevel::Display, "OnLeftMouseUp %s", *GetName());
 }
 

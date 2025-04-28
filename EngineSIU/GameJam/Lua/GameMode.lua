@@ -18,7 +18,7 @@ end
 function ALuaGameMode:BeginPlay()
     -- BeginPlay 시점에 전역에서 Player/Coaches 가져오기
     self.Player  = Player
-    self.Coaches = Coaches
+    self.Coaches = _G.Coaches
 
     for idx, coach in ipairs(self.Coaches) do
         coach:SetCoachColor(idx - 1) -- Lua 배열의 경우 1부터 index가 시작도니다고 함
@@ -48,7 +48,11 @@ end
 -- 색출 일어나진 않음
 function ALuaGameMode:OnOverlap(other_actor) end
 function ALuaGameMode:Destroyed() end
-function ALuaGameMode:EndPlay(reason) end
+
+function ALuaGameMode:EndPlay(reason) 
+    LOG_INFO("EndPlay")
+    
+end
 
 local function create_actor_instance(cpp_actor)
     local inst = ALuaGameMode:new(cpp_actor)

@@ -3,6 +3,8 @@
 
 #include <optional>
 #include <filesystem>
+
+#include "fmod.hpp"
 #include "Engine/StaticMeshActor.h"
 #include "LuaActor.h"
 namespace fs = std::filesystem;
@@ -37,6 +39,8 @@ protected:
     // 입력 처리용 콜백
     void OnLeftMouseDown(const FPointerEvent& InMouseEvent);
     void OnLeftMouseUp(const FPointerEvent& InMouseEvent);
+
+    FMOD::Channel* ShootChannel;
 public:
     FVector GetAimDirection();
     void SpawnHeart(FVector pos, FVector dir, float chargeForce, int playerIndex);

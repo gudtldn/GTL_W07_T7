@@ -1,7 +1,7 @@
 setmetatable(_ENV, { __index = EngineSIU })
 
 -- 전역 Coaches 배열
-Coaches = Coaches or {}
+_G.Coaches = _G.Coaches or {}
 
 local ALuaCoach = {}
 ALuaCoach.__index = ALuaCoach
@@ -13,7 +13,7 @@ function ALuaCoach:new(cpp_actor)
     inst.Affection   = 0
     inst.MaxAffection= 100
 
-    table.insert(Coaches, inst)
+    table.insert(_G.Coaches, inst)
     return inst
 end
 

@@ -13,5 +13,9 @@ private:
     static void Begin(const std::string& name);
     static void End();
     static void Text(const std::string& text);
+    static void SameLine();
     static void Separator();
+    static void Button(const std::string& name, float Width, float Height, const sol::function& Callback);
+    static void Spacing();
+    static void SetGameMode(const std::string& name);
 };

@@ -27,8 +27,6 @@ GameLobbyPanel::GameLobbyPanel()
 
 void GameLobbyPanel::Render()
 {
-    if (FEngineLoop::GameState != Lobby) return;
-    
     /* Pre Setup */
     ImGuiIO& io = ImGui::GetIO();
     
@@ -40,6 +38,13 @@ void GameLobbyPanel::Render()
         ImGuiWindowFlags_NoScrollWithMouse |
         ImGuiWindowFlags_NoCollapse;
     
+    if (FEngineLoop::GameState != Lobby && FEngineLoop::GameState != None)
+    {
+        ImDrawList* DrawList = ImGui::GetForegroundDrawList();
+        DrawList->AddCircleFilled(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), 5.f, IM_COL32(255,0,0,255));
+        return;
+    }
+
     ImGui::SetNextWindowPos(ImVec2(-5,-5), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(io.DisplaySize.x + 10, io.DisplaySize.y + 10), ImGuiCond_Always);
     ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
@@ -206,6 +211,8 @@ void GameLobbyPanel::DrawTitle(const ImVec2& WindowSize)
         if (UEditorEngine* EditorEngine = Cast<UEditorEngine>(GEngine))
         {
             EditorEngine->StartPIE();
+            FSoundManager::Get()->StopSound("Contents\\Sound\\lobby.mp3");
+            FSoundManager::Get()->MainChannel = FSoundManager::Get()->PlaySound("Contents\\Sound\\game.mp3", true);
         }
     }
 
@@ -223,10 +230,6 @@ void GameLobbyPanel::DrawTitle(const ImVec2& WindowSize)
         if (FSoundManager::Get()->GetMainChannel())
         {
             FSoundManager::Get()->MainChannel->stop();
-        }
-        if (UEditorEngine* EditorEngine = Cast<UEditorEngine>(GEngine))
-        {
-            EditorEngine->EndPIE();
         }
     }
 
