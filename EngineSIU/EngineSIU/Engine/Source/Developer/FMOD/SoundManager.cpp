@@ -3,14 +3,14 @@
 
 FSoundManager* FSoundManager::Instance = nullptr;
 
-FSoundManager& FSoundManager::Get()
+FSoundManager* FSoundManager::Get()
 {
     if (!Instance)
     {
         Instance = new FSoundManager();
         Instance->Initialize();
     }
-    return *Instance;
+    return Instance;
 }
 
 void FSoundManager::Initialize()

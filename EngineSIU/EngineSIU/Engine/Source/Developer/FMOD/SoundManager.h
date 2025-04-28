@@ -19,7 +19,7 @@ public:
     FSoundManager(FSoundManager&&) = delete;
     FSoundManager& operator=(FSoundManager&&) = delete;
 
-    static FSoundManager& Get();
+    static FSoundManager* Get();
     
     void Initialize();
     void Release() const;

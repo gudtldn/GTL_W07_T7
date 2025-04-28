@@ -65,8 +65,8 @@ int32 FEngineLoop::Init(HINSTANCE hInstance)
     GEngine = FObjectFactory::ConstructObject<UEditorEngine>(nullptr);
     GEngine->Init();
 
-    FSoundManager::Get().Initialize();
-    FSoundManager::Get().PlaySound("Contents\\Sound\\background.mp3", FSoundManager::Get().MainChannel, true);
+    FSoundManager::Get()->Initialize();
+    // FSoundManager::Get()->PlaySound("Contents\\Sound\\background.mp3", FSoundManager::Get().MainChannel, true);
     
     UpdateUI();
 
@@ -151,7 +151,7 @@ void FEngineLoop::Tick()
 
         GraphicDevice.SwapBuffer();
 
-        FSoundManager::Get().Update();
+        FSoundManager::Get()->Update();
 
 #if _DEBUG
         if (bIsEnableShaderHotReload)
@@ -185,7 +185,7 @@ void FEngineLoop::Exit()
     ResourceManager.Release(&Renderer);
     Renderer.Release();
     GraphicDevice.Release();
-    FSoundManager::Get().Release();
+    FSoundManager::Get()->Release();
 
     delete UnrealEditor;
     delete BufferManager;
