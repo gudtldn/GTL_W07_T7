@@ -34,6 +34,7 @@
 #include "Developer/Lua/LuaCoachActor.h"
 #include "Developer/Lua/LuaHeartActor.h"
 #include "Developer/Lua/LuaGameModeActor.h"
+#include "Developer/Lua/LuaPlayer.h"
 
 void ControlEditorPanel::Render()
 {
@@ -295,7 +296,8 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
             { .label= "LuaActor",       .obj= OBJ_LUA_ACTOR },
             { .label = "LuaCoachActor",       .obj = OBJ_LUA_COACH_ACTOR },
             { .label = "LuaHeartActor",       .obj = OBJ_LUA_HEART_ACTOR },
-            {.label = "LuaGameModeActor",       .obj = OBJ_LUA_GAMEMODE_ACTOR }
+            {.label = "LuaGameModeActor",       .obj = OBJ_LUA_GAMEMODE_ACTOR },
+            { .label= "LuaPlayer",       .obj= OBJ_LUA_PLAYER }
         };
 
         for (const auto& primitive : primitives)
@@ -410,9 +412,15 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                     SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_GAMEMODE_ACTOR"));
                     break;
                 }
+                case OBJ_LUA_PLAYER:
+                {
+                        SpawnedActor = World->SpawnActor<ALuaPlayer>();
+                        SpawnedActor->SetActorLabel(TEXT("OBJ_LUA_PLAYER"));
+                        CERTSRV_E_BAD_REQUEST_KEY_ARCHIVAL;
+                }
+                    
                 case OBJ_TRIANGLE:
                 case OBJ_CAMERA:
-                case OBJ_PLAYER:
                 case OBJ_END:
                     break;
                 }
@@ -422,6 +430,7 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                     UEditorEngine* Engine = Cast<UEditorEngine>(GEngine);
                     Engine->SelectActor(Engine->GetSelectedActor());
                 }
+                
             }
         }
         ImGui::EndPopup();

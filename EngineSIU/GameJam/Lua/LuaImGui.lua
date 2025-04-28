@@ -6,6 +6,16 @@ function EngineSIU.LuaImGui()
     ImGui.Text("Coach2 Love : ")
     ImGui.Text("Coach3 Love : ")
     ImGui.Separator()
-    ImGui.Text("This Turn Player : ")
+    
+    -- ChargeForce 표시
+    if Player then
+        local cf = Player.ChargeForce or 0;
+        ImGui.Text(string.format("Charge Force: %.2f", cf))
+    else
+        ImGui.Text("Charge Force : N/A")
+    end
+
+    -- 현재 턴 플레이어
+    ImGui.Text(string.format("This Turn Player: %d", GameMode.CurrentPlayerIndex))
     ImGui.End()
 end
