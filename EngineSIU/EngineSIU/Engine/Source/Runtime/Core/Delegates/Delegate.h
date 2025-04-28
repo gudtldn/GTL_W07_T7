@@ -143,13 +143,13 @@ class TMulticastDelegate<ReturnType(ParamTypes...)>
 	using FuncType = std::function<ReturnType(ParamTypes...)>;
     TMap<FDelegateHandle, FuncType> DelegateHandles;
     TMap<const char*, FDelegateHandle> DelegateHandlesByName;
-    
+
 public:
-	template <typename FunctorType>
-	FDelegateHandle AddLambda(const char* FuncName, FunctorType&& InFunctor)
-	{
-		FDelegateHandle DelegateHandle = FDelegateHandle::CreateHandle();
-        
+    template <typename FunctorType>
+    FDelegateHandle AddLambda(FunctorType&& InFunctor)
+    {
+        FDelegateHandle DelegateHandle = FDelegateHandle::CreateHandle();
+
         DelegateHandles.Add(
             DelegateHandle,
             [Func = std::forward<FunctorType>(InFunctor)](ParamTypes... Params) mutable
@@ -157,9 +157,9 @@ public:
                 Func(std::forward<ParamTypes>(Params)...);
             }
         );
-	    DelegateHandlesByName.Add(FuncName, DelegateHandle);
-		return DelegateHandle;
-	}
+
+        return DelegateHandle;
+    }
 
     // 비-const 멤버 함수 바인딩
     template <typename UserClass>
