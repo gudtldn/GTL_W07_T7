@@ -171,6 +171,25 @@
             "ActorLabel": "OBJ_LUA_COACH_ACTOR_122",
             "Components": [
                 {
+                    "ComponentClass": "UBoxComponent",
+                    "ComponentID": "BoxComponent",
+                    "Properties": {
+                        "AABB_max": "X=0.340 Y=1.000 Z=0.300",
+                        "AABB_min": "X=-0.340 Y=-1.000 Z=-0.300",
+                        "BoxExtent": "X=0.340 Y=1.000 Z=0.300",
+                        "ComponentClass": "UBoxComponent",
+                        "ComponentName": "BoxComponent",
+                        "ComponentOwner": "ALuaCoachActor_122",
+                        "ComponentOwnerClass": "ALuaCoachActor",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "Type": "",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
                     "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "StaticMeshComponent_0",
                     "Properties": {
@@ -188,25 +207,6 @@
                         "bAutoActive": "true",
                         "bIsActive": "true"
                     }
-                },
-                {
-                    "ComponentClass": "UBoxComponent",
-                    "ComponentID": "BoxComponent",
-                    "Properties": {
-                        "AABB_max": "X=0.340 Y=1.000 Z=0.300",
-                        "AABB_min": "X=-0.340 Y=-1.000 Z=-0.300",
-                        "BoxExtent": "X=0.340 Y=1.000 Z=0.300",
-                        "ComponentClass": "UBoxComponent",
-                        "ComponentName": "BoxComponent",
-                        "ComponentOwner": "ALuaCoachActor_122",
-                        "ComponentOwnerClass": "ALuaCoachActor",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "Type": "",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
                 }
             ],
             "Properties": {
@@ -219,6 +219,25 @@
             "ActorID": "ALuaCoachActor_125",
             "ActorLabel": "OBJ_LUA_COACH_ACTOR_125",
             "Components": [
+                {
+                    "ComponentClass": "UBoxComponent",
+                    "ComponentID": "BoxComponent",
+                    "Properties": {
+                        "AABB_max": "X=0.340 Y=1.000 Z=0.300",
+                        "AABB_min": "X=-0.340 Y=-1.000 Z=-0.300",
+                        "BoxExtent": "X=0.340 Y=1.000 Z=0.300",
+                        "ComponentClass": "UBoxComponent",
+                        "ComponentName": "BoxComponent",
+                        "ComponentOwner": "ALuaCoachActor_125",
+                        "ComponentOwnerClass": "ALuaCoachActor",
+                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "Type": "",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
                 {
                     "ComponentClass": "UStaticMeshComponent",
                     "ComponentID": "StaticMeshComponent_0",
@@ -233,25 +252,6 @@
                         "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=90.000",
                         "RelativeScale3D": "X=2.000 Y=2.000 Z=2.000",
                         "StaticMeshPath": "Contents/GameJam\\LCG\\Shaded/base.obj",
-                        "Type": "",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "UBoxComponent",
-                    "ComponentID": "BoxComponent",
-                    "Properties": {
-                        "AABB_max": "X=0.340 Y=1.000 Z=0.300",
-                        "AABB_min": "X=-0.340 Y=-1.000 Z=-0.300",
-                        "BoxExtent": "X=0.340 Y=1.000 Z=0.300",
-                        "ComponentClass": "UBoxComponent",
-                        "ComponentName": "BoxComponent",
-                        "ComponentOwner": "ALuaCoachActor_125",
-                        "ComponentOwnerClass": "ALuaCoachActor",
-                        "RelativeLocation": "X=0.000 Y=0.000 Z=0.000",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "Type": "",
                         "bAutoActive": "true",
                         "bIsActive": "true"
@@ -371,6 +371,27 @@
             "ActorLabel": "OBJ_POINTLIGHT_134",
             "Components": [
                 {
+                    "ComponentClass": "UBillboardComponent",
+                    "ComponentID": "BillboardComponent",
+                    "Properties": {
+                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
+                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
+                        "BufferKey": "Assets/Editor/Icon/PointLight_64x.png",
+                        "ComponentClass": "UBillboardComponent",
+                        "ComponentName": "BillboardComponent",
+                        "ComponentOwner": "APointLight_134",
+                        "ComponentOwnerClass": "APointLight",
+                        "FinalIndexU": "0.000000",
+                        "FinalIndexV": "0.000000",
+                        "RelativeLocation": "X=21.204 Y=0.000 Z=7.020",
+                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
+                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
+                        "Type": "UBillboardComponent",
+                        "bAutoActive": "true",
+                        "bIsActive": "true"
+                    }
+                },
+                {
                     "ComponentClass": "UPointLightComponent",
                     "ComponentID": "PointLightComponent",
                     "Properties": {
@@ -389,27 +410,6 @@
                         "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "Type": "1",
-                        "bAutoActive": "true",
-                        "bIsActive": "true"
-                    }
-                },
-                {
-                    "ComponentClass": "UBillboardComponent",
-                    "ComponentID": "BillboardComponent",
-                    "Properties": {
-                        "AABB_max": "X=0.000 Y=0.000 Z=0.000",
-                        "AABB_min": "X=0.000 Y=0.000 Z=0.000",
-                        "BufferKey": "Assets/Editor/Icon/PointLight_64x.png",
-                        "ComponentClass": "UBillboardComponent",
-                        "ComponentName": "BillboardComponent",
-                        "ComponentOwner": "APointLight_134",
-                        "ComponentOwnerClass": "APointLight",
-                        "FinalIndexU": "0.000000",
-                        "FinalIndexV": "0.000000",
-                        "RelativeLocation": "X=21.204 Y=0.000 Z=7.020",
-                        "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
-                        "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
-                        "Type": "UBillboardComponent",
                         "bAutoActive": "true",
                         "bIsActive": "true"
                     }
@@ -486,7 +486,7 @@
                         "ComponentName": "StaticMeshComponent_0",
                         "ComponentOwner": "ALuaPlayer_140",
                         "ComponentOwnerClass": "ALuaPlayer",
-                        "RelativeLocation": "X=15.144 Y=5.420 Z=2.629",
+                        "RelativeLocation": "X=15.144 Y=5.420 Z=6.134",
                         "RelativeRotation": "Pitch=0.000 Yaw=0.000 Roll=0.000",
                         "RelativeScale3D": "X=1.000 Y=1.000 Z=1.000",
                         "StaticMeshPath": "None",
