@@ -139,9 +139,11 @@ public:
     static FVector CrossProduct(const FVector& A, const FVector& B);
 
     FVector operator+(const FVector& Other) const;
+    FVector operator+(float Scalar) const;
     FVector& operator+=(const FVector& Other);
 
     FVector operator-(const FVector& Other) const;
+    FVector operator-(float Scalar) const;
     FVector& operator-=(const FVector& Other);
 
     FVector operator*(const FVector& Other) const;
