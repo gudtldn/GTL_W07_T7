@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <concepts>
 
-#include "Object.h"
+#include "ObjectUtils.h"
 #include "HAL/PlatformType.h"
 
 /**
