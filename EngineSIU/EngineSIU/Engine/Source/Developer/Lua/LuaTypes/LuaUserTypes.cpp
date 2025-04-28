@@ -6,8 +6,7 @@
 #include "Math/Color.h"
 #include "Math/Matrix.h"
 #include "Math/Quat.h"
-
-
+#include "Developer/Lua/LuaPlayer.h"
 
 void LuaTypes::FBindLua<FColor>::Bind(sol::table& Table)
 {
@@ -443,6 +442,8 @@ void LuaTypes::FBindLua<ALuaActor>::Bind(sol::table& Table)
         LUA_BIND_FUNC(&ALuaActor::Duplicate),
         LUA_BIND_FUNC(&ALuaActor::GetFName),
         LUA_BIND_FUNC(&ALuaActor::GetName),
+        LUA_BIND_FUNC(&ALuaActor::GetNameStr),
+        "GetClassName", [](const ALuaActor& Self) { return Self.GetClass()->GetNameStr(); },
         LUA_BIND_FUNC(&ALuaActor::GetOuter),
         LUA_BIND_FUNC(&ALuaActor::GetWorld),
         LUA_BIND_FUNC(&ALuaActor::GetUUID),
@@ -468,5 +469,15 @@ void LuaTypes::FBindLua<ALuaActor>::Bind(sol::table& Table)
 
         LUA_BIND_FUNC(&ALuaActor::Destroy),
         LUA_BIND_FUNC(&ALuaActor::IsActorBeingDestroyed)
+    );
+}
+
+void LuaTypes::FBindLua<ALuaPlayer>::Bind(sol::table& Table)
+{
+    Table.Lua_NewUserType(
+        ALuaPlayer,
+        sol::base_classes, sol::bases<ALuaActor>(),
+        LUA_BIND_FUNC(&ALuaPlayer::GetAimDirection),
+        LUA_BIND_FUNC(&ALuaPlayer::SpawnHeart)
     );
 }

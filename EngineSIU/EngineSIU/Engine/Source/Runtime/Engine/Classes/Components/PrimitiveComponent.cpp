@@ -169,11 +169,6 @@ void UPrimitiveComponent::BeginComponentOverlap(UPrimitiveComponent* OverlappedC
             UE_LOG(ELogLevel::Display, "%s: BeginOverlap", *this->GetName());
             OnComponentBeginOverlap.Broadcast(OtherActor, OverlappedComponent);
         }
-
-        if (!OverlappedComponent->IsPendingKill())
-        {
-            OverlappedComponent->OnComponentBeginOverlap.Broadcast(MyActor, this);
-        }
     }
 }
 

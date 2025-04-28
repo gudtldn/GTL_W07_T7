@@ -57,7 +57,7 @@ void ALuaActor::BeginPlay()
 
         if (UPrimitiveComponent* prim = Cast<UPrimitiveComponent>(iter)) 
         {
-            prim->OnComponentBeginOverlap.AddDynamic(this, &ALuaActor::OnOverlap);
+            prim->OnComponentBeginOverlap.AddUObject(this, &ALuaActor::OnOverlap);
         }
     }
 }
@@ -91,7 +91,20 @@ void ALuaActor::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void ALuaActor::OnOverlap(AActor* OtherActor, UPrimitiveComponent* OtherComp)
 {
-    CallLuaFunction("OnOverlap", OtherActor);
+    if (!OtherActor || OtherActor == this)
+    {
+        return;
+    }
+
+    sol::object LuaArg = sol::lua_nil;
+    ALuaActor* OtherLuaActor = Cast<ALuaActor>(OtherActor);
+    if (OtherLuaActor && OtherLuaActor->SelfTable.valid())
+    {
+        // 캐스팅 성공 및 상대방의 SelfTable이 유효하면 그것을 전달
+        LuaArg = OtherLuaActor->SelfTable;
+    }
+
+    CallLuaFunction("OnOverlap", LuaArg);
 }
 
 void ALuaActor::HandleScriptReload(const sol::protected_function& NewFactory)
@@ -208,7 +221,7 @@ void ALuaActor::SetScriptPath(const std::optional<std::filesystem::path>& Path)
             {
                 SelfTable = Result;
                 SelfTable["cpp_actor"] = this;
-                (void)CallLuaFunction("BeginPlay"); // 경로 변경 시에도 BeginPlay 호출
+                // (void)CallLuaFunction("BeginPlay"); // 경로 변경 시에도 BeginPlay 호출
             }
             else
             {
@@ -235,3 +248,4 @@ void ALuaActor::CleanupLuaState()
     }
     SelfTable = sol::lua_nil; // 테이블 무효화
 }
+

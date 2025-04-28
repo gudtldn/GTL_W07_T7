@@ -32,7 +32,8 @@ UObject* ULevel::Duplicate(UObject* InOuter)
 
     NewLevel->OwningWorld = OwningWorld;
 
-    for (AActor* Actor : Actors)
+    TArray Copied = Actors;
+    for (AActor* Actor : Copied)
     {
         NewLevel->Actors.Emplace(static_cast<AActor*>(Actor->Duplicate(InOuter)));
     }

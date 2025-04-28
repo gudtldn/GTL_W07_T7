@@ -80,8 +80,10 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
 
     FSlateAppMessageHandler* Handler = GEngineLoop.GetAppMessageHandler();
 
-    Handler->OnMouseDownDelegate.AddLambda("OnMouseDown", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnMouseDownDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
+        if (bEditorBlockInput) return;
+
         if (ImGui::GetIO().WantCaptureMouse) return;
 
         switch (InMouseEvent.GetEffectingButton())  // NOLINT(clang-diagnostic-switch-enum)
@@ -141,8 +143,10 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnMouseMoveDelegate.AddLambda("OnMouseMove", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnMouseMoveDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
+        
+
         if (ImGui::GetIO().WantCaptureMouse) return;
 
         // Splitter 움직임 로직
@@ -201,8 +205,10 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnMouseUpDelegate.AddLambda("OnMouseUp", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnMouseUpDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
+        if (bEditorBlockInput) return;
+
         if (ImGui::GetIO().WantCaptureMouse) return;
 
         switch (InMouseEvent.GetEffectingButton())  // NOLINT(clang-diagnostic-switch-enum)
@@ -236,8 +242,10 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnRawMouseInputDelegate.AddLambda("OnRawMouse", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnRawMouseInputDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
+        
+
         // Mouse Move 이벤트 일때만 실행
         if (
             InMouseEvent.GetInputEvent() == IE_Axis
@@ -348,8 +356,10 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnMouseWheelDelegate.AddLambda("OnMouseWheel", [this](const FPointerEvent& InMouseEvent)
+    Handler->OnMouseWheelDelegate.AddLambda([this](const FPointerEvent& InMouseEvent)
     {
+        if (bEditorBlockInput) return;
+
         if (ImGui::GetIO().WantCaptureMouse) return;
 
         // 뷰포트에서 앞뒤 방향으로 화면 이동
@@ -370,15 +380,19 @@ void SLevelEditor::Initialize(uint32 InEditorWidth, uint32 InEditorHeight)
         }
     });
 
-    Handler->OnKeyDownDelegate.AddLambda("OnKeyDown", [this](const FKeyEvent& InKeyEvent)
+    Handler->OnKeyDownDelegate.AddLambda([this](const FKeyEvent& InKeyEvent)
     {
+        if (bEditorBlockInput) return;
+
         const ImGuiIO& IO = ImGui::GetIO();
         if (IO.WantCaptureKeyboard || IO.WantTextInput) return;
         ActiveViewportClient->InputKey(InKeyEvent);
     });
 
-    Handler->OnKeyUpDelegate.AddLambda("OnKeyUp", [this](const FKeyEvent& InKeyEvent)
+    Handler->OnKeyUpDelegate.AddLambda([this](const FKeyEvent& InKeyEvent)
     {
+        if (bEditorBlockInput) return;
+
         ActiveViewportClient->InputKey(InKeyEvent);
     });
 }
