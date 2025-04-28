@@ -12,4 +12,6 @@ public:
     ALuaCoachActor();
 
     UBoxComponent* BoxComponent;
+
+    virtual void BeginPlay() override;
 };
