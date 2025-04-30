@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "GameFramework/Actor.h"
+#include "Template/SubclassOf.h"
 
 
 class APawn;
@@ -12,9 +13,10 @@ class AGameModeBase : public AActor
 public:
     AGameModeBase();
 
-    virtual void BeginPlay() override;
+    /** GameMode에 설정된 기본 클래스를 Spawn합니다. */
+    virtual void InitGame();
 
 public:
-    APlayerController* PlayerControllerClass;
-    APawn* DefaultPawnClass;
+    TSubclassOf<APlayerController> PlayerControllerClass;
+    TSubclassOf<APawn> DefaultPawnClass;
 };
