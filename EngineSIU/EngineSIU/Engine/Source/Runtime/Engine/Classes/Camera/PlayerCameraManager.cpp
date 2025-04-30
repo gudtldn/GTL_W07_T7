@@ -1,5 +1,10 @@
 #include "PlayerCameraManager.h"
 #include "CameraModifier.h"
+#include "Components/SpringArmComponent.h"
+#include "Engine/Engine.h"
+#include "LevelEditor/SLevelEditor.h"
+#include "UObject/UObjectIterator.h"
+#include "UnrealEd/EditorViewportClient.h"
 
 
 APlayerCameraManager::APlayerCameraManager()
