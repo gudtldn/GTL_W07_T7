@@ -59,9 +59,9 @@ void ALuaCoachActor::BeginPlay()
 
     std::string CoachName = "NoneName";
 
-    if (ObjName == L"Contents/GameJam\\LCG\\Shaded/base.obj") 
+    if (ObjName == L"Contents/GameJam\\BSH\\Pbr/eye_mask.obj") 
     {
-        CoachName = "Changgeun Lim";
+        CoachName = "Seung-Hyeon Baek";
     }
 
 
