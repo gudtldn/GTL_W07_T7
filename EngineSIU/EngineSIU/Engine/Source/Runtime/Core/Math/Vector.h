@@ -7,8 +7,12 @@
 
 struct FVector2D
 {
+public:
 	float X, Y;
 
+    using FReal = float;
+
+public:
     FVector2D() : X(0), Y(0) {}
 	FVector2D(float InX, float InY) : X(InX), Y(InY) {}
     FVector2D(float Scalar) : X(Scalar), Y(Scalar) {}
@@ -184,6 +188,7 @@ public:
     bool AllComponentsEqual(float Tolerance = KINDA_SMALL_NUMBER) const;
 
     float Length() const;
+    float Size() const { return Length(); }
     float SquaredLength() const;
     float SizeSquared() const { return SquaredLength(); }
 

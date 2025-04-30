@@ -7,8 +7,12 @@ struct FMatrix;
 // 쿼터니언
 struct FQuat
 {
+public:
     float W, X, Y, Z;
 
+    using FReal = float;
+
+public:
     // 기본 생성자
     FQuat()
         : W(1.0f), X(0.0f), Y(0.0f), Z(0.0f)
