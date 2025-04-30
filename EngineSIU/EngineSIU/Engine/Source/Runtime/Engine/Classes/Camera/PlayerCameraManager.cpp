@@ -12,6 +12,11 @@ void APlayerCameraManager::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
     float Elapsed = FadeTime - FadeTimeRemaining;
     float AlphaT = FMath::Clamp(Elapsed / FadeTime, 0.f, 1.f);
+    if (FadeTimeRemaining < 0.0f && !bHoldWhenFinished)
+    {
+        FadeAmount = 0.0f;
+        return;
+    }
 
     FadeAmount = FMath::Lerp(FadeAlpha.X, FadeAlpha.Y, AlphaT);
     FadeTimeRemaining -= DeltaTime;
@@ -23,7 +28,11 @@ FLinearColor APlayerCameraManager::GetFadeConstant() const
 }
 
 void APlayerCameraManager::StartCameraFade(
-    float FromAlpha, float ToAlpha, float Duration, FLinearColor Color, bool bShouldFadeAudio, bool bHoldWhenFinished
+    float FromAlpha, float ToAlpha,
+    float Duration,
+    FLinearColor Color,
+    bool InShouldFadeAudio,
+    bool InHoldWhenFinished
 )
 {
     FadeAlpha.X = FromAlpha;
@@ -31,4 +40,5 @@ void APlayerCameraManager::StartCameraFade(
     FadeTime = Duration;
     FadeTimeRemaining = Duration;
     FadeColor = Color;
+    bHoldWhenFinished = InHoldWhenFinished;
 }

@@ -155,7 +155,6 @@ void FFadeRenderPass::PrepareRenderState()
 
 void FFadeRenderPass::UpdateFadeConstant()
 {
-    // TODO Fade 값으로 변경 필요함
     FFadeConstants Constants = { 
         Constants.FadeAlpha = FadeAlpha,
         Constants.FadeColor = FadeColor,

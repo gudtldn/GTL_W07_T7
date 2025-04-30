@@ -55,8 +55,8 @@ function ALuaPlayer:OnLeftMouseDown()
     self.ChargeForce = 0
     self.ChargeDir   = 1   
     print("[OnLeftMouseDown]")
-
-    CameraEffect.StartCameraFade(0.0, 1.0, 0.5, FLinearColor(0, 0, 0, 1), false, false)
+    local fadeAmount = CameraEffect.GetFadeAmount();
+    CameraEffect.StartCameraFade(fadeAmount, 1.0, 1.5, FLinearColor(0, 0, 0, 1), true, true)
 end
 
 function ALuaPlayer:OnLeftMouseUp()
@@ -70,7 +70,8 @@ function ALuaPlayer:OnLeftMouseUp()
     GameMode:NextTurn()
     print("[OnLeftMouseUp]")
 
-    CameraEffect.StartCameraFade(1.0, 0.0, 0.5, FLinearColor(0, 0, 0, 1), false, false)
+    local fadeAmount = CameraEffect.GetFadeAmount();
+    CameraEffect.StartCameraFade(fadeAmount, 0.0, 1.5, FLinearColor(0, 0, 0, 1), true, true)
 end
 
 local function create_actor_instance(cpp_actor)
