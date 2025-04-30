@@ -7,6 +7,7 @@
 #include "LuaTypes/LuaUserTypes.h"
 #include "UserInterface/Console.h"
 #include "LuaUtils/LuaBindImGui.h"
+#include "LuaUtils/LuaBindCameraEffect.h"
 #include "UnrealEd/EditorViewportClient.h"
 #include "World/World.h"
 
@@ -302,6 +303,10 @@ void FLuaManager::Initialize()
     sol::table ImGuiTable = LuaBindImGui::Bind(Ns);
     LuaState["ImGui"] = ImGuiTable;
     
+    // PlayerCameraManager
+    sol::table CameraEffectTable = LuaBindCameraEffect::Bind(Ns);
+    LuaState["CameraEffect"] = CameraEffectTable;
+
     bInitialized = true;
 
     ImGuiScriptPath = fs::current_path().parent_path() / "GameJam" / "Lua" / "LuaImGui.lua";
