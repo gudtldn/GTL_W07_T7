@@ -21,6 +21,12 @@
 // inline을 하지않는 매크로
 #define FORCENOINLINE __declspec(noinline)
 
+#ifdef _DEBUG
+    #define FORCEINLINE_DEBUGGABLE inline
+#else
+    #define FORCEINLINE_DEBUGGABLE FORCEINLINE
+#endif
+
 
 #define USE_WIDECHAR 0
 
