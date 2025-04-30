@@ -5,12 +5,12 @@
 class APawn;
 class APlayerController;
 
-class AGameMode : public AActor
+class AGameModeBase : public AActor
 {
-    DECLARE_CLASS(AGameMode, AActor)
+    DECLARE_CLASS(AGameModeBase, AActor)
 
 public:
-    AGameMode() = default;
+    AGameModeBase();
 
     virtual void BeginPlay() override;
 

@@ -297,7 +297,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Engine\StaticMeshActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Actor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Controller.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\GameMode.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\GameModeBase.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Pawn.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\PlayerController.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Level.cpp" />
@@ -480,7 +480,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Engine\Texture.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Actor.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Controller.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\GameMode.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\GameModeBase.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Pawn.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\PlayerController.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Level.h" />
