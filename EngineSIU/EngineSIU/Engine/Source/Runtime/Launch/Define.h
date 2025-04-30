@@ -579,6 +579,12 @@ struct FFogConstants
     float padding2;
 };
 
+struct FFadeConstants
+{
+    float FadeAlpha;
+    FVector FadeColor;
+};
+
 /*
  *************************
  * For Collision         *
