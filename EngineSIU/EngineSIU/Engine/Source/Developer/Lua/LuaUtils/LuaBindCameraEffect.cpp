@@ -38,4 +38,5 @@ float LuaBindCameraEffect::GetFadeAmount()
             return iter->GetFadeAmount();
         }
     }
+    return 0.f;
 }

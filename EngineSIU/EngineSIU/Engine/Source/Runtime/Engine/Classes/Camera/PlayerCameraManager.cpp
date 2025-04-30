@@ -10,8 +10,14 @@ void APlayerCameraManager::BeginPlay()
 void APlayerCameraManager::Tick(float DeltaTime) 
 { 
     Super::Tick(DeltaTime);
+
     float Elapsed = FadeTime - FadeTimeRemaining;
-    float AlphaT = FMath::Clamp(Elapsed / FadeTime, 0.f, 1.f);
+    float AlphaT = 0.0f;
+    if (FadeTime > 0.0f)
+    {
+        AlphaT = FMath::Clamp(Elapsed / FadeTime, 0.f, 1.f);
+    }
+
     if (FadeTimeRemaining < 0.0f && !bHoldWhenFinished)
     {
         FadeAmount = 0.0f;
