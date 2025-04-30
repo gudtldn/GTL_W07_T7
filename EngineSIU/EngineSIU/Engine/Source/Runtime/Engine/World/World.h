@@ -36,6 +36,12 @@ public:
      */
     AActor* SpawnActor(UClass* InClass, FName InActorName = NAME_None);
 
+    template <typename T>
+    T* SpawnActor(UClass* InClass, FName InActorName = NAME_None)
+    {
+        return Cast<T>(SpawnActor(InClass, InActorName));
+    }
+
     /** 
      * World에 Actor를 Spawn합니다.
      * @tparam T AActor를 상속받은 클래스
