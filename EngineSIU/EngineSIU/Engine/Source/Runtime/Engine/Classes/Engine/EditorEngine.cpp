@@ -8,6 +8,7 @@
 #include "Classes/Engine/AssetManager.h"
 #include "Components/Light/DirectionalLightComponent.h"
 #include "Editor/LevelEditor/SLevelEditor.h"
+#include "Classes/Camera/PlayerCameraManager.h"
 
 namespace PrivateEditorSelection
 {
@@ -115,6 +116,10 @@ void UEditorEngine::StartPIE()
 
     PIEWorldContext.SetCurrentWorld(PIEWorld);
     ActiveWorld = PIEWorld;
+
+    // PIE 모드일 때 기본적으로 필요한 Actor 생성
+    // PlayerCameraManager 생성
+    PIEWorld->SpawnActor<APlayerCameraManager>();
     
     PIEWorld->BeginPlay();
     // 여기서 Actor들의 BeginPlay를 해줄지 안에서 해줄 지 고민.
