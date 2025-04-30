@@ -300,6 +300,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\GameModeBase.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Pawn.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\PlayerController.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\PlayerStart.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Level.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Subsystem\CollisionSubsystem.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\UnrealClient.cpp" />
@@ -484,6 +485,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\GameModeBase.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Pawn.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\PlayerController.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\PlayerStart.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Level.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Subsystem\CollisionSubsystem.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\UnrealClient.h" />
