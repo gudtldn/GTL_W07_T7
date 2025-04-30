@@ -64,7 +64,7 @@ void USceneComponent::TickComponent(float DeltaTime)
 }
 
 
-int USceneComponent::CheckRayIntersection(FVector& InRayOrigin, FVector& InRayDirection, float& pfNearHitDistance)
+int USceneComponent::CheckRayIntersectionLocal(FVector& InRayOrigin, FVector& InRayDirection, float& pfNearHitDistance)
 {
     // TODO: 나중에 지워도 될듯
     int nIntersections = 0;
