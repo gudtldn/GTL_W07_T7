@@ -212,6 +212,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClCompile Include="EngineSIU\Engine\Source\Editor\PropertyEditor\GameLobbyPanel.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\CoreUObject\UObject\ObjectUtils.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Core\Math\FCollision.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Core\Math\MathUtility.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\AmbientLightActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Editor\LevelEditor\SlateAppMessageHandler.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Editor\LevelEditor\SLevelEditor.cpp" />
@@ -373,6 +374,8 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\StringConv.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Container\TSafeQueue.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\FCollision.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\MathFwd.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\MathUtility.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Traits\IsCharType.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\AmbientLightActor.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Editor\LevelEditor\SlateAppMessageHandler.h" />
@@ -418,7 +421,6 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\Color.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\JungleMath.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\MathSSE.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\MathUtility.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\Matrix.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\Quat.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\Rotator.h" />
