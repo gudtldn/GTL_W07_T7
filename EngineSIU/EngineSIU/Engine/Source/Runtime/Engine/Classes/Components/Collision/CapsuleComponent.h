@@ -24,6 +24,7 @@ protected:
     /** Radius of cap hemisphere and center cylinder. */
     float CapsuleRadius;
 
+    /** 충돌 기능 활성화 여부 */
     bool bCollisionEnabled = true;
 
 public:
