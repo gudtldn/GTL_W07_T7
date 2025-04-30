@@ -2,10 +2,13 @@
 #include "Camera/PlayerCameraManager.h"
 #include "World/World.h"
 
+// PostInitializeComponents에서 SpawnPlayerCameraManager() 호출
+// PlayerController.cpp:1050 참조
 
 void APlayerController::SpawnPlayerCameraManager()
 {
     PlayerCameraManager = GetWorld()->SpawnActor<APlayerCameraManager>(PlayerCameraManagerClass);
+    PlayerCameraManager->SetOwner(this);
 
     if (PlayerCameraManager != nullptr)
     {
