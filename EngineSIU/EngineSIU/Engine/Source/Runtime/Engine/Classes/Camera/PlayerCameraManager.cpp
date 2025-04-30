@@ -1,4 +1,11 @@
 #include "PlayerCameraManager.h"
+#include "UnrealEd/EditorViewportClient.h"
+#include "Engine/Engine.h"
+#include "Engine/EditorEngine.h"
+#include "LevelEditor/SLevelEditor.h"
+#include "UObject/UObjectIterator.h"
+#include "Engine/Classes/Components/SpringArmComponent.h"
+
 
 void APlayerCameraManager::BeginPlay() 
 { 
@@ -10,6 +17,12 @@ void APlayerCameraManager::BeginPlay()
 void APlayerCameraManager::Tick(float DeltaTime) 
 { 
     Super::Tick(DeltaTime);
+    FadeTick(DeltaTime);
+    SpringArmTick();
+}
+
+void APlayerCameraManager::FadeTick(float DeltaTime) 
+{
     float Elapsed = FadeTime - FadeTimeRemaining;
     float AlphaT = FMath::Clamp(Elapsed / FadeTime, 0.f, 1.f);
     if (FadeTimeRemaining < 0.0f && !bHoldWhenFinished)
@@ -20,6 +33,24 @@ void APlayerCameraManager::Tick(float DeltaTime)
 
     FadeAmount = FMath::Lerp(FadeAlpha.X, FadeAlpha.Y, AlphaT);
     FadeTimeRemaining -= DeltaTime;
+}
+
+void APlayerCameraManager::SpringArmTick() 
+{
+    FVector CameraWorldLocation;
+    FViewportCamera& Camera = GEngineLoop.GetLevelEditor()->GetActiveViewportClient()->PerspectiveCamera;
+    
+    for (const auto iter : TObjectRange<USpringArmComponent>())
+    {
+        if (iter->GetWorld() != GEngine->ActiveWorld)
+        {
+            continue;
+        }
+
+        CameraWorldLocation = iter->GetSpringArmLocation();
+    }
+
+    Camera.SetLocation(CameraWorldLocation);
 }
 
 FLinearColor APlayerCameraManager::GetFadeConstant() const 

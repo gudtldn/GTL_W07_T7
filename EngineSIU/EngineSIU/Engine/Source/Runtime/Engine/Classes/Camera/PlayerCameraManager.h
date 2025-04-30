@@ -16,6 +16,8 @@ public:
 
     /** 매 Tick마다 호출됩니다. */
     virtual void Tick(float DeltaTime) override;
+    void FadeTick(float DeltaTime);
+    void SpringArmTick();
 
     FLinearColor GetFadeConstant() const;
 

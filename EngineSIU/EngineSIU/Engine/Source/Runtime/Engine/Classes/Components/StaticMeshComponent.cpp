@@ -6,6 +6,7 @@
 #include "UObject/ObjectFactory.h"
 
 #include "GameFramework/Actor.h"
+#include "Engine/Source/Runtime/Core/Math/Matrix.h"
 
 UObject* UStaticMeshComponent::Duplicate(UObject* InOuter)
 {
@@ -188,6 +189,14 @@ int UStaticMeshComponent::CheckRayIntersectionLocal(FVector& rayOrigin, FVector&
 
     }
     return nIntersections;
+}
+
+int UStaticMeshComponent::CheckRayIntersectionWorld(FVector& rayOrigin, FVector& rayDirection, float& pfNearHitDistance)
+{   
+    FMatrix InvWorldMatrix = FMatrix::Inverse(GetWorldMatrix());
+    FVector localRayOrigin = InvWorldMatrix.TransformPosition(rayOrigin);
+    FVector localRayDirection = InvWorldMatrix.TransformVector(rayDirection, InvWorldMatrix);
+    return CheckRayIntersectionLocal(localRayOrigin, localRayDirection, pfNearHitDistance);
 }
 
 FBoundingBox UStaticMeshComponent::GetWorldAABB()

@@ -1373,6 +1373,9 @@
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\PlayerController.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Renderer\FadeRenderPass.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindCameraEffect.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\SpringArmComponent.cpp">
+      <Filter>EngineSIU\Engine\Source\Runtime\Engine\Classes\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="EngineSIU\EngineSIU.natvis" />
@@ -1486,6 +1489,9 @@
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_errors.h" />
     <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_output.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindCameraEffect.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\SpringArmComponent.h">
+      <Filter>EngineSIU\Engine\Source\Runtime\Engine\Classes\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultPropertySheet.props" />
