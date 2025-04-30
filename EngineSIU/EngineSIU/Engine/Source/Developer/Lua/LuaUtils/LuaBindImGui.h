@@ -8,6 +8,7 @@ public:
     static sol::table Bind(sol::table& parentTable);
 
 private:
+    static void ProgressBar(float Fraction, float SizeMin, float SizeMax);
     static void SetNextWindowPos(float x, float y, sol::optional<int> cond_opt);
     static void SetNextWindowSize(float w, float h, sol::optional<int> cond_opt);
     static void SetCenterPos();

@@ -1,6 +1,6 @@
 function EngineSIU.LuaImGui()
     local Coaches = _G.Coaches
-    
+
     ImGui.SetNextWindowPos(10, 10)
     ImGui.SetNextWindowSize(300, 300)
     ImGui.Begin("Game Property")
@@ -19,6 +19,7 @@ function EngineSIU.LuaImGui()
     if Player then
         local cf = Player.ChargeForce or 0;
         ImGui.Text(string.format("Charge Force: %.2f", cf))
+        ImGui.Test(cf / 700, 284, 20)
     else
         ImGui.Text("Charge Force : N/A")
     end

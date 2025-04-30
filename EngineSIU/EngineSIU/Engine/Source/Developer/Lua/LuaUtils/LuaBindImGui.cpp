@@ -1,6 +1,7 @@
 #include "LuaBindImGui.h"
 
 #include "EngineLoop.h"
+#include "LuaBindMacros.h"
 #include "Developer/FMOD/SoundManager.h"
 #include "Engine/EditorEngine.h"
 #include "Engine/Engine.h"
@@ -10,27 +11,36 @@ sol::table LuaBindImGui::Bind(sol::table& parentTable)
 {
     sol::table ImGuiTable = parentTable.create_named("ImGui");
 
-    ImGuiTable.set_function("SetNextWindowPos",   &LuaBindImGui::SetNextWindowPos);
-    ImGuiTable.set_function("SetNextWindowSize",  &LuaBindImGui::SetNextWindowSize);
-    ImGuiTable.set_function("SetCenterPos",  &LuaBindImGui::SetCenterPos);
-    ImGuiTable.set_function("Begin",              &LuaBindImGui::Begin);
-    ImGuiTable.set_function("End",                &LuaBindImGui::End);
-    ImGuiTable.set_function("Text",               &LuaBindImGui::Text);
-    ImGuiTable.set_function("IntText",               &LuaBindImGui::IntText);
-    ImGuiTable.set_function("Separator",         &LuaBindImGui::Separator);
-    ImGuiTable.set_function("Button",            &LuaBindImGui::Button);
-    ImGuiTable.set_function("Spacing",            &LuaBindImGui::Spacing);
-    ImGuiTable.set_function("SameLine",             &LuaBindImGui::SameLine);
-    ImGuiTable.set_function("SetGameMode",      &LuaBindImGui::SetGameMode);
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::SetNextWindowPos));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::SetNextWindowSize));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::SetCenterPos));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::Begin));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::End));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::Text));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::IntText));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::Separator));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::Button));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::Spacing));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::SameLine));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::SetGameMode));
+    ImGuiTable.set_function(LUA_BIND_MEMBER(&LuaBindImGui::ProgressBar));
     
     return ImGuiTable;
 }
 
-void LuaBindImGui::SetNextWindowPos(float x, float y, sol::optional<int> cond_opt) {
+void LuaBindImGui::ProgressBar(float Fraction, float SizeMin, float SizeMax)
+{
+    ImGui::ProgressBar(Fraction, ImVec2(SizeMin, SizeMax));
+}
+
+void LuaBindImGui::SetNextWindowPos(float x, float y, sol::optional<int> cond_opt)
+{
     ImGuiCond cond = cond_opt.value_or(ImGuiCond_Always);
     ImGui::SetNextWindowPos(ImVec2{x, y}, cond);
 }
-void LuaBindImGui::SetNextWindowSize(float w, float h, sol::optional<int> cond_opt) {
+
+void LuaBindImGui::SetNextWindowSize(float w, float h, sol::optional<int> cond_opt)
+{
     ImGuiCond cond = cond_opt.value_or(ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2{w, h}, cond);
 }
@@ -41,13 +51,18 @@ void LuaBindImGui::SetCenterPos()
     ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f));
 }
 
-void LuaBindImGui::Begin(const std::string& name) {
+void LuaBindImGui::Begin(const std::string& name)
+{
     ImGui::Begin(name.c_str());
 }
-void LuaBindImGui::End() {
+
+void LuaBindImGui::End()
+{
     ImGui::End();
 }
-void LuaBindImGui::Text(const std::string& text) {
+
+void LuaBindImGui::Text(const std::string& text)
+{
     ImGui::Text("%s", text.c_str());
 }
 
@@ -61,7 +76,8 @@ void LuaBindImGui::SameLine()
     ImGui::SameLine();
 }
 
-void LuaBindImGui::Separator() {
+void LuaBindImGui::Separator()
+{
     ImGui::Separator();
 }
 
