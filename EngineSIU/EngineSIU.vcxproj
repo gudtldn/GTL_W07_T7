@@ -677,6 +677,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".clang-format" />
     <Content Include=".editorconfig" />
     <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\arm64\fmod.dll" />
     <Content Include="EngineSIU\Engine\Source\ThirdParty\fmod\lib\arm64\fmodL.dll" />
