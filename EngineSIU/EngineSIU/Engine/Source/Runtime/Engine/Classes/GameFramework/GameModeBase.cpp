@@ -1,6 +1,9 @@
 ﻿#include "GameModeBase.h"
 #include "Pawn.h"
 #include "PlayerController.h"
+#include "PlayerStart.h"
+#include "UObject/UObjectIterator.h"
+#include "World/World.h"
 
 
 AGameModeBase::AGameModeBase()
@@ -12,7 +15,45 @@ AGameModeBase::AGameModeBase()
 
 void AGameModeBase::InitGame()
 {
-    AActor::BeginPlay();
+    UWorld* World = GetWorld();
 
-    
+    APlayerController* NewPC = World->SpawnActor<APlayerController>(PlayerControllerClass);
+    PlayerControllerInstance = NewPC;
+    UE_LOG(ELogLevel::Display, "Spawned PlayerController: %s", *NewPC->GetName());
+
+    AActor* PlayerStart = FindPlayerStart(NewPC);
+    APawn* NewPawn = World->SpawnActor<APawn>(DefaultPawnClass);
+    NewPawn->SetActorLocation(PlayerStart->GetActorLocation());
+    NewPawn->SetActorRotation(PlayerStart->GetActorRotation());
+    NewPC->SetPawn(NewPawn);
+}
+
+AActor* AGameModeBase::FindPlayerStart(AController* PC, const FString& IncomingName) const
+{
+    UWorld* World = GetWorld();
+
+    if (!IncomingName.IsEmpty())
+    {
+        const FName IncomingPlayerStartTag = FName(*IncomingName);
+        // TODO: 나중에 TActorIterator 만들기
+        for (APlayerStart* PlayerStart : TObjectRange<APlayerStart>())
+        {
+            if (PlayerStart->PlayerStartTag == IncomingPlayerStartTag && PlayerStart->GetWorld() == World)
+            {
+                return PlayerStart;
+            }
+        }
+    }
+
+    // TODO: 나중에 PC.StartSpot으로 가져오는 기능 추가하기
+    // GameModeBase.cpp:1171
+
+    if (!OriginActor)
+    {
+        OriginActor = World->SpawnActor<AActor>();
+        OriginActor->SetActorLocation(FVector::ZeroVector);
+        OriginActor->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
+    }
+
+    return OriginActor;
 }
