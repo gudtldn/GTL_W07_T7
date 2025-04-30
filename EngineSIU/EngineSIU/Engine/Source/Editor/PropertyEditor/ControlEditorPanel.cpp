@@ -30,6 +30,7 @@
 #include "Actors/DirectionalLightActor.h"
 #include "Actors/SpotLightActor.h"
 #include "Actors/AmbientLightActor.h"
+#include "Camera/PlayerCameraManager.h"
 #include "Developer/Lua/LuaActor.h"
 #include "Developer/Lua/LuaCoachActor.h"
 #include "Developer/Lua/LuaHeartActor.h"
@@ -293,6 +294,7 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
             { .label= "Text",      .obj= OBJ_TEXT },
             { .label= "Fireball",  .obj = OBJ_FIREBALL},
             { .label= "Fog",       .obj= OBJ_FOG },
+            {.label = "PCM",       .obj = OBJ_PCM },
             { .label= "LuaActor",       .obj= OBJ_LUA_ACTOR },
             { .label = "LuaCoachActor",       .obj = OBJ_LUA_COACH_ACTOR },
             { .label = "LuaHeartActor",       .obj = OBJ_LUA_HEART_ACTOR },
@@ -387,6 +389,11 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                     SpawnedActor = World->SpawnActor<AHeightFogActor>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_FOG"));
                     break;
+                }
+                case OBJ_PCM:
+                {
+                    SpawnedActor = World->SpawnActor<APlayerCameraManager>();
+                    SpawnedActor->SetActorLabel(TEXT("OBJ_PCM"));
                 }
                 case OBJ_LUA_ACTOR:
                 {
