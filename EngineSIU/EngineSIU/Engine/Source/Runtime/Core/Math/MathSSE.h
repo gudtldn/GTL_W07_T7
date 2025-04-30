@@ -92,4 +92,44 @@ inline void VectorMatrixMultiply(FMatrix* Result, const FMatrix* Matrix1, const 
     Ret[2] = R2;
     Ret[3] = Temp;
 }
+
+FORCEINLINE float TruncToFloat(float F)
+{
+    return _mm_cvtss_f32(_mm_round_ps(_mm_set_ss(F), 3));
+}
+
+FORCEINLINE double TruncToDouble(double F)
+{
+    return _mm_cvtsd_f64(_mm_round_pd(_mm_set_sd(F), 3));
+}
+
+FORCEINLINE float FloorToFloat(float F)
+{
+    return _mm_cvtss_f32(_mm_floor_ps(_mm_set_ss(F)));
+}
+
+FORCEINLINE double FloorToDouble(double F)
+{
+    return _mm_cvtsd_f64(_mm_floor_pd(_mm_set_sd(F)));
+}
+
+FORCEINLINE float RoundToFloat(float F)
+{
+    return FloorToFloat(F + 0.5f);
+}
+
+FORCEINLINE double RoundToDouble(double F)
+{
+    return FloorToDouble(F + 0.5);
+}
+
+FORCEINLINE float CeilToFloat(float F)
+{
+    return _mm_cvtss_f32(_mm_ceil_ps(_mm_set_ss(F)));
+}
+
+FORCEINLINE double CeilToDouble(double F)
+{
+    return _mm_cvtsd_f64(_mm_ceil_pd(_mm_set_sd(F)));
+}
 }

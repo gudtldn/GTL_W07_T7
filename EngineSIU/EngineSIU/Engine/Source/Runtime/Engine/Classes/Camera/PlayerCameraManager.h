@@ -14,20 +14,15 @@ public:
     APlayerCameraManager();
 
     UObject* Duplicate(UObject* InOuter) override;
+    virtual void BeginPlay() override;
+    virtual void Tick(float DeltaTime) override;
+
+    virtual void InitializeFor(APlayerController* PC);
+    APlayerController* GetOwningPlayerController() const;
 
     void UpdateCamera(float DeltaTime);
-
-    /** Actor가 게임에 배치되거나 스폰될 때 호출됩니다. */
-    virtual void BeginPlay() override;
-
-    /** 매 Tick마다 호출됩니다. */
-    virtual void Tick(float DeltaTime) override;
     void FadeTick(float DeltaTime);
     void SpringArmTick();
-
-    FLinearColor GetFadeConstant() const;
-
-    float GetFadeAmount() const { return FadeAmount; }
 
     void StartCameraFade(
         float FromAlpha,
@@ -39,23 +34,37 @@ public:
     );
 
     /**
-    * 화면 크기(ScreenW×ScreenH)에 대해,
-    * 레터박스 적용 후 실제 렌더링할 Viewport 영역을 계산.
-    */
+     * 화면 크기(ScreenW×ScreenH)에 대해,
+     * 레터박스 적용 후 실제 렌더링할 Viewport 영역을 계산.
+     */
     void GetLetterBoxViewport(
         int ScreenW, int ScreenH,
         int& OutX, int& OutY,
-        int& OutW, int& OutH) const;
+        int& OutW, int& OutH
+    ) const;
 
 public:
-    /** APlayerCameraManager를 소유하고 있는 APlayerController */
-    APlayerController* PCOwner;
+    FLinearColor GetFadeConstant() const;
+    float GetFadeAmount() const { return FadeAmount; }
 
+public:
     FViewportCamera* ViewCamera;
     TArray<UCameraModifier*> ModifierList;
 
-    /* LetterBox 관련 변수 */
+    /** APlayerCameraManager를 소유하고 있는 APlayerController */
+    APlayerController* PCOwner = nullptr;
+
+
+    float DefaultFOV;
     float DefaultAspectRatio;
+
+    float ViewPitchMin;
+    float ViewPitchMax;
+    float ViewYawMin;
+    float ViewYawMax;
+    float ViewRollMin;
+    float ViewRollMax;
+
     bool bDefaultConstrainAspectRatio;
 
 private:
@@ -66,4 +75,6 @@ private:
     float FadeTimeRemaining;
     bool bHoldWhenFinished;
 
+private:
+    USceneComponent* TransformComponent;
 };

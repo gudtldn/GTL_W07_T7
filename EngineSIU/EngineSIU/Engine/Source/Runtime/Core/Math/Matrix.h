@@ -15,6 +15,8 @@ struct alignas(16) FMatrix
 public:
     alignas(16) float M[4][4];
 
+    using FReal = float;
+
 public:
     static const FMatrix Identity;
 

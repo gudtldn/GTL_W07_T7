@@ -6,8 +6,12 @@
 // 4D Vector
 struct FVector4
 {
+public:
     float X, Y, Z, W;
 
+    using FReal = float;
+
+public:
     FVector4() : X(0), Y(0), Z(0), W(0) {}
     FVector4(float InX, float InY, float InZ, float InW)
         : X(InX), Y(InY), Z(InZ), W(InW)

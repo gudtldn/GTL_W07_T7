@@ -1,6 +1,8 @@
 #pragma once
 #include "EngineLoop.h"
 #include "NameTypes.h"
+#include "Misc/CoreMiscDefines.h"
+
 
 extern FEngineLoop GEngineLoop;
 

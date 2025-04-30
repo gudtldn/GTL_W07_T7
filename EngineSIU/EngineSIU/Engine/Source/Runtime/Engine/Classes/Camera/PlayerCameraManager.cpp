@@ -1,27 +1,36 @@
 #include "PlayerCameraManager.h"
 #include "CameraModifier.h"
-#include "Engine/EditorEngine.h"
+#include "Components/SpringArmComponent.h"
 #include "Engine/Engine.h"
-#include "Engine/Classes/Components/SpringArmComponent.h"
 #include "LevelEditor/SLevelEditor.h"
 #include "UObject/UObjectIterator.h"
 #include "UnrealEd/EditorViewportClient.h"
 
 
 APlayerCameraManager::APlayerCameraManager()
-    : PCOwner(nullptr)
-    , ViewCamera(nullptr)
 {
-    DefaultAspectRatio = 9.0f / 9.0f;
+    DefaultFOV = 90.0f;
+    // DefaultAspectRatio = 1.33333f;
+    DefaultAspectRatio = 1.0f;
+
+    ViewPitchMin = -89.9f;
+    ViewPitchMax = 89.9f;
+    ViewYawMin = 0.f;
+    ViewYawMax = 359.999f;
+    ViewRollMin = -89.9f;
+    ViewRollMax = 89.9f;
+
     bDefaultConstrainAspectRatio = true;
 
-    USceneComponent* RootComp = AddComponent<USceneComponent>(TEXT("RootComp"));
-    SetRootComponent(RootComp);
-    
+    TransformComponent = AddComponent<USceneComponent>(TEXT("TransformComponent0"));
+    RootComponent = TransformComponent;
+
     UCameraModifier* CameraShake = FObjectFactory::ConstructObject<UCameraModifier>(this);
     ModifierList.Add(CameraShake);
 
     GEngineLoop.PCM = this;
+
+    // DefaultModifiers.Add(UCameraModifier_CameraShake::StaticClass());
 }
 
 UObject* APlayerCameraManager::Duplicate(UObject* InOuter)
@@ -84,6 +93,16 @@ void APlayerCameraManager::SpringArmTick()
     Camera.SetLocation(CameraWorldLocation);
 }
 
+void APlayerCameraManager::InitializeFor(APlayerController* PC)
+{
+    PCOwner = PC;
+}
+
+APlayerController* APlayerCameraManager::GetOwningPlayerController() const
+{
+    return PCOwner;
+}
+
 FLinearColor APlayerCameraManager::GetFadeConstant() const 
 {
     return FLinearColor{FadeColor.R, FadeColor.G, FadeColor.B, FadeAmount};
@@ -121,8 +140,8 @@ void APlayerCameraManager::UpdateCamera(float DeltaTime)
 void APlayerCameraManager::GetLetterBoxViewport(
     int ScreenW, int ScreenH,
     int& OutX, int& OutY,
-    int& OutW, int& OutH) const
-{
+    int& OutW, int& OutH
+) const {
     // 레터박스 비활성화 시 전체 화면
     if (!bDefaultConstrainAspectRatio)
     {
@@ -131,14 +150,14 @@ void APlayerCameraManager::GetLetterBoxViewport(
         return;
     }
 
-    const float CurrentAspect = float(ScreenW) / float(ScreenH);
+    const float CurrentAspect = static_cast<float>(ScreenW) / static_cast<float>(ScreenH);
     const float TargetAspect  = DefaultAspectRatio;
 
     // 가로가 더 넓을 때 → 좌우에 검은 바 (레터박스)
     if (CurrentAspect > TargetAspect)
     {
         OutH = ScreenH;
-        OutW = int(TargetAspect * ScreenH + 0.5f);
+        OutW = static_cast<int>(TargetAspect * ScreenH + 0.5f);
         OutX = (ScreenW - OutW) / 2;
         OutY = 0;
     }
@@ -146,7 +165,7 @@ void APlayerCameraManager::GetLetterBoxViewport(
     else if (CurrentAspect < TargetAspect)
     {
         OutW = ScreenW;
-        OutH = int(ScreenW / TargetAspect + 0.5f);
+        OutH = static_cast<int>(ScreenW / TargetAspect + 0.5f);
         OutX = 0;
         OutY = (ScreenH - OutH) / 2;
     }

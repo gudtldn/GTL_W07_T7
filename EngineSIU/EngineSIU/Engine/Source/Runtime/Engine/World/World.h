@@ -5,7 +5,10 @@
 #include "UObject/ObjectMacros.h"
 #include "WorldType.h"
 #include "Level.h"
+#include "Template/SubclassOf.h"
+#include "UObject/Casts.h"
 
+class AGameModeBase;
 class FObjectFactory;
 class AActor;
 class UObject;
@@ -16,7 +19,7 @@ class UWorld : public UObject
     DECLARE_CLASS(UWorld, UObject)
 
 public:
-    UWorld() = default;
+    UWorld();
 
     static UWorld* CreateWorld(UObject* InOuter, const EWorldType InWorldType, const FString& InWorldName = "DefaultWorld");
 
@@ -35,6 +38,12 @@ public:
      * @return Spawn된 Actor
      */
     AActor* SpawnActor(UClass* InClass, FName InActorName = NAME_None);
+
+    template <typename T>
+    T* SpawnActor(UClass* InClass, FName InActorName = NAME_None)
+    {
+        return Cast<T>(SpawnActor(InClass, InActorName));
+    }
 
     /** 
      * World에 Actor를 Spawn합니다.
@@ -57,15 +66,28 @@ public:
 
     EWorldType WorldType = EWorldType::None;
 
-    
+    //~ GameMode 관련
+    AGameModeBase* GetGameMode() const { return GameModeInstance; }
+    void SetGameModeClass(TSubclassOf<AGameModeBase> InGameModeClass);
+
+    void InitGameMode();
+    void DestroyGameMode();
+    // ~GameMode 관련
+
+protected:
+    /** Game이나 PIE 모드일 때 Spawn되는 GameMode */
+    TSubclassOf<AGameModeBase> GameModeClass;
+
 private:
+    /** Game이나 PIE 모드에서 사용되는 GameMode */
+    AGameModeBase* GameModeInstance = nullptr;
+
     FString WorldName = "DefaultWorld";
 
     ULevel* ActiveLevel;
 
     /** Actor가 Spawn되었고, 아직 BeginPlay가 호출되지 않은 Actor들 */
     TArray<AActor*> PendingBeginPlayActors;
-
 };
 
 

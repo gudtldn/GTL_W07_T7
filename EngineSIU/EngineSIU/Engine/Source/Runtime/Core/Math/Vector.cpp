@@ -34,36 +34,6 @@ bool FVector2D::InitFromString(const FString& InSourceString)
     return bSuccessful;
 }
 
-
-FVector FVector::operator+(float Scalar) const
-{
-    return FVector{
-        X + Scalar,
-        Y + Scalar,
-        Z + Scalar
-    };
-}
-
-FVector FVector::operator-(float Scalar) const
-{
-    return FVector{
-        X - Scalar,
-        Y - Scalar,
-        Z - Scalar
-    };
-}
-
-float FVector::SizeSquared() const
-{
-    return SquaredLength();
-}
-
-bool FVector::IsNormalized() const
-{
-    constexpr float ThreshVectorNormalized = 0.01f;
-    return (FMath::Abs(1.f - SizeSquared()) < ThreshVectorNormalized);
-}
-
 FString FVector::ToString() const
 {
     // FString::Printf를 사용하여 포맷팅된 문자열 생성

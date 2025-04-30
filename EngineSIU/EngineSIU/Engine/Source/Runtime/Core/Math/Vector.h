@@ -7,8 +7,12 @@
 
 struct FVector2D
 {
+public:
 	float X, Y;
 
+    using FReal = float;
+
+public:
     FVector2D() : X(0), Y(0) {}
 	FVector2D(float InX, float InY) : X(InX), Y(InY) {}
     FVector2D(float Scalar) : X(Scalar), Y(Scalar) {}
@@ -74,13 +78,22 @@ public:
     * @return true if the X,Y values were read successfully; false otherwise.
     */
     bool InitFromString(const FString& InSourceString);
+
+    [[nodiscard]] float SquaredLength() const { return X * X + Y * Y; }
+    [[nodiscard]] float SizeSquared() const { return SquaredLength(); }
+    [[nodiscard]] float Length() const { return FMath::Sqrt(SquaredLength()); }
+    [[nodiscard]] float Size() const { return Length(); }
 };
 
 // 3D 벡터
 struct FVector
 {
+public:
     float X, Y, Z;
 
+    using FReal = float;
+
+public:
     FVector() : X(0), Y(0), Z(0) {}
     FVector(float X, float Y, float Z) : X(X), Y(Y), Z(Z) {}
     explicit FVector(float Scalar) : X(Scalar), Y(Scalar), Z(Scalar) {}
@@ -119,14 +132,23 @@ struct FVector
     static const FVector ZAxisVector;
 
 public:
-    static inline FVector Zero() { return ZeroVector; }
-    static inline FVector One() { return OneVector; }
+    static FORCEINLINE FVector Zero() { return ZeroVector; }
+    static FORCEINLINE FVector One() { return OneVector; }
 
-    static inline FVector UnitX() { return XAxisVector; }
-    static inline FVector UnitY() { return YAxisVector; }
-    static inline FVector UnitZ() { return ZAxisVector; }
+    static FORCEINLINE FVector UnitX() { return XAxisVector; }
+    static FORCEINLINE FVector UnitY() { return YAxisVector; }
+    static FORCEINLINE FVector UnitZ() { return ZAxisVector; }
 
-    static float Distance(const FVector& V1, const FVector& V2);
+    static FORCEINLINE float DistSquared(const FVector& V1, const FVector& V2);
+
+    static FORCEINLINE float Distance(const FVector& V1, const FVector& V2);
+    static FORCEINLINE float Dist(const FVector& V1, const FVector& V2) { return Distance(V1, V2); }
+
+    static FORCEINLINE float DistSquaredXY(const FVector &V1, const FVector &V2);
+    static FORCEINLINE float DistSquared2D(const FVector &V1, const FVector &V2) { return DistSquaredXY(V1, V2); }
+
+    static FORCEINLINE float DistXY(const FVector &V1, const FVector &V2);
+    static FORCEINLINE float Dist2D(const FVector &V1, const FVector &V2) { return DistXY(V1, V2); }
 
     /** Dot Product */
     float operator|(const FVector& Other) const;
@@ -171,18 +193,19 @@ public:
     bool AllComponentsEqual(float Tolerance = KINDA_SMALL_NUMBER) const;
 
     float Length() const;
+    float Size() const { return Length(); }
     float SquaredLength() const;
-    float SizeSquared() const;
-    
-    bool Normalize(float Tolerance = SMALL_NUMBER);
+    float SizeSquared() const { return SquaredLength(); }
+
+    bool Normalize(float Tolerance = KINDA_SMALL_NUMBER);
 
     FVector GetUnsafeNormal() const;
-    FVector GetSafeNormal(float Tolerance = SMALL_NUMBER) const;
+    FVector GetSafeNormal(float Tolerance = KINDA_SMALL_NUMBER) const;
 
     FVector ComponentMin(const FVector& Other) const;
     FVector ComponentMax(const FVector& Other) const;
 
-    bool IsNearlyZero(float Tolerance = SMALL_NUMBER) const;
+    bool IsNearlyZero(float Tolerance = KINDA_SMALL_NUMBER) const;
     bool IsZero() const;
 
     /**
@@ -203,6 +226,11 @@ inline FVector::FVector(const FRotator& InRotator)
 {
 }
 
+inline float FVector::DistSquared(const FVector& V1, const FVector& V2)
+{
+    return FMath::Square(V2.X-V1.X) + FMath::Square(V2.Y-V1.Y) + FMath::Square(V2.Z-V1.Z);
+}
+
 inline float FVector::Distance(const FVector& V1, const FVector& V2)
 {
     return FMath::Sqrt(
@@ -210,6 +238,22 @@ inline float FVector::Distance(const FVector& V1, const FVector& V2)
         + FMath::Square(V2.Y - V1.Y)
         + FMath::Square(V2.Z - V1.Z)
     );
+}
+
+float FVector::DistSquaredXY(const FVector& V1, const FVector& V2)
+{
+    return FMath::Square(V2.X-V1.X) + FMath::Square(V2.Y-V1.Y);
+}
+
+float FVector::DistXY(const FVector& V1, const FVector& V2)
+{
+    return FMath::Sqrt(DistSquaredXY(V1, V2));
+}
+
+inline bool FVector::IsNormalized() const
+{
+    constexpr float ThreshVectorNormalized = 0.01f;
+    return (FMath::Abs(1.f - SizeSquared()) < ThreshVectorNormalized);
 }
 
 inline float FVector::operator|(const FVector& Other) const
@@ -251,6 +295,15 @@ inline FVector FVector::operator+(const FVector& Other) const
     return {X + Other.X, Y + Other.Y, Z + Other.Z};
 }
 
+inline FVector FVector::operator+(float Scalar) const
+{
+    return FVector{
+        X + Scalar,
+        Y + Scalar,
+        Z + Scalar
+    };
+}
+
 inline FVector& FVector::operator+=(const FVector& Other)
 {
     X += Other.X; Y += Other.Y; Z += Other.Z;
@@ -260,6 +313,15 @@ inline FVector& FVector::operator+=(const FVector& Other)
 inline FVector FVector::operator-(const FVector& Other) const
 {
     return {X - Other.X, Y - Other.Y, Z - Other.Z};
+}
+
+inline FVector FVector::operator-(float Scalar) const
+{
+    return FVector{
+        X - Scalar,
+        Y - Scalar,
+        Z - Scalar
+    };
 }
 
 inline FVector& FVector::operator-=(const FVector& Other)
