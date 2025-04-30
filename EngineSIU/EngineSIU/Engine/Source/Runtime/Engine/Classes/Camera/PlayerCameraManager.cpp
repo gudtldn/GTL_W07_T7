@@ -152,6 +152,8 @@ void APlayerCameraManager::GetLetterBoxViewport(
 
     const float CurrentAspect = static_cast<float>(ScreenW) / static_cast<float>(ScreenH);
     const float TargetAspect  = DefaultAspectRatio;
+    float& A = GEngineLoop.GetLevelEditor()->GetActiveViewportClient()->AspectRatio;
+    A = TargetAspect;
 
     // 가로가 더 넓을 때 → 좌우에 검은 바 (레터박스)
     if (CurrentAspect > TargetAspect)

@@ -471,7 +471,7 @@ void FEditorViewportClient::UpdateViewMatrix()
 
 void FEditorViewportClient::UpdateProjectionMatrix()
 {
-    AspectRatio = GetViewport()->GetD3DViewport().Width / GetViewport()->GetD3DViewport().Height;
+    // AspectRatio = GetViewport()->GetD3DViewport().Width / GetViewport()->GetD3DViewport().Height;
     if (IsPerspective())
     {
         Projection = JungleMath::CreateProjectionMatrix(
