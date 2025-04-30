@@ -379,6 +379,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\FCollision.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\MathFwd.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Math\MathUtility.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Misc\CoreMiscDefines.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Traits\IsCharType.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\AmbientLightActor.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Editor\LevelEditor\SlateAppMessageHandler.h" />
