@@ -13,6 +13,8 @@
 #include "UnrealClient.h"
 #include "PropertyEditor/ShowFlags.h"
 
+#include "Engine/Source/Runtime/Engine/Classes/Camera/PlayerCameraManager.h"
+
 FFadeRenderPass::FFadeRenderPass()
 {
 
@@ -35,7 +37,16 @@ void FFadeRenderPass::Initialize(FDXDBufferManager* InBufferManager, FGraphicsDe
 
 void FFadeRenderPass::PrepareRender()
 {
-    // TODO Fade Color와 FadeAlpha 값 받기
+    // TODO 현재 Player가 소유한 1개의 PlayerCameraManager를 정확히 가져올것
+    for (const auto iter : TObjectRange<APlayerCameraManager>())
+    {
+        if (iter->GetWorld() == GEngine->ActiveWorld)
+        {
+            FLinearColor FadeLinearColor = iter->GetFadeConstant();
+            FadeColor = FVector(FadeLinearColor.R, FadeLinearColor.G, FadeLinearColor.B);
+            FadeAlpha = FadeLinearColor.A;
+        }
+    }
 
 }
 
@@ -145,10 +156,9 @@ void FFadeRenderPass::PrepareRenderState()
 void FFadeRenderPass::UpdateFadeConstant()
 {
     // TODO Fade 값으로 변경 필요함
-    FFadeConstants Constants =
-    {
-        Constants.FadeAlpha = 0.0f,
-        Constants.FadeColor = FVector(0.5f, 0.5f, 0.5f)
+    FFadeConstants Constants = { 
+        Constants.FadeAlpha = FadeAlpha,
+        Constants.FadeColor = FadeColor,
     };
 
     // 상수버퍼 업데이트
