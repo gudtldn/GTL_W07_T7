@@ -78,6 +78,11 @@ public:
     * @return true if the X,Y values were read successfully; false otherwise.
     */
     bool InitFromString(const FString& InSourceString);
+
+    [[nodiscard]] float SquaredLength() const { return X * X + Y * Y; }
+    [[nodiscard]] float SizeSquared() const { return SquaredLength(); }
+    [[nodiscard]] float Length() const { return FMath::Sqrt(SquaredLength()); }
+    [[nodiscard]] float Size() const { return Length(); }
 };
 
 // 3D 벡터
@@ -192,15 +197,15 @@ public:
     float SquaredLength() const;
     float SizeSquared() const { return SquaredLength(); }
 
-    bool Normalize(float Tolerance = SMALL_NUMBER);
+    bool Normalize(float Tolerance = KINDA_SMALL_NUMBER);
 
     FVector GetUnsafeNormal() const;
-    FVector GetSafeNormal(float Tolerance = SMALL_NUMBER) const;
+    FVector GetSafeNormal(float Tolerance = KINDA_SMALL_NUMBER) const;
 
     FVector ComponentMin(const FVector& Other) const;
     FVector ComponentMax(const FVector& Other) const;
 
-    bool IsNearlyZero(float Tolerance = SMALL_NUMBER) const;
+    bool IsNearlyZero(float Tolerance = KINDA_SMALL_NUMBER) const;
     bool IsZero() const;
 
     /**
