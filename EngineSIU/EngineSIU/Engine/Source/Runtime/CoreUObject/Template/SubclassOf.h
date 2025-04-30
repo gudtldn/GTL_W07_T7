@@ -72,11 +72,6 @@ public:
         return static_cast<T*>(Result);
     }
 
-    UClass* GetClassPtr() const
-    {
-        return Class;
-    }
-
 private:
     UClass* Class = nullptr;
 };
