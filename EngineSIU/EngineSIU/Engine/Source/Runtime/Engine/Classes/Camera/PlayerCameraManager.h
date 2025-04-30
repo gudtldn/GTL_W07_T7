@@ -51,6 +51,13 @@ public:
     /** APlayerCameraManager를 소유하고 있는 APlayerController */
     APlayerController* PCOwner;
 
+    FViewportCamera* ViewCamera;
+    TArray<UCameraModifier*> ModifierList;
+
+    /* LetterBox 관련 변수 */
+    float DefaultAspectRatio;
+    bool bDefaultConstrainAspectRatio;
+
 private:
     FLinearColor FadeColor;
     float FadeAmount = 0.f;   // 보간을 거친 현재 Alpha 값
@@ -59,11 +66,4 @@ private:
     float FadeTimeRemaining;
     bool bHoldWhenFinished;
 
-    FViewportCamera* ViewCamera;
-    
-    TArray<UCameraModifier*> ModifierList;
-
-    /* LetterBox 관련 변수 */
-    float DefaultAspectRatio;
-    bool bDefaultConstrainAspectRatio;
 };
