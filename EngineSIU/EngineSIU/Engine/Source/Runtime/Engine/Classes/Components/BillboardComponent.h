@@ -17,7 +17,7 @@ public:
     virtual void SetProperties(const TMap<FString, FString>& InProperties) override;
     virtual void InitializeComponent() override;
     virtual void TickComponent(float DeltaTime) override;
-    virtual int CheckRayIntersection(
+    virtual int CheckRayIntersectionLocal(
         FVector& rayOrigin,
         FVector& rayDirection,
         float& pfNearHitDistance

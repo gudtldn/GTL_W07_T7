@@ -11,11 +11,23 @@
 #include "Camera/PlayerCameraManager.h"
 #include "Developer/FMOD/SoundManager.h"
 #include "Engine/Classes/Components/RigidbodyComponent.h"
+#include "Engine/Classes/Components/SpringArmComponent.h"
+#include "Engine/Classes/Components/SphereComp.h"
+#include "Engine/Source/Runtime/Engine/Classes/Engine/FLoaderOBJ.h"
 
 ALuaPlayer::ALuaPlayer()
 {
     LuaScriptPath = PlayerLuaScriptPath;
     
+    USpringArmComponent* springArmComponent = AddComponent<USpringArmComponent>(TEXT("SpringArmComponent"));
+    springArmComponent->SetupAttachment(RootComponent);
+
+    UStaticMeshComponent* staticMeshComp = Cast<UStaticMeshComponent>(RootComponent);
+    if (staticMeshComp)
+    {
+        staticMeshComp->SetStaticMesh(FManagerOBJ::GetStaticMesh(L"Contents/Sphere.obj"));
+    }
+
     // 새 경로가 유효하다면 새로 등록 및 로드
     if (LuaScriptPath.has_value() && !LuaScriptPath->empty())
     {

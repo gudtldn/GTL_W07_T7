@@ -241,7 +241,7 @@ int AEditorPlayer::RayIntersectsObject(const FVector& PickPosition, USceneCompon
         FVector LocalRayOrigin = LocalMatrix.TransformPosition(rayOrigin);
         FVector LocalRayDir = (LocalMatrix.TransformPosition(rayOrigin + orthoRayDir) - LocalRayOrigin).GetSafeNormal();
         
-        IntersectCount = Component->CheckRayIntersection(LocalRayOrigin, LocalRayDir, HitDistance);
+        IntersectCount = Component->CheckRayIntersectionLocal(LocalRayOrigin, LocalRayDir, HitDistance);
         return IntersectCount;
     }
     else
@@ -253,7 +253,7 @@ int AEditorPlayer::RayIntersectsObject(const FVector& PickPosition, USceneCompon
         FVector transformedPick = inverseMatrix.TransformPosition(PickPosition);
         FVector rayDirection = (transformedPick - pickRayOrigin).GetSafeNormal();
         
-        IntersectCount = Component->CheckRayIntersection(pickRayOrigin, rayDirection, HitDistance);
+        IntersectCount = Component->CheckRayIntersectionLocal(pickRayOrigin, rayDirection, HitDistance);
 
         if (IntersectCount > 0)
         {

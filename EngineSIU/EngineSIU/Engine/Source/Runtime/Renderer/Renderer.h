@@ -37,6 +37,7 @@ class FDepthBufferDebugPass;
 class FWorldNormalDebugPass;
 class FLineRenderPass;
 class FFogRenderPass;
+class FFadeRenderPass;
 class FCompositingPass;
 class FSlateRenderPass;
 class FEditorRenderPass;
@@ -111,6 +112,7 @@ public:
     FUpdateLightBufferPass* UpdateLightBufferPass = nullptr;
     FLineRenderPass* LineRenderPass = nullptr;
     FFogRenderPass* FogRenderPass = nullptr;
+    FFadeRenderPass* FadeRenderPass = nullptr;
     FEditorRenderPass* EditorRenderPass = nullptr;
 
     /** Collision render pass */

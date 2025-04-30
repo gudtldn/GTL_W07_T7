@@ -30,7 +30,7 @@ public:
     
     void SetRowColumnCount(int cellsPerRow, int cellsPerColumn);
 
-    virtual int CheckRayIntersection(FVector& rayOrigin, FVector& rayDirection, float& pfNearHitDistance) override;
+    virtual int CheckRayIntersectionLocal(FVector& rayOrigin, FVector& rayDirection, float& pfNearHitDistance) override;
  
     
     float GetRowCount() { return RowCount; }

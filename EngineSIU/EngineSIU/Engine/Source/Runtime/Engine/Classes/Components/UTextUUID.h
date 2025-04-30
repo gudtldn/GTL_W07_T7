@@ -8,7 +8,7 @@ class UTextUUID : public UTextComponent
 public:
     UTextUUID();
 
-    virtual int CheckRayIntersection(
+    virtual int CheckRayIntersectionLocal(
         FVector& rayOrigin,
         FVector& rayDirection, float& pfNearHitDistance
     ) override;

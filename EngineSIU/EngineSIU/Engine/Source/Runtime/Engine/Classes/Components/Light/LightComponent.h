@@ -14,7 +14,7 @@ public:
     virtual void SetProperties(const TMap<FString, FString>& Properties) override;
 
     virtual void TickComponent(float DeltaTime) override;
-    virtual int CheckRayIntersection(FVector& rayOrigin, FVector& rayDirection, float& pfNearHitDistance) override;
+    virtual int CheckRayIntersectionLocal(FVector& rayOrigin, FVector& rayDirection, float& pfNearHitDistance) override;
 
 protected:
     FBoundingBox AABB;
