@@ -14,6 +14,7 @@
 #include "UpdateLightBufferPass.h"
 #include "LineRenderPass.h"
 #include "FogRenderPass.h"
+#include "FadeRenderPass.h"
 #include "SlateRenderPass.h"
 #include "EditorRenderPass.h"
 #include <UObject/UObjectIterator.h>
@@ -52,6 +53,7 @@ void FRenderer::Initialize(FGraphicsDevice* InGraphics, FDXDBufferManager* InBuf
     UpdateLightBufferPass = new FUpdateLightBufferPass();
     LineRenderPass = new FLineRenderPass();
     FogRenderPass = new FFogRenderPass();
+    FadeRenderPass = new FFadeRenderPass();
     EditorRenderPass = new FEditorRenderPass();
     CompositingPass = new FCompositingPass();
     PostProcessCompositingPass = new FPostProcessCompositingPass();
@@ -69,6 +71,7 @@ void FRenderer::Initialize(FGraphicsDevice* InGraphics, FDXDBufferManager* InBuf
     UpdateLightBufferPass->Initialize(BufferManager, Graphics, ShaderManager);
     LineRenderPass->Initialize(BufferManager, Graphics, ShaderManager);
     FogRenderPass->Initialize(BufferManager, Graphics, ShaderManager);
+    FadeRenderPass->Initialize(BufferManager, Graphics, ShaderManager);
     EditorRenderPass->Initialize(BufferManager, Graphics, ShaderManager);
     
     CompositingPass->Initialize(BufferManager, Graphics, ShaderManager);
@@ -104,6 +107,7 @@ void FRenderer::Release()
     delete UpdateLightBufferPass;
     delete LineRenderPass;
     delete FogRenderPass;
+    delete FadeRenderPass;
     delete CompositingPass;
     delete PostProcessCompositingPass;
     delete SlateRenderPass;
@@ -159,6 +163,9 @@ void FRenderer::CreateConstantBuffers()
 
     UINT FogConstantBufferSize = sizeof(FFogConstants);
     BufferManager->CreateBufferGeneric<FFogConstants>("FFogConstants", nullptr, FogConstantBufferSize, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE);
+
+    UINT FadeConstantBufferSize = sizeof(FFadeConstants);
+    BufferManager->CreateBufferGeneric<FFadeConstants>("FFadeConstants", nullptr, FadeConstantBufferSize, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE);
 
     UINT LightInfoBufferSize = sizeof(FLightInfoBuffer);
     BufferManager->CreateBufferGeneric<FLightInfoBuffer>("FLightInfoBuffer", nullptr, LightInfoBufferSize, D3D11_BIND_CONSTANT_BUFFER, D3D11_USAGE_DYNAMIC, D3D11_CPU_ACCESS_WRITE);
@@ -295,6 +302,7 @@ bool FRenderer::HandleHotReloadShader() const
         WorldBillboardRenderPass->ReloadShader();
         EditorBillboardRenderPass->ReloadShader();
         FogRenderPass->ReloadShader();
+        FadeRenderPass->ReloadShader();
         EditorRenderPass->ReloadShader();
         
         CollisionRenderPass->ReloadShader();
@@ -321,6 +329,7 @@ void FRenderer::PrepareRenderPass()
     EditorBillboardRenderPass->PrepareRender();
     UpdateLightBufferPass->PrepareRender();
     FogRenderPass->PrepareRender();
+    FadeRenderPass->PrepareRender();
     EditorRenderPass->PrepareRender();
     CollisionRenderPass->PrepareRender();
 }
@@ -333,6 +342,7 @@ void FRenderer::ClearRenderArr()
     GizmoRenderPass->ClearRenderArr();
     UpdateLightBufferPass->ClearRenderArr();
     FogRenderPass->ClearRenderArr();
+    FadeRenderPass->ClearRenderArr();
     EditorRenderPass->ClearRenderArr();
     SpotLightShadowMapPass->ClearRenderArr();
     PointLightShadowMapPass->ClearRenderArr();
@@ -446,6 +456,8 @@ void FRenderer::RenderPostProcess(const std::shared_ptr<FEditorViewportClient>& 
      * TODO: 반드시 씬에 먼저 반영되어야 하는 포스트 프로세싱 효과는 먼저 씬에 반영하고,
      *       그 외에는 렌더한 포스트 프로세싱 효과들을 이 시점에서 하나로 합친 후에, 다음에 올 컴포짓 과정에서 합성.
      */ 
+
+    FadeRenderPass->Render(Viewport);
 
     PostProcessCompositingPass->Render(Viewport);
     

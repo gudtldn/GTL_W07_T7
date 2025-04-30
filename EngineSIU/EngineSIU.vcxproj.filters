@@ -747,12 +747,6 @@
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\ViewportClient.h">
       <Filter>EngineSIU\Engine\Source\Runtime\Engine</Filter>
     </ClInclude>
-    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Camera\CameraComponent.cpp">
-      <Filter>EngineSIU\Engine\Source\Runtime\Engine\Camera</Filter>
-    </ClCompile>
-    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Camera\CameraComponent.h">
-      <Filter>EngineSIU\Engine\Source\Runtime\Engine\Camera</Filter>
-    </ClInclude>
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Level.cpp">
       <Filter>EngineSIU\Engine\Source\Runtime\Engine\Classes</Filter>
     </ClCompile>
@@ -1363,6 +1357,22 @@
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\ShapeComponent.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Subsystem\CollisionSubsystem.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Renderer\CollisionRenderPass.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\FMOD\SoundManager.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaCoachActor.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaGameModeActor.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaHeartActor.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaPlayer.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindImGui.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Editor\PropertyEditor\GameLobbyPanel.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\CoreUObject\UObject\ObjectUtils.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Camera\CameraComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Camera\CameraModifier.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Camera\PlayerCameraManager.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Controller.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Pawn.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\PlayerController.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Renderer\FadeRenderPass.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindCameraEffect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="EngineSIU\EngineSIU.natvis" />
@@ -1451,6 +1461,31 @@
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Components\ShapeComponent.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Subsystem\CollisionSubsystem.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Renderer\CollisionRenderPass.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\FMOD\SoundManager.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaCoachActor.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaGameModeActor.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaHeartActor.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaPlayer.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindImGui.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\CoreUObject\UObject\ObjectUtils.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\CoreUObject\UObject\SafeObjectPtr.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Editor\PropertyEditor\GameLobbyPanel.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Camera\CameraComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Camera\CameraModifier.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Camera\PlayerCameraManager.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Controller.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\Pawn.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\GameFramework\PlayerController.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Renderer\FadeRenderPass.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod.hpp" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_codec.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_common.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_dsp.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_errors.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\ThirdParty\fmod\inc\fmod_output.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Developer\Lua\LuaUtils\LuaBindCameraEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DefaultPropertySheet.props" />
