@@ -111,6 +111,7 @@ void UEditorEngine::StartPIE()
     FWorldContext& PIEWorldContext = CreateNewWorldContext(EWorldType::PIE);
 
     PIEWorld = Cast<UWorld>(EditorWorld->Duplicate(this));
+    PIEWorld->InitGameMode();
     PIEWorld->WorldType = EWorldType::PIE;
 
     PIEWorldContext.SetCurrentWorld(PIEWorld);
@@ -127,6 +128,7 @@ void UEditorEngine::EndPIE()
 {
     if (PIEWorld)
     {
+        PIEWorld->DestroyGameMode();
         //WorldList.Remove(*GetWorldContextFromWorld(PIEWorld.get()));
         WorldList.Remove(GetWorldContextFromWorld(PIEWorld));
         PIEWorld->Release();
