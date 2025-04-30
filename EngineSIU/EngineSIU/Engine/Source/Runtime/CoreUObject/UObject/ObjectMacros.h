@@ -1,5 +1,6 @@
 // ReSharper disable CppClangTidyBugproneMacroParentheses
 // ReSharper disable CppClangTidyClangDiagnosticPedantic
+// ReSharper disable CppClangTidyClangDiagnosticReservedMacroIdentifier
 #pragma once
 #include "Class.h"
 #include "UObjectHash.h"
@@ -10,11 +11,12 @@
 
 // 공통 클래스 정의 부분
 #define __DECLARE_COMMON_CLASS_BODY__(TClass, TSuperClass) \
-private: \
+public: \
     TClass(const TClass&) = delete; \
     TClass& operator=(const TClass&) = delete; \
     TClass(TClass&&) = delete; \
     TClass& operator=(TClass&&) = delete; \
+private: \
     inline static struct TClass##_StaticClassRegistrar_ \
     { \
         TClass##_StaticClassRegistrar_() \
