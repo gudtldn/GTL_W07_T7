@@ -1,4 +1,5 @@
 #pragma once
+#include "Camera/PlayerCameraManager.h"
 #include "GameFramework/Actor.h"
 #include "UObject/ObjectMacros.h"
 #include "UObject/ObjectTypes.h"
@@ -14,8 +15,7 @@ class UStaticMeshComponent;
 class AEditorPlayer : public AActor
 {
     DECLARE_CLASS(AEditorPlayer, AActor)
-
-    AEditorPlayer() = default;
+    AEditorPlayer();
 
     virtual void Tick(float DeltaTime) override;
 
@@ -43,4 +43,6 @@ public:
     void SetMode(EControlMode Mode) { ControlMode = Mode; }
     EControlMode GetControlMode() const { return ControlMode; }
     ECoordMode GetCoordMode() const { return CoordMode; }
+    APlayerCameraManager* playerCameraManager = nullptr;
+    APlayerCameraManager* GetPlayerCameraManager() { return playerCameraManager; }
 };

@@ -50,6 +50,7 @@ struct FRenderTargetRHI
             Texture2D = nullptr;
         }
     }
+    ID3D11RenderTargetView* GetRTV() { return RTV; }
 };
 
 class FViewportResource
@@ -88,7 +89,8 @@ public:
     void ClearRenderTarget(ID3D11DeviceContext* DeviceContext, EResourceType Type);
 
     std::array<float, 4> GetClearColor(EResourceType Type) const;
-    
+    ID3D11DepthStencilView* GetDepthStencil() {return DepthStencilView;};
+
 private:
     // DirectX
     D3D11_VIEWPORT D3DViewport = {};
