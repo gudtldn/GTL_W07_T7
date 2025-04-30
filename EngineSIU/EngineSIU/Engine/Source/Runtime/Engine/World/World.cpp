@@ -11,6 +11,7 @@
 #include "Engine/EditorEngine.h"
 #include "Engine/Engine.h"
 #include "UnrealEd/SceneManager.h"
+#include "Components/SceneComponent.h"
 
 class UEditorEngine;
 
@@ -91,6 +92,13 @@ AActor* UWorld::SpawnActor(UClass* InClass, FName InActorName)
     if (InClass->IsChildOf<AActor>())
     {
         AActor* NewActor = Cast<AActor>(FObjectFactory::ConstructObject(InClass, this, InActorName));
+
+        if (!NewActor->GetRootComponent())
+        {
+            USceneComponent* SceneComp = NewActor->AddComponent<USceneComponent>(TEXT("DefaultSceneRoot"));
+            NewActor->SetRootComponent(SceneComp);
+        }
+
         // TODO: 일단 AddComponent에서 Component마다 초기화
         // 추후에 RegisterComponent() 만들어지면 주석 해제
         // Actor->InitializeComponents();
