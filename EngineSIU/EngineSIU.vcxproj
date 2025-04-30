@@ -251,7 +251,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Core\Serialization\MemoryArchive.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Core\Stats\Stats.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\ActorEditor.cpp" />
-    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Camera\CameraComponent.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Camera\CameraComponent.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\Cube.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\DirectionalLightActor.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\FireballActor.cpp" />
@@ -424,7 +424,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Serialization\Archive.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Serialization\MemoryArchive.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Core\Stats\Stats.h" />
-    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Camera\CameraComponent.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Camera\CameraComponent.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\Cube.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\DirectionalLightActor.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\Engine\Classes\Actors\FireballActor.h" />
