@@ -112,7 +112,6 @@ public:
      * @param Q 비교 대상 쿼터니언
      * @return 두 쿼터니언의 회전 각 차이(라디안 단위, 0 ~ π 범위)
      *
-     * @warning 입력 쿼터니언이 정규화되지 않은 경우 예측 불가능한 결과 발생
      * @note 내부 계산식: acos(2*(Q·this)^2 - 1)
      */
     FORCEINLINE float AngularDistance(const FQuat& Q) const
@@ -121,7 +120,7 @@ public:
         const float InnerProd = X*Q.X + Y*Q.Y + Z*Q.Z + W*Q.W;
 
         // 각도 변환: 2*cos²θ - 1 = cos(2θ) 항등식 활용
-        return FMath::Acos((2 * InnerProd * InnerProd) - 1.f);
+        return FMath::Acos(FMath::Clamp((2 * InnerProd * InnerProd) - 1.f, -1.f, 1.f));
     }
 
     static FQuat Slerp_NotNormalized(const FQuat& Quat1, const FQuat& Quat2, float Slerp);
