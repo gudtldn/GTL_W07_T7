@@ -193,6 +193,7 @@ void UWorld::InitGameMode()
     }
 
     AGameModeBase* SpawnGameMode = Cast<AGameModeBase>(SpawnActor(SubClass, "__World_AGameMode"));
+    SpawnGameMode->InitGame();
     GameModeInstance = SpawnGameMode;
 }
 
