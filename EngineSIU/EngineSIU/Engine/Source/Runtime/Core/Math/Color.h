@@ -137,6 +137,18 @@ struct FLinearColor
         return FLinearColor(InColor);
     }
 
+    /**
+     * 두 선형 색상 간 유클리드 거리 계산 (RGBA 채널 모두 적용)
+     * 
+     * @param V1 첫 번째 색상
+     * @param V2 두 번째 색상
+     * @return sqrt(ΔR² + ΔG² + ΔB² + ΔA²)
+     */
+    FORCEINLINE static float Dist(const FLinearColor& V1, const FLinearColor& V2)
+    {
+        return FMath::Sqrt(FMath::Square(V2.R - V1.R) + FMath::Square(V2.G - V1.G) + FMath::Square(V2.B - V1.B) + FMath::Square(V2.A - V1.A));
+    }
+
     // Operators
     FORCEINLINE FLinearColor operator+(const FLinearColor& Other) const
     {
