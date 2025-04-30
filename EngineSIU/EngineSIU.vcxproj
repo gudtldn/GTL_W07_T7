@@ -210,6 +210,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderFileMetadata.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Editor\PropertyEditor\GameLobbyPanel.cpp" />
+    <ClCompile Include="EngineSIU\Engine\Source\Runtime\CoreUObject\Template\SubclassOf.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\CoreUObject\UObject\ObjectUtils.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Core\Math\FCollision.cpp" />
     <ClCompile Include="EngineSIU\Engine\Source\Runtime\Core\Math\MathUtility.cpp" />
@@ -368,6 +369,7 @@ xcopy /y /d "$(SolutionDir)$(ProjectName)\Engine\Source\ThirdParty\fmod\lib\$(Pl
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderCompileUtility.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderFileMetadata.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Developer\ShaderCompileUtils\ShaderMetadataPtr.h" />
+    <ClInclude Include="EngineSIU\Engine\Source\Runtime\CoreUObject\Template\SubclassOf.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\CoreUObject\UObject\ObjectUtils.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Runtime\CoreUObject\UObject\SafeObjectPtr.h" />
     <ClInclude Include="EngineSIU\Engine\Source\Editor\PropertyEditor\GameLobbyPanel.h" />
