@@ -43,6 +43,11 @@ void UCapsuleComponent::BeginPlay()
 {
     Super::BeginPlay();
 
+    if (!bCollisionEnabled)
+    {
+        return;
+    }
+
     if (GEngine->ActiveWorld->WorldType == EWorldType::PIE)
     {
         GEngineLoop.GetCollisionSubsystem()->RegisterComponent(this);

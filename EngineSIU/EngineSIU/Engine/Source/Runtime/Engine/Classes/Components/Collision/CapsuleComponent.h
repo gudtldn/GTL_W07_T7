@@ -7,7 +7,7 @@ class UCapsuleComponent : public UShapeComponent
 
 public:
     UCapsuleComponent();
-    ~UCapsuleComponent() override;
+    virtual ~UCapsuleComponent() override;
 
     virtual UObject* Duplicate(UObject* InOuter) override;
     
@@ -24,7 +24,19 @@ protected:
     /** Radius of cap hemisphere and center cylinder. */
     float CapsuleRadius;
 
+    bool bCollisionEnabled = true;
+
 public:
+    bool GetCollisionEnabled() const
+    {
+        return bCollisionEnabled;
+    }
+
+    void SetCollisionEnabled(bool NewCollisionEnabled)
+    {
+        bCollisionEnabled = NewCollisionEnabled;
+    }
+
     /**
      * Change the capsule size. This is the unscaled size
      */
