@@ -10,9 +10,15 @@
 #include "Actors/HeightFogActor.h"
 #include "Engine/EditorEngine.h"
 #include "Engine/Engine.h"
+#include "GameFramework/GameModeBase.h"
 #include "UnrealEd/SceneManager.h"
 
 class UEditorEngine;
+
+UWorld::UWorld()
+{
+    GameModeClass = AGameModeBase::StaticClass();
+}
 
 UWorld* UWorld::CreateWorld(UObject* InOuter, const EWorldType InWorldType, const FString& InWorldName)
 {
@@ -144,5 +150,50 @@ bool UWorld::DestroyActor(AActor* ThisActor)
 UWorld* UWorld::GetWorld() const
 {
     return const_cast<UWorld*>(this);
+}
+
+void UWorld::SetGameModeClass(TSubclassOf<AGameModeBase> InGameModeClass)
+{
+    if (InGameModeClass == nullptr)
+    {
+        UE_LOG(ELogLevel::Error, TEXT("SetGameModeClass failed: GameModeClass is null."));
+        return;
+    }
+    GameModeClass = InGameModeClass;
+}
+
+void UWorld::InitGameMode()
+{
+    if (
+        WorldType == EWorldType::Editor            // 일반적인 에디터 환경
+        || WorldType == EWorldType::EditorPreview  // 머티리얼 에디터나 애님 블루프린트 같은 프리뷰 뷰포트
+    ) {
+        UE_LOG(ELogLevel::Display, TEXT("Skipping GameMode spawn for Editor/Preview world."));
+        return;
+    }
+
+    if (GameModeInstance)
+    {
+        UE_LOG(ELogLevel::Warning, TEXT("GameMode already exists in this world. Skipping spawn."));
+        return;
+    }
+
+    UClass* SubClass = GameModeClass.Get();
+    if (!SubClass)
+    {
+        SubClass = AGameModeBase::StaticClass();
+    }
+
+    AGameModeBase* SpawnGameMode = Cast<AGameModeBase>(SpawnActor(SubClass, "__World_AGameMode"));
+    GameModeInstance = SpawnGameMode;
+}
+
+void UWorld::DestroyGameMode()
+{
+    if (GameModeInstance)
+    {
+        DestroyActor(GameModeInstance);
+        GameModeInstance = nullptr;
+    }
 }
 
