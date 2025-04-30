@@ -3,6 +3,8 @@
 #include "Vector.h"
 #include "Matrix.h"
 
+const FQuat FQuat::Identity = {0.0f, 0.0f, 0.0f, 1.0f};
+
 FQuat::FQuat(const FVector& Axis, float Angle)
 {
     float HalfAngle = Angle * 0.5f;
@@ -67,6 +69,46 @@ FQuat::FQuat(const FMatrix& InMatrix)
     }
 }
 
+FQuat FQuat::FindBetween(const FVector& A, const FVector& B)
+{
+    const float NormAB = FMath::Sqrt(A.SizeSquared() * B.SizeSquared());
+    float W = NormAB + FVector::DotProduct(A, B);
+    FQuat Result;
+
+    if (W >= 1e-6f * NormAB)
+    {
+        // Result = FVector::CrossProduct(A, B);
+        Result = FQuat(
+            A.Y * B.Z - A.Z * B.Y,
+            A.Z * B.X - A.X * B.Z,
+            A.X * B.Y - A.Y * B.X,
+            W
+        );
+    }
+    else
+    {
+        // A and B point in opposite directions
+        W = 0.f;
+        const float X = FMath::Abs(A.X);
+        const float Y = FMath::Abs(A.Y);
+        const float Z = FMath::Abs(A.Z);
+
+        // Find orthogonal basis. 
+        const FVector Basis = (X > Y && X > Z) ? FVector::YAxisVector : -FVector::XAxisVector;
+
+        // Result = FVector::CrossProduct(A, Basis);
+        Result = FQuat(
+            A.Y * Basis.Z - A.Z * Basis.Y,
+            A.Z * Basis.X - A.X * Basis.Z,
+            A.X * Basis.Y - A.Y * Basis.X,
+            W
+        );
+    }
+
+    Result.Normalize();
+    return Result;
+}
+
 FQuat FQuat::operator*(const FQuat& Other) const
 {
     return FQuat(
@@ -103,10 +145,84 @@ bool FQuat::IsNormalized() const
     return fabs(W * W + X * X + Y * Y + Z * Z - 1.0f) < 1e-6f;
 }
 
-FQuat FQuat::Normalize() const
+void FQuat::Normalize(float Tolerance)
 {
-    float magnitude = sqrtf(W * W + X * X + Y * Y + Z * Z);
-    return FQuat(W / magnitude, X / magnitude, Y / magnitude, Z / magnitude);
+    // TODO: 추후에 SIMD 사용
+    const float SquareSum = X * X + Y * Y + Z * Z + W * W;
+
+    if (SquareSum >= Tolerance)
+    {
+        const float Scale = FMath::InvSqrt(SquareSum);
+
+        X *= Scale; 
+        Y *= Scale; 
+        Z *= Scale;
+        W *= Scale;
+    }
+    else
+    {
+        *this = Identity;
+    }
+}
+
+void FQuat::ToAxisAndAngle(FVector& Axis, float& Angle) const
+{
+    Angle = (float)GetAngle();  // 각도 추출
+    Axis = GetRotationAxis();   // 축 벡터 계산
+}
+
+float FQuat::GetAngle() const
+{
+    // W 성분의 Acos 기반 각도 계산
+    return 2.0f * FMath::Acos(W);
+}
+
+FVector FQuat::GetRotationAxis() const
+{
+    // TODO: 추후에 SIMD 사용
+
+    // 벡터 성분의 제곱합 계산
+    const float SquareSum = X * X + Y * Y + Z * Z;
+    if (SquareSum < SMALL_NUMBER)
+    {
+        return FVector::XAxisVector;
+    }
+
+    // 벡터 정규화
+    const float Scale = FMath::InvSqrt(SquareSum);
+    return FVector{X * Scale, Y * Scale, Z * Scale};
+}
+
+FQuat FQuat::Slerp_NotNormalized(const FQuat& Quat1, const FQuat& Quat2, float Slerp)
+{
+    // Get cosine of angle between quats.
+    float RawCosom =
+        Quat1.X * Quat2.X +
+        Quat1.Y * Quat2.Y +
+        Quat1.Z * Quat2.Z +
+        Quat1.W * Quat2.W;
+
+    // Unaligned quats - compensate, results in taking shorter route.
+    const float Sign = FMath::FloatSelect(RawCosom, 1.0f, -1.0f);
+    RawCosom *= Sign;
+		
+    float Scale0 = 1.0f - Slerp;
+    float Scale1 = Slerp * Sign;
+		
+    if (RawCosom < 0.9999)
+    {
+        const float Omega = FMath::Acos(RawCosom);
+        const float InvSin = 1.0f / FMath::Sin(Omega);
+        Scale0 = FMath::Sin(Scale0 * Omega) * InvSin;
+        Scale1 = FMath::Sin(Scale1 * Omega) * InvSin;
+    }
+		
+    return FQuat{
+        Scale0 * Quat1.X + Scale1 * Quat2.X,
+        Scale0 * Quat1.Y + Scale1 * Quat2.Y,
+        Scale0 * Quat1.Z + Scale1 * Quat2.Z,
+        Scale0 * Quat1.W + Scale1 * Quat2.W
+    };
 }
 
 FQuat FQuat::FromAxisAngle(const FVector& Axis, float Angle)
