@@ -394,6 +394,7 @@ void ControlEditorPanel::CreateModifyButton(ImVec2 ButtonSize, ImFont* IconFont)
                 {
                     SpawnedActor = World->SpawnActor<APlayerCameraManager>();
                     SpawnedActor->SetActorLabel(TEXT("OBJ_PCM"));
+                    break;
                 }
                 case OBJ_LUA_ACTOR:
                 {

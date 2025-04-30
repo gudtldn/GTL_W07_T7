@@ -6,7 +6,7 @@ float UCameraModifier_CameraShake::InitializeOffset(const struct FOscillator& Pa
 {
     switch ( Param.InitialOffset )
     {
-        case EOO_OffsetRandom : return rand() * 2.f * PI;
+        case EOO_OffsetRandom : return (rand() / (float)RAND_MAX) * 2.f * PI;
         case EOO_OffsetZero : return 0.f;
         case EOO_MAX: return 0.f;
         default : return 0.f;
@@ -39,8 +39,23 @@ FCameraShakeInstance UCameraModifier_CameraShake::InitializeShake(UCameraShake* 
 {
     FCameraShakeInstance Instance;
     Instance.SourceShakeName = Shake->GetName();
+    Instance.Scale = Scale;
+    Instance.OscillatorTimeRemaining = Shake->OscillationDuration;
+    Instance.CurrentBlendInTime = 0.f;
+    Instance.CurrentBlendOutTime = 0.f;
+    Instance.bBlendingIn = Shake->OscillationBlendInTime > 0.f;
+    Instance.bBlendingOut = false;
 
-    
+    // Initialize oscillators if applicable
+    Instance.RotOscillator.X = InitializeOffset(Shake->RotOscillation.Pitch);
+    Instance.RotOscillator.Y = InitializeOffset(Shake->RotOscillation.Yaw);
+    Instance.RotOscillator.Z = InitializeOffset(Shake->RotOscillation.Roll);
+    Instance.LocOscillator.X = InitializeOffset(Shake->LocOscillation.X);
+    Instance.LocOscillator.Y = InitializeOffset(Shake->LocOscillation.Y);
+    Instance.LocOscillator.Z = InitializeOffset(Shake->LocOscillation.Z);
+    Instance.FOVOscillator = InitializeOffset(Shake->FOVOscillation);
+
+    return Instance;
 }
 
 void UCameraModifier_CameraShake::AddCameraShake(UCameraShake* NewShake, float Scale)
