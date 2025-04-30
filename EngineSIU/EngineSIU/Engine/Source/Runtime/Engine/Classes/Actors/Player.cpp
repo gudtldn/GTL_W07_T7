@@ -9,11 +9,16 @@
 #include "Components/Light/LightComponent.h"
 #include "LevelEditor/SLevelEditor.h"
 #include "Math/JungleMath.h"
-#include "Math/MathUtility.h"
 #include "PropertyEditor/ShowFlags.h"
 #include "UnrealEd/EditorViewportClient.h"
 #include "UObject/UObjectIterator.h"
 #include "Engine/EditorEngine.h"
+
+AEditorPlayer::AEditorPlayer()
+{
+    playerCameraManager = FObjectFactory::ConstructObject<
+APlayerCameraManager>(this);
+}
 
 
 void AEditorPlayer::Tick(float DeltaTime)

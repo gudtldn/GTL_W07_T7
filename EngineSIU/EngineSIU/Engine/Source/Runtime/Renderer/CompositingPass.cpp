@@ -5,6 +5,7 @@
 #include "Define.h"
 #include "RendererHelpers.h"
 #include "UnrealClient.h"
+#include "Engine/EditorEngine.h"
 #include "UnrealEd/EditorViewportClient.h"
 
 FCompositingPass::FCompositingPass()
@@ -60,9 +61,28 @@ void FCompositingPass::Render(const std::shared_ptr<FEditorViewportClient>& View
     Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_PostProcess), 1, &ViewportResource->GetRenderTarget(EResourceType::ERT_PP_Fog)->SRV);
     Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_EditorOverlay), 1, &ViewportResource->GetRenderTarget(EResourceType::ERT_Editor)->SRV);
 
+    // 1) 렌더 타겟 바인딩 & 클리어
     Graphics->DeviceContext->OMSetRenderTargets(1, &RenderTargetRHI->RTV, nullptr);
     Graphics->DeviceContext->ClearRenderTargetView(RenderTargetRHI->RTV, ViewportResource->GetClearColor(ResourceType).data());
 
+    // 2) **레터박스 뷰포트 설정** (이 위치가 핵심)
+    uint32 ScreenW = static_cast<uint32>(ViewportResource->GetD3DViewport().Width);
+    uint32 ScreenH = static_cast<uint32>(ViewportResource->GetD3DViewport().Height);
+
+    // 플레이어 카메라 매니저로부터 레터박스 영역 계산
+    int vpX, vpY, vpW, vpH;
+    UEditorEngine* Engine = Cast<UEditorEngine>(GEngine);
+    Engine->GetEditorPlayer()->GetPlayerCameraManager()
+        ->GetLetterBoxViewport(ScreenW, ScreenH, vpX, vpY, vpW, vpH);
+    D3D11_VIEWPORT LetterboxVp = {
+        static_cast<float>(vpX),    // 좌측 X
+        static_cast<float>(vpY),    // 좌측 Y
+        static_cast<float>(vpW),    // 폭
+        static_cast<float>(vpH),    // 높이
+        0.0f, 1.0f
+    };
+    Graphics->DeviceContext->RSSetViewports(1, &LetterboxVp);
+    
     Graphics->DeviceContext->RSSetState(Graphics->RasterizerSolidBack);
     Graphics->DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     Graphics->DeviceContext->PSSetSamplers(0, 1, &Sampler);
@@ -89,7 +109,6 @@ void FCompositingPass::Render(const std::shared_ptr<FEditorViewportClient>& View
     Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_Scene), 1, NullSRV);
     Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_PostProcess), 1, NullSRV);
     Graphics->DeviceContext->PSSetShaderResources(static_cast<UINT>(EShaderSRVSlot::SRV_EditorOverlay), 1, NullSRV);
-
 }
 
 void FCompositingPass::ClearRenderArr()

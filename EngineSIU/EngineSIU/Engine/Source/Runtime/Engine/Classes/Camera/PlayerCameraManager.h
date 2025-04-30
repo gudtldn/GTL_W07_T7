@@ -1,6 +1,8 @@
 #pragma once
 #include "GameFramework/Actor.h"
 
+struct FViewportCamera;
+class UCameraModifier;
 class APlayerController;
 
 
@@ -9,7 +11,11 @@ class APlayerCameraManager : public AActor
     DECLARE_CLASS(APlayerCameraManager, AActor)
 
 public:
-    APlayerCameraManager() = default;
+    APlayerCameraManager();
+
+    UObject* Duplicate(UObject* InOuter) override;
+
+    void UpdateCamera(float DeltaTime);
 
     /** Actor가 게임에 배치되거나 스폰될 때 호출됩니다. */
     virtual void BeginPlay() override;
@@ -21,11 +27,7 @@ public:
 
     FLinearColor GetFadeConstant() const;
 
-    float GetFadeAmount() { return FadeAmount; }
-
-public:
-    /** APlayerCameraManager를 소유하고 있는 APlayerController */
-    APlayerController* PCOwner;
+    float GetFadeAmount() const { return FadeAmount; }
 
     void StartCameraFade(
         float FromAlpha,
@@ -36,6 +38,19 @@ public:
         bool InHoldWhenFinished = true
     );
 
+    /**
+    * 화면 크기(ScreenW×ScreenH)에 대해,
+    * 레터박스 적용 후 실제 렌더링할 Viewport 영역을 계산.
+    */
+    void GetLetterBoxViewport(
+        int ScreenW, int ScreenH,
+        int& OutX, int& OutY,
+        int& OutW, int& OutH) const;
+
+public:
+    /** APlayerCameraManager를 소유하고 있는 APlayerController */
+    APlayerController* PCOwner;
+
 private:
     FLinearColor FadeColor;
     float FadeAmount = 0.f;   // 보간을 거친 현재 Alpha 값
@@ -43,4 +58,12 @@ private:
     float FadeTime;
     float FadeTimeRemaining;
     bool bHoldWhenFinished;
+
+    FViewportCamera* ViewCamera;
+    
+    TArray<UCameraModifier*> ModifierList;
+
+    /* LetterBox 관련 변수 */
+    float DefaultAspectRatio;
+    bool bDefaultConstrainAspectRatio;
 };
